@@ -31,12 +31,15 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
      <x>330</x>
      <y>170</y>
-     <width>206</width>
+     <width>208</width>
      <height>201</height>
     </rect>
    </property>
@@ -46,11 +49,25 @@
       <property name="font">
        <font>
         <family>MS PGothic</family>
-        <pointsize>24</pointsize>
+        <pointsize>22</pointsize>
         <weight>75</weight>
         <italic>false</italic>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	background-color: white;
+	width: 200px;
+	height: 60px;
+	border: 3px solid black;
+	border-radius: 10px;
+}
+
+QPushButton:hover {
+	background-color:black;
+	color: white;
+}</string>
       </property>
       <property name="text">
        <string>Play</string>
@@ -67,6 +84,20 @@
         <italic>false</italic>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	background-color: white;
+	width: 200px;
+	height: 60px;
+	border: 3px solid black;
+	border-radius: 10px;
+}
+
+QPushButton:hover {
+	background-color:black;
+	color: white;
+}</string>
       </property>
       <property name="text">
        <string>Study Sets</string>
