@@ -34,30 +34,8 @@ class MainWindow(QMainWindow):
     def goToMainMenu(self):
         self.stackedWidget.setCurrentIndex(0)
 
-    def generateCards(self):
-      colors = ['red', 'blue', 'green', 'yellow']
-      card_info = []
-
-      # generate random number from 0-9 and pick a random color in the 'colors' array
-      for _ in range(10):
-          random_number = random.randint(0, 9)
-          random_color = random.choice(colors)
-          
-          card = {'number': random_number, 'color': random_color}
-          card_info.append(card)
-
-      card_x = 100 # current x position of card
-
-      for ele in card_info:
-        card = QPushButton(str(ele["number"]), self.game)
-        card.setGeometry(QRect(card_x, 350, 100, 150))
-        card.setStyleSheet(f"QPushButton {{background-color: {ele['color']}; font-size: 32px; border-radius: 10px; border: 3px solid rgb(0, 0, 0); text-align: top left; padding-left: 5px;}}")
-        card.show()
-        card_x += 50
-
     def goToGame(self, game_screen):
         self.stackedWidget.setCurrentIndex(1)
-        self.generateCards()
 
     def goToStudySets(self):
         self.stackedWidget.setCurrentIndex(2)
