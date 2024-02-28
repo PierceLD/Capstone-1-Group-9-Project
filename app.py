@@ -40,8 +40,9 @@ class MainWindow(QMainWindow):
     def goToMainMenu(self):
         self.stackedWidget.setCurrentIndex(0)
 
-    def goToGame(self, game_screen):
+    def goToGame(self):
         self.stackedWidget.setCurrentIndex(1)
+        self.game.startGame()
 
     def goToStudySets(self):
         self.stackedWidget.setCurrentIndex(2)
@@ -51,9 +52,6 @@ class MainWindow(QMainWindow):
 
 if __name__ == '__main__': 
     app = QApplication(sys.argv)
-
-    # Create main window
-    w = MainWindow()
+    w = MainWindow() # Create main window
     w.show() # displays the window
-    
     app.exec() # execute the app
