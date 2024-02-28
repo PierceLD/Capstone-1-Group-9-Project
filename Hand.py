@@ -9,12 +9,12 @@ class Hand():
         self.generate_cards(size)
     
     #Function will take an amount and generate that many cards, adding to hand
-    def generate_cards(self, amount):
+    def generate_cards(self, size):
         colors = ['red', 'blue', 'green', 'yellow']
-        for _ in range(amount):
+        for i in range(size):
             random_number = random.randint(0, 9)
             random_color = random.choice(colors)
-            card = Card(random_color, random_number)
+            card = Card(random_color, random_number, i)
             self.cards.append(card)
     
     #Returns the cards in hand

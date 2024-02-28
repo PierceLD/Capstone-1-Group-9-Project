@@ -1,13 +1,17 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
+from Question_Popup import Question_Popup
+from Question import Question
 
 #Class for the movable You-Know Cards
 class Card(QWidget): 
-    def __init__(self, color, number):
+    def __init__(self, color, number, i):
         super().__init__()
         self.color = color
         self.number = number
+        self.index = i
+        self.question = Question()
         self.setFixedSize(100, 150)
         self.setMouseTracking(True)
         self.offset = 0 #Offset for going to event pos
@@ -26,6 +30,8 @@ class Card(QWidget):
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
             self.offset = event.pos()
+            self.question_popup = Question_Popup(self.index, self.question)
+            self.question_popup.show_popup()
             print(f"clicked a card {self.color} {self.number}") # this is for debugging purposes
             
     #As long as LMB is pushed, the card will folllow the mouse within the layout
