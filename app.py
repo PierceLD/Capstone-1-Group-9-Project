@@ -6,7 +6,6 @@ from PyQt6 import uic
 from MainMenu import MainMenuScreen
 from Game import GameScreen
 from StudySets import StudySetsScreen
-import random
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -34,17 +33,15 @@ class MainWindow(QMainWindow):
     def goToMainMenu(self):
         self.stackedWidget.setCurrentIndex(0)
 
-    def goToGame(self, game_screen):
+    def goToGame(self):
         self.stackedWidget.setCurrentIndex(1)
+        self.game.startGame()
 
     def goToStudySets(self):
         self.stackedWidget.setCurrentIndex(2)
 
 if __name__ == '__main__': 
     app = QApplication(sys.argv)
-
-    # Create main window
-    w = MainWindow()
+    w = MainWindow() # Create main window
     w.show() # displays the window
-    
     app.exec() # execute the app

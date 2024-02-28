@@ -26,6 +26,7 @@ class Card(QWidget):
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
             self.offset = event.pos()
+            print(f"clicked a card {self.color} {self.number}") # this is for debugging purposes
             
     #As long as LMB is pushed, the card will folllow the mouse within the layout
     def mouseMoveEvent(self, event):
