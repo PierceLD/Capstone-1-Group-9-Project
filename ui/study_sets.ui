@@ -71,6 +71,44 @@ QPushButton:hover {
     <string>Return to Main Menu</string>
    </property>
   </widget>
+
+<widget class="QPushButton" name="createSetButton">
+    <property name="geometry">
+        <rect>
+            <x>360</x>
+            <y>400</y>
+            <width>150</width>
+            <height>50</height>
+        </rect>
+    </property>
+    <property name="font">
+       <font>
+            <family>MS PGothic</family>
+            <pointsize>20</pointsize>
+            <weight>75</weight>
+            <italic>false</italic>
+            <bold>true</bold>
+        </font>
+    </property>
+    <property name="styleSheet">
+        <string notr="true">QPushButton {
+	        background-color: white;
+	        width: 200px;
+	        height: 60px;
+	        border: 3px solid black;
+	        border-radius: 10px;
+        }
+
+        QPushButton:hover {
+            background-color:black;
+            color: white;
+        }</string>
+    </property>
+    <property name="text">
+        <string>Create Set</string>
+    </property>
+</widget>
+
  </widget>
  <resources/>
  <connections/>
