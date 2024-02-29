@@ -45,6 +45,7 @@ class MainWindow(QMainWindow):
         self.game.startGame()
 
     def goToStudySets(self):
+        self.study_sets.update()
         self.stackedWidget.setCurrentIndex(2)
 
     def goToCreateSet(self):

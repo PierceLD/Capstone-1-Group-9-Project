@@ -28,9 +28,9 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>200</y>
-     <width>531</width>
+     <x>355</x>
+     <y>100</y>
+     <width>190</width>
      <height>51</height>
     </rect>
    </property>
@@ -40,7 +40,7 @@
     </font>
    </property>
    <property name="text">
-    <string>This is the Study Sets screen.</string>
+    <string>Study Sets</string>
    </property>
   </widget>
   <widget class="QPushButton" name="mainMenuButton">
@@ -75,8 +75,8 @@ QPushButton:hover {
 <widget class="QPushButton" name="createSetButton">
     <property name="geometry">
         <rect>
-            <x>360</x>
-            <y>400</y>
+            <x>700</x>
+            <y>520</y>
             <width>150</width>
             <height>50</height>
         </rect>
@@ -108,6 +108,54 @@ QPushButton:hover {
         <string>Create Set</string>
     </property>
 </widget>
+
+<widget class="QPushButton" name="deleteSetButton">
+    <property name="geometry">
+        <rect>
+            <x>50</x>
+            <y>520</y>
+            <width>150</width>
+            <height>50</height>
+        </rect>
+    </property>
+    <property name="font">
+       <font>
+            <family>MS PGothic</family>
+            <pointsize>20</pointsize>
+            <weight>75</weight>
+            <italic>false</italic>
+            <bold>true</bold>
+        </font>
+    </property>
+    <property name="styleSheet">
+        <string notr="true">QPushButton {
+	        background-color: white;
+	        width: 200px;
+	        height: 60px;
+	        border: 3px solid black;
+	        border-radius: 10px;
+        }
+
+        QPushButton:hover {
+            background-color:black;
+            color: white;
+        }</string>
+    </property>
+    <property name="text">
+        <string>Delete Set</string>
+    </property>
+</widget>
+
+  <widget class="QTableWidget" name="studySets">
+    <property name="geometry">
+      <rect>
+        <x>50</x>
+        <y>200</y>
+        <width>800</width>
+        <height>300</height>
+      </rect>
+    </property>
+  </widget>
 
  </widget>
  <resources/>
