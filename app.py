@@ -8,7 +8,6 @@ from Game import GameScreen
 from StudySets import StudySetsScreen
 from CreateSet import CreateSetScreen
 from Study import StudyScreen
-import random
 
 class MainWindow(QMainWindow):
     def __init__(self):
