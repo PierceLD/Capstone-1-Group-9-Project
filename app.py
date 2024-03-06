@@ -7,6 +7,7 @@ from MainMenu import MainMenuScreen
 from Game import GameScreen
 from StudySets import StudySetsScreen
 from CreateSet import CreateSetScreen
+from Study import StudyScreen
 import random
 
 class MainWindow(QMainWindow):
@@ -30,11 +31,16 @@ class MainWindow(QMainWindow):
         self.study_sets = StudySetsScreen()
         self.stackedWidget.addWidget(self.study_sets)
         self.study_sets.mainMenuButton.clicked.connect(self.goToMainMenu) # button to return you to main menu
+        self.study_sets.createSetButton.clicked.connect(self.goToCreateSet) # button to go to the create set screen
+        self.study_sets.studyButton.clicked.connect(self.goToStudy)
 
         self.create_set = CreateSetScreen()
         self.stackedWidget.addWidget(self.create_set)
-        self.study_sets.createSetButton.clicked.connect(self.goToCreateSet)
-        self.create_set.studySetsButton.clicked.connect(self.goToStudySets) # button to return you to main menu
+        self.create_set.studySetsButton.clicked.connect(self.goToStudySets) # button to return you to study sets screen
+
+        self.study = StudyScreen()
+        self.stackedWidget.addWidget(self.study)
+        self.study.studySetsButton.clicked.connect(self.goToStudySets)
 
     # screen switching is handled here because the QStackedWidget is a part of MainWindow
     def goToMainMenu(self):
@@ -50,6 +56,14 @@ class MainWindow(QMainWindow):
 
     def goToCreateSet(self):
         self.stackedWidget.setCurrentIndex(3)
+
+    # Goes the the study screen while loading in relevant information
+    def goToStudy(self):
+        if self.study_sets.study_set_selected:
+            self.study.load(self.study_sets.selected_set_name)
+            self.stackedWidget.setCurrentIndex(4)
+        self.study_sets.study_set_selected = False
+        self.study_sets.selected_set_name = ""
 
 if __name__ == '__main__': 
     app = QApplication(sys.argv)

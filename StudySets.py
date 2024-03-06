@@ -10,8 +10,12 @@ class StudySetsScreen(QWidget):
         uic.loadUi("ui/study_sets.ui", self)
 
         self.study_set_count = 0
+        self.study_set_selected = False
+        self.selected_set_name = ""
+
 
         self.deleteSetButton.clicked.connect(self.deleteSet)
+        self.studyButton.clicked.connect(self.study)
 
         # Create table to hold study sets
         self.studySets.setColumnCount(1)
@@ -19,9 +23,11 @@ class StudySetsScreen(QWidget):
         self.studySets.horizontalHeader().setVisible(False)
         self.studySets.horizontalHeader().resizeSection(0,800)
         self.studySets.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
+        self.studySets.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
 
         self.update()
 
+    # Updates the studysets screen
     def update(self):
         # Updates the screen with contents of the json
         study_set_list = {}
@@ -40,6 +46,7 @@ class StudySetsScreen(QWidget):
             self.studySets.item(self.study_set_count, 0).setText(study_set)
             self.study_set_count += 1
     
+    # Deletes a set from the JSON file
     def deleteSet(self):
         if len(self.studySets.selectedItems()) > 0:
             set_to_remove = self.studySets.selectedItems()[0].text()
@@ -53,3 +60,9 @@ class StudySetsScreen(QWidget):
               json_file.write(json.dumps(study_set_list, indent=2))
 
             self.update()
+
+    # Checks if a set was selected to study
+    def study(self):
+        if len(self.studySets.selectedItems()) > 0:
+            self.selected_set_name = self.studySets.selectedItems()[0].text()
+            self.study_set_selected = True

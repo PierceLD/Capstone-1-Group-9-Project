@@ -112,7 +112,7 @@ QPushButton:hover {
 <widget class="QPushButton" name="deleteSetButton">
     <property name="geometry">
         <rect>
-            <x>50</x>
+            <x>500</x>
             <y>520</y>
             <width>150</width>
             <height>50</height>
@@ -143,6 +143,43 @@ QPushButton:hover {
     </property>
     <property name="text">
         <string>Delete Set</string>
+    </property>
+</widget>
+
+<widget class="QPushButton" name="studyButton">
+    <property name="geometry">
+        <rect>
+            <x>50</x>
+            <y>520</y>
+            <width>150</width>
+            <height>50</height>
+        </rect>
+    </property>
+    <property name="font">
+       <font>
+            <family>MS PGothic</family>
+            <pointsize>20</pointsize>
+            <weight>75</weight>
+            <italic>false</italic>
+            <bold>true</bold>
+        </font>
+    </property>
+    <property name="styleSheet">
+        <string notr="true">QPushButton {
+	        background-color: white;
+	        width: 200px;
+	        height: 60px;
+	        border: 3px solid black;
+	        border-radius: 10px;
+        }
+
+        QPushButton:hover {
+            background-color:black;
+            color: white;
+        }</string>
+    </property>
+    <property name="text">
+        <string>Study Set</string>
     </property>
 </widget>
 
