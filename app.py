@@ -62,6 +62,8 @@ class MainWindow(QMainWindow):
     def goToStudySets(self):
         self.study_sets.update()
         self.stackedWidget.setCurrentIndex(2)
+        self.audioPlayer.changeAndPlayMusic('sound/rain.mp3')
+        self.audioPlayer.setVolume(0.5)
 
     def goToCreateSet(self):
         self.stackedWidget.setCurrentIndex(3)
