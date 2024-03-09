@@ -22,6 +22,9 @@ class Question_Popup(QWidget):
         self.option_buttons = []
         for option in ['A', 'B', 'C', 'D']:
             radio_button = QRadioButton(option)
+            font = radio_button.font()
+            font.setPointSize(12)
+            radio_button.setFont(font)
             self.option_buttons.append(radio_button)
             options_layout.addWidget(radio_button)
             self.radio_group.addButton(radio_button)
@@ -35,7 +38,11 @@ class Question_Popup(QWidget):
     def update_question(self):
         question = self.questions.questions[self.index]
         text = question["question"]
+        font = self.question_label.font()
+        font.setPointSize(12)
+        font.setBold(True)
         self.question_label.setText(text)
+        self.question_label.setFont(font)
 
         for i, option in enumerate(['A', 'B', 'C', 'D']):
             self.option_buttons[i].setText(option + ': ' + question[option])
@@ -43,7 +50,7 @@ class Question_Popup(QWidget):
     def submit_answer(self):
         for button in self.option_buttons:
             if button.isChecked():
-                answer = button.text()[0]  # Extracting the letter of the option
+                answer = button.text()[0]
                 print("Submitted answer:", answer)
                 self.close()
                 break
