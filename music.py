@@ -1,4 +1,3 @@
-# Assuming this is in music.py
 from PyQt6.QtMultimedia import QMediaPlayer, QAudioOutput
 from PyQt6.QtCore import QUrl
 import time
