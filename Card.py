@@ -13,7 +13,7 @@ class Card(QWidget):
         self.number = number
         self.index = i
         self.question = Question()
-        self.setFixedSize(100, 150)
+        self.setFixedSize(100, 152)
         self.setMouseTracking(True)
         self.offset = 0 #Offset for going to event pos
         
@@ -22,10 +22,21 @@ class Card(QWidget):
         painter = QPainter(self)
         font = painter.font()
         font.setPointSize(12)
+        font.setBold(True)
         painter.setFont(font)
+        painter.setPen(QColor("black")) if self.color == "yellow" or self.color == "red" else painter.setPen(QColor("white"))
         #Set 100x150 px to random color and random number in corner
         painter.fillRect(self.rect(), QColor(self.color))
-        painter.drawText(QPoint(5, 15), str(self.number))
+        painter.drawText(QPoint(15, 30), str(self.number))
+        painter.drawText(QPoint(75, 132), str(self.number))
+
+        pixmap = QPixmap("./img/card.png")
+        painter.drawPixmap(0, 0, 100, 152, pixmap)
+
+        pen = QPen(QColor("black"))
+        pen.setWidth(2)
+        painter.setPen(pen)
+        painter.drawRect(self.rect())
     
     #Event when mouse is pressed to get the offset
     def mousePressEvent(self, event):
