@@ -15,6 +15,3 @@ class Question():
                 self.questions = random.sample(all_questions, size)
             except:
                 print("Failed to read file.")
-    
-    def get_questions(self):
-        return self.questions
