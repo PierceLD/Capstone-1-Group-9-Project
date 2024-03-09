@@ -8,6 +8,7 @@ from Game import GameScreen
 from StudySets import StudySetsScreen
 from CreateSet import CreateSetScreen
 from Study import StudyScreen
+from music import AudioPlayer
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -17,6 +18,10 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("You-Know")
 
         self.setFixedSize(QSize(900, 600))
+       
+        self.audioPlayer = AudioPlayer()
+        self.audioPlayer.playMusic('sound/main.mp3')
+        
 
         self.main_menu = MainMenuScreen()
         self.stackedWidget.addWidget(self.main_menu) # add each screen to the QStackedWidget
@@ -45,13 +50,20 @@ class MainWindow(QMainWindow):
     def goToMainMenu(self):
         self.stackedWidget.setCurrentIndex(0)
 
+        self.audioPlayer.changeAndPlayMusic('sound/main.mp3')
+
     def goToGame(self):
         self.stackedWidget.setCurrentIndex(1)
         self.game.startGame()
 
+        self.audioPlayer.changeAndPlayMusic('sound/doom.mp3')
+        self.audioPlayer.setVolume(0.5)
+
     def goToStudySets(self):
         self.study_sets.update()
         self.stackedWidget.setCurrentIndex(2)
+        self.audioPlayer.changeAndPlayMusic('sound/rain.mp3')
+        self.audioPlayer.setVolume(0.5)
 
     def goToCreateSet(self):
         self.stackedWidget.setCurrentIndex(3)
