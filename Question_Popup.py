@@ -48,22 +48,41 @@ class Question_Popup(QWidget):
 
     playerAns = pyqtSignal(bool)
     def submit_answer(self):
+        correct = False
         for button in self.option_buttons:
             if button.isChecked():
                 answer = button.text()[0]
                 print("Submitted answer:", answer)
                 
                 if (answer == self.question["correct_answer"]):
-                    print("correct")
                     self.playerAns.emit(True)
+                    correct = True
                 else:
                     self.playerAns.emit(False)
                 
                 self.close()
+                self.show_message("Correct." if correct else "Incorrect.")
                 break
         else:
             print("No answer selected")
             self.playerAns.emit(False)
+            self.close()
+            
+    def show_message(self, msg):
+        alert = QMessageBox()
+        alert.setWindowTitle("Result")
+        alert.setText(msg)
+        font = alert.font()
+        font.setPointSize(12)
+        font.setBold(True)
+        alert.setFont(font)
+        
+        if msg == "Correct.":
+            alert.setStyleSheet("QLabel { color: rgb(26, 186, 29); }")
+        else:
+            alert.setStyleSheet("QLabel { color: rgb(186, 26, 26); }")
+        
+        alert.exec()
 
     def show_popup(self):
         self.update_question()
