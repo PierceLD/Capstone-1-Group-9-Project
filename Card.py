@@ -43,6 +43,7 @@ class Card(QWidget):
         if event.button() == Qt.MouseButton.LeftButton:
             #self.offset = event.pos()
             self.question_popup = Question_Popup(self.question)
+            self.question_popup.playerAns.connect(self.hideCard)
             self.question_popup.show_popup()
             print(f"clicked a card {self.color} {self.number}") # this is for debugging purposes
             
@@ -51,3 +52,7 @@ class Card(QWidget):
         if event.buttons() & Qt.MouseButton.LeftButton:
             new_pos = self.mapToParent(event.pos() - self.offset)
             self.move(new_pos)"""
+            
+    def hideCard(self, correct):
+        if correct:
+          self.hide()

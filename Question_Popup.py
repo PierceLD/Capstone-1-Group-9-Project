@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
+from PyQt6.QtCore import pyqtSignal, QObject
 
 class Question_Popup(QWidget): 
     def __init__(self, question):
@@ -45,15 +46,24 @@ class Question_Popup(QWidget):
         for i, option in enumerate(['A', 'B', 'C', 'D']):
             self.option_buttons[i].setText(option + ': ' + self.question[option])
 
+    playerAns = pyqtSignal(bool)
     def submit_answer(self):
         for button in self.option_buttons:
             if button.isChecked():
                 answer = button.text()[0]
                 print("Submitted answer:", answer)
+                
+                if (answer == self.question["correct_answer"]):
+                    print("correct")
+                    self.playerAns.emit(True)
+                else:
+                    self.playerAns.emit(False)
+                
                 self.close()
                 break
         else:
             print("No answer selected")
+            self.playerAns.emit(False)
 
     def show_popup(self):
         self.update_question()
