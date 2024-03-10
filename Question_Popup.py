@@ -3,11 +3,10 @@ from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 
 class Question_Popup(QWidget): 
-    def __init__(self, index, question):
+    def __init__(self, question):
         super().__init__()
-        self.questions = question
-        self.index = index
-
+        self.question = question
+        
         layout = QVBoxLayout()
         self.setLayout(layout)
         self.setWindowTitle("Question")
@@ -36,8 +35,7 @@ class Question_Popup(QWidget):
         layout.addWidget(submit_button)
 
     def update_question(self):
-        question = self.questions.questions[self.index]
-        text = question["question"]
+        text = self.question["question"]
         font = self.question_label.font()
         font.setPointSize(12)
         font.setBold(True)
@@ -45,7 +43,7 @@ class Question_Popup(QWidget):
         self.question_label.setFont(font)
 
         for i, option in enumerate(['A', 'B', 'C', 'D']):
-            self.option_buttons[i].setText(option + ': ' + question[option])
+            self.option_buttons[i].setText(option + ': ' + self.question[option])
 
     def submit_answer(self):
         for button in self.option_buttons:

@@ -27,7 +27,7 @@ class GameScreen(QWidget):
         for i in self.hand.get_cards(): #Iterates and places cards in layout
             self.handLayout.addWidget(i) #Look at Cards.py to see drawing code
 
-        self.top_card = self.genRandomCard(0)
+        self.top_card = self.genRandomCard()
         self.playPile.addWidget(self.top_card)
 
         for card in self.hand.get_cards():
@@ -35,17 +35,17 @@ class GameScreen(QWidget):
     
     def addCardToHand(self):
         hand_length = len(self.hand.cards)
-        card = self.genRandomCard(hand_length + 1)
+        card = self.genRandomCard()
         self.hand.cards.append(card)
         self.handLayout.addWidget(card)
         print(self.hand.get_cards())
         print(f"Adding {card.color} {card.number} to hand...")
 
-    def genRandomCard(self, index):
+    def genRandomCard(self):
         colors = ['red', 'blue', 'green', 'yellow']
         random_number = random.randint(0, 9)
         random_color = random.choice(colors)
-        return Card(random_color, random_number, index)
+        return Card(random_color, random_number)
     
     def playCard(self, color, number):
         # remove top card from playPile
@@ -54,7 +54,7 @@ class GameScreen(QWidget):
         if widget:
             widget.deleteLater()
         # add new card to top of playPile
-        self.top_card = Card(color, number, 0)
+        self.top_card = Card(color, number)
         self.playPile.addWidget(self.top_card)
         print(f"A {color} {number} was played.")
 
