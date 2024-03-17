@@ -39,7 +39,7 @@ class Card(QWidget):
     
     #Event when mouse is pressed to get the offset
     clicked = pyqtSignal(QWidget)
-    answered_correctly = pyqtSignal()
+    answered_correctly = pyqtSignal(QWidget)
     def mousePressEvent(self, event):
         self.clicked.emit(self)
         if event.button() == Qt.MouseButton.LeftButton:
@@ -51,5 +51,5 @@ class Card(QWidget):
             
     def hideCard(self, correct):
         if correct:
-            self.answered_correctly.emit() # send the signal that answer has been correctly answered
+            self.answered_correctly.emit(self) # send the signal that answer has been correctly answered
             self.hide()

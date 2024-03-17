@@ -50,6 +50,8 @@ class GameScreen(QWidget):
         return Card(random_color, random_number)
     
     def playCard(self, card):
+        print(self.hand.cards)
+        print(card)
         item = self.playPile.itemAt(0)
         top_card = item.widget()
         print("Top card is", top_card.color, top_card.number)
@@ -57,9 +59,12 @@ class GameScreen(QWidget):
         if (card.color == top_card.color) or (card.number == top_card.number):
             print("Card is playable")
             card.is_playable = True
-            card.answered_correctly.connect(lambda: self.updatePlayPile(card)) # retrieve signal to indicate question was answered correctly
+            card.answered_correctly.connect(self.updatePlayPileAndHand) # retrieve signal to indicate question was answered correctly
+        else:
+            card.is_playable = False
 
-    def updatePlayPile(self, card_to_play):
+    def updatePlayPileAndHand(self, card_to_play):
+        print("updating play pile")
         # remove top card from playPile
         self.playPile.removeWidget(self.top_card)
         # add card to top of playPile
@@ -67,6 +72,13 @@ class GameScreen(QWidget):
         self.top_card.question = card_to_play.question
         self.playPile.addWidget(self.top_card)
         print(f"A {card_to_play.color} {card_to_play.number} was played.")
+        # remove card from hand
+        print(f"Removing {card_to_play.color} {card_to_play.number} from hand")
+        try: # not sure why this gets called twice...
+            self.handLayout.removeWidget(card_to_play)
+            self.hand.cards.remove(card_to_play)
+        except:
+            print("Card already removed")
 
     # this is to clear the QHBoxLayout and its Card widgets so that when player plays again, the hand and cards are reset
     def clearLayout(self):
