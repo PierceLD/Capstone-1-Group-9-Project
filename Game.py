@@ -5,6 +5,7 @@ from PyQt6 import uic
 from Hand import Hand
 from Card import Card
 import random
+from copy import deepcopy
 
 class GameScreen(QWidget):
     def __init__(self):
@@ -34,8 +35,9 @@ class GameScreen(QWidget):
             card.clicked.connect(self.playCard)
     
     def addCardToHand(self):
-        hand_length = len(self.hand.cards)
         card = self.genRandomCard()
+        card.in_hand = True
+        card.clicked.connect(self.playCard)
         self.hand.cards.append(card)
         self.handLayout.addWidget(card)
         print(self.hand.get_cards())
@@ -47,16 +49,24 @@ class GameScreen(QWidget):
         random_color = random.choice(colors)
         return Card(random_color, random_number)
     
-    def playCard(self, color, number):
+    def playCard(self, card):
+        item = self.playPile.itemAt(0)
+        top_card = item.widget()
+        print("Top card is", top_card.color, top_card.number)
+        print("Card clicked is", card.color, card.number)
+        if (card.color == top_card.color) or (card.number == top_card.number):
+            print("Card is playable")
+            card.is_playable = True
+            card.answered_correctly.connect(lambda: self.updatePlayPile(card)) # retrieve signal to indicate question was answered correctly
+
+    def updatePlayPile(self, card_to_play):
         # remove top card from playPile
-        item = self.playPile.takeAt(0)
-        widget = item.widget()
-        if widget:
-            widget.deleteLater()
-        # add new card to top of playPile
-        self.top_card = Card(color, number)
+        self.playPile.removeWidget(self.top_card)
+        # add card to top of playPile
+        self.top_card = Card(card_to_play.color, card_to_play.number)
+        self.top_card.question = card_to_play.question
         self.playPile.addWidget(self.top_card)
-        print(f"A {color} {number} was played.")
+        print(f"A {card_to_play.color} {card_to_play.number} was played.")
 
     # this is to clear the QHBoxLayout and its Card widgets so that when player plays again, the hand and cards are reset
     def clearLayout(self):

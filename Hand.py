@@ -15,6 +15,7 @@ class Hand():
             random_number = random.randint(0, 9)
             random_color = random.choice(colors)
             card = Card(random_color, random_number)
+            card.in_hand = True
             self.cards.append(card)
     
     #Returns the cards in hand
