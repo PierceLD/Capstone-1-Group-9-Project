@@ -18,7 +18,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("You-Know")
 
         self.setFixedSize(QSize(900, 600))
-       
+
         self.audioPlayer = AudioPlayer()
         self.audioPlayer.playMusic('sound/main.mp3')
         
