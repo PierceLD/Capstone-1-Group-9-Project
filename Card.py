@@ -37,9 +37,8 @@ class Card(QWidget):
         painter.setPen(pen)
         painter.drawRect(self.rect())
     
-    #Event when mouse is pressed to get the offset
+    #Event when mouse is pressed
     clicked = pyqtSignal(QWidget)
-    answered_correctly = pyqtSignal(QWidget)
     def mousePressEvent(self, event):
         self.clicked.emit(self)
         if event.button() == Qt.MouseButton.LeftButton:
@@ -48,8 +47,11 @@ class Card(QWidget):
                 self.question_popup.playerAns.connect(self.hideCard)
                 self.question_popup.show_popup()
                 print(f"clicked a card {self.color} {self.number}") # this is for debugging purposes
-            
+
+    answered_correctly = pyqtSignal(QWidget)
     def hideCard(self, correct):
         if correct:
             self.answered_correctly.emit(self) # send the signal that answer has been correctly answered
             self.hide()
+        else:
+            print("incorrect")

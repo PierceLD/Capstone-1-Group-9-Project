@@ -33,11 +33,13 @@ class GameScreen(QWidget):
 
         for card in self.hand.get_cards():
             card.clicked.connect(self.playCard)
+            card.answered_correctly.connect(self.updatePlayPileAndHand) # retrieve signal to indicate question was answered correctly
     
     def addCardToHand(self):
         card = self.genRandomCard()
         card.in_hand = True
         card.clicked.connect(self.playCard)
+        card.answered_correctly.connect(self.updatePlayPileAndHand) # retrieve signal to indicate question was answered correctly
         self.hand.cards.append(card)
         self.handLayout.addWidget(card)
         print(self.hand.get_cards())
@@ -59,12 +61,12 @@ class GameScreen(QWidget):
         if (card.color == top_card.color) or (card.number == top_card.number):
             print("Card is playable")
             card.is_playable = True
-            card.answered_correctly.connect(self.updatePlayPileAndHand) # retrieve signal to indicate question was answered correctly
         else:
             card.is_playable = False
 
     def updatePlayPileAndHand(self, card_to_play):
         print("updating play pile")
+        print(f"Length of hand: {len(self.hand.cards)}")
         # remove top card from playPile
         self.playPile.removeWidget(self.top_card)
         # add card to top of playPile
@@ -74,11 +76,28 @@ class GameScreen(QWidget):
         print(f"A {card_to_play.color} {card_to_play.number} was played.")
         # remove card from hand
         print(f"Removing {card_to_play.color} {card_to_play.number} from hand")
-        try: # not sure why this gets called twice...
-            self.handLayout.removeWidget(card_to_play)
-            self.hand.cards.remove(card_to_play)
-        except:
-            print("Card already removed")
+        self.handLayout.removeWidget(card_to_play)
+        self.hand.cards.remove(card_to_play)
+
+    
+    def gameOver(self):
+        dialog = QDialog()
+        dialog.setWindowTitle("Game Over")
+
+        layout = QVBoxLayout()
+
+        label = QLabel("Game is over. Return to main menu.")
+        layout.addWidget(label)
+
+        button = QPushButton("Return to main menu.")
+        button.clicked.connect(dialog.accept)
+        layout.addWidget(button)
+
+        dialog.setLayout(layout)
+        dialog.setModal(True)
+        dialog.exec()
+        
+        self.mainMenuButton.click()
 
     # this is to clear the QHBoxLayout and its Card widgets so that when player plays again, the hand and cards are reset
     def clearLayout(self):
