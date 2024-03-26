@@ -6,12 +6,13 @@ from Hand import Hand
 from Card import Card
 import random
 from copy import deepcopy
+from Bot import Bot
 
 class GameScreen(QWidget):
     def __init__(self):
         super().__init__()
         uic.loadUi("ui/game.ui", self)
-
+       
         self.mainMenuButton.clicked.connect(self.clearLayout) # this is to clear the Hand layout when leaving the game screen so it can be reset
         self.drawButton.clicked.connect(self.addCardToHand)
     
@@ -25,15 +26,19 @@ class GameScreen(QWidget):
 
     def startGame(self):
         self.hand = Hand() #Generates a hand (Default of 7)
-        for i in self.hand.get_cards(): #Iterates and places cards in layout
+        for i in self.hand.getCards(): #Iterates and places cards in layout
             self.handLayout.addWidget(i) #Look at Cards.py to see drawing code
 
         self.top_card = self.genRandomCard()
         self.playPile.addWidget(self.top_card)
 
-        for card in self.hand.get_cards():
+        for card in self.hand.getCards():
             card.clicked.connect(self.playCard)
             card.answered_correctly.connect(self.updatePlayPileAndHand) # retrieve signal to indicate question was answered correctly
+        
+        num_bots, ok = QInputDialog.getInt(self, "Number of Bots", "Enter the number of bots (maximum 3):", 0, 0, 3)
+        if ok:
+            self.addBots(num_bots)
     
     def addCardToHand(self):
         card = self.genRandomCard()
@@ -42,8 +47,9 @@ class GameScreen(QWidget):
         card.answered_correctly.connect(self.updatePlayPileAndHand) # retrieve signal to indicate question was answered correctly
         self.hand.cards.append(card)
         self.handLayout.addWidget(card)
-        print(self.hand.get_cards())
+        print(self.hand.getCards())
         print(f"Adding {card.color} {card.number} to hand...")
+        self.moveBots()
 
     def genRandomCard(self):
         colors = ['red', 'blue', 'green', 'yellow']
@@ -78,6 +84,7 @@ class GameScreen(QWidget):
         print(f"Removing {card_to_play.color} {card_to_play.number} from hand")
         self.handLayout.removeWidget(card_to_play)
         self.hand.cards.remove(card_to_play)
+        self.moveBots()
 
     
     def gameOver(self):
@@ -114,3 +121,14 @@ class GameScreen(QWidget):
             widget = item.widget()
             if widget:
                 widget.deleteLater()
+
+    #Adds in the de4sired amount of bots (max 3)
+    def addBots(self, num_bots):
+        self.bots = []
+        for i in range(num_bots):
+            self.bots.append(Bot(self))
+
+    #Makes all the bots play a valid card, if not, they draw
+    def moveBots(self):
+        for bot in self.bots:
+            bot.playCard()
