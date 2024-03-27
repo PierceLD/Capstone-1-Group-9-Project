@@ -8,6 +8,7 @@ class AudioPlayer:
         self.player = QMediaPlayer()
         self.audioOutput = QAudioOutput()
         self.player.setAudioOutput(self.audioOutput)
+        self.isMuted = False
 
     def playMusic(self, filePath):
         if self.player.source() != QUrl.fromLocalFile(filePath):
@@ -25,3 +26,9 @@ class AudioPlayer:
     def setVolume(self, volume):
         volume = max(0.0, min(1.0, volume))
         self.audioOutput.setVolume(volume)
+    def toggleMute(self):
+        try:
+            self.isMuted = not self.isMuted
+            self.audioOutput.setMuted(self.isMuted)
+        except Exception as e:
+            print(f"Error toggling mute: {e}")

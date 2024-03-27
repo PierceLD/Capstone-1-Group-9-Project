@@ -49,6 +49,14 @@ class MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.study)
         self.study.studySetsButton.clicked.connect(self.goToStudySets)
 
+        # mute
+        self.muteButton = QPushButton("", self) 
+        self.muteButton.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaVolume))  
+        self.muteButton.setCheckable(True)  
+        self.muteButton.clicked.connect(self.toggleMute)
+        self.muteButton.resize(32, 32)  
+        self.muteButton.move(self.width() - self.muteButton.width() - 10, 10)  
+
     # screen switching is handled here because the QStackedWidget is a part of MainWindow
     def goToMainMenu(self):
         self.stackedWidget.setCurrentIndex(0)
@@ -96,6 +104,13 @@ class MainWindow(QMainWindow):
 
             if file_name.lower() in [name.lower() for name in getAllSetNames()]:
                 print("A study set of that name already exists, rename your file or add a different file.")
+
+    def toggleMute(self):
+        self.audioPlayer.toggleMute()
+        if self.audioPlayer.isMuted:
+            self.muteButton.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaVolumeMuted))  
+        else:
+            self.muteButton.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaVolume))  
 
 if __name__ == '__main__': 
     app = QApplication(sys.argv)
