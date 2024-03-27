@@ -95,15 +95,18 @@ class MainWindow(QMainWindow):
             "JSON Files (*.json)"
         )
         if file_path:
-            file_name = os.path.splitext(os.path.basename(file_path))[0]
+            set_name = os.path.splitext(os.path.basename(file_path))[0]
             with open(file_path, 'r') as file:
-                data = json.load(file)
+                questions = json.load(file)
             print("File uploaded successfully:", file_path)
-            print("Uploaded Set Name:", file_name)
-            print("JSON data:", data)
+            print("Uploaded Set Name:", set_name)
+            print("JSON data:", questions)
 
-            if file_name.lower() in [name.lower() for name in getAllSetNames()]:
+            if set_name.lower() in [name.lower() for name in getAllSetNames()]:
                 print("A study set of that name already exists, rename your file or add a different file.")
+            else:
+                insertStudySet(set_name, questions)
+                print("Study set was successfully added.")
 
     def toggleMute(self):
         self.audioPlayer.toggleMute()
