@@ -9,6 +9,9 @@ from StudySets import StudySetsScreen
 from CreateSet import CreateSetScreen
 from Study import StudyScreen
 from music import AudioPlayer
+from Database import *
+import json
+import os
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -21,12 +24,12 @@ class MainWindow(QMainWindow):
 
         self.audioPlayer = AudioPlayer()
         self.audioPlayer.playMusic('sound/main.mp3')
-        
 
         self.main_menu = MainMenuScreen()
         self.stackedWidget.addWidget(self.main_menu) # add each screen to the QStackedWidget
         self.main_menu.playButton.clicked.connect(self.goToGame) # clicking Play button takes you to game screen
         self.main_menu.studySetsButton.clicked.connect(self.goToStudySets) # clicking Study Sets button takes you to study sets screen
+        self.main_menu.uploadFileButton.clicked.connect(self.uploadJSON)
 
         self.game = GameScreen()
         self.stackedWidget.addWidget(self.game)
@@ -75,6 +78,24 @@ class MainWindow(QMainWindow):
             self.stackedWidget.setCurrentIndex(4)
         self.study_sets.study_set_selected = False
         self.study_sets.selected_set_name = ""
+    
+    def uploadJSON(self):
+        file_path, _ = QFileDialog.getOpenFileName(
+            self, 
+            "Upload JSON File", 
+            "", 
+            "JSON Files (*.json)"
+        )
+        if file_path:
+            file_name = os.path.splitext(os.path.basename(file_path))[0]
+            with open(file_path, 'r') as file:
+                data = json.load(file)
+            print("File uploaded successfully:", file_path)
+            print("Uploaded Set Name:", file_name)
+            print("JSON data:", data)
+
+            if file_name.lower() in [name.lower() for name in getAllSetNames()]:
+                print("A study set of that name already exists, rename your file or add a different file.")
 
 if __name__ == '__main__': 
     app = QApplication(sys.argv)
