@@ -52,6 +52,6 @@ class Card(QWidget):
     def hideCard(self, correct):
         if correct:
             self.answered_correctly.emit(self) # send the signal that answer has been correctly answered
-            self.hide()
+            self.deleteLater()
         else:
             print("incorrect")

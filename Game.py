@@ -12,7 +12,7 @@ class GameScreen(QWidget):
     def __init__(self):
         super().__init__()
         uic.loadUi("ui/game.ui", self)
-       
+
         self.mainMenuButton.clicked.connect(self.clearLayout) # this is to clear the Hand layout when leaving the game screen so it can be reset
         self.drawButton.clicked.connect(self.addCardToHand)
     
