@@ -40,7 +40,7 @@
      <x>340</x>
      <y>240</y>
      <width>208</width>
-     <height>201</height>
+     <height>214</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -101,6 +101,36 @@ QPushButton:hover {
       </property>
       <property name="text">
        <string>Study Sets</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="uploadFileButton">
+      <property name="font">
+       <font>
+        <family>MS PGothic</family>
+        <pointsize>18</pointsize>
+        <weight>75</weight>
+        <italic>false</italic>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	background-color: white;
+	width: 200px;
+	height: 60px;
+	border: 3px solid black;
+	border-radius: 10px;
+}
+
+QPushButton:hover {
+	background-color:black;
+	color: white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Upload JSON</string>
       </property>
      </widget>
     </item>
