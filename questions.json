@@ -1,82 +1,338 @@
-[
-  {
-    "question": "Which of the following is NOT a programming language?",
-    "A": "Python",
-    "B": "Java",
-    "C": "HTML",
-    "D": "Ruby",
-    "correct_answer": "C"
-  },
-  {
-      "question": "What does RAM stand for?",
-      "A": "Random Access Memory",
-      "B": "Read-Only Memory",
-      "C": "Remote Access Management",
-      "D": "Real-time Automated Monitoring",
-      "correct_answer": "A"
-  },
-  {
-      "question": "What is the purpose of an operating system?",
-      "A": "To provide power to the computer",
-      "B": "To manage hardware and software resources",
-      "C": "To process data for output",
-      "D": "To protect against viruses",
-      "correct_answer": "B"
-  },
-  {
-      "question": "What is the output of the following code snippet in Python: print(2 + '3')?",
-      "A": "5",
-      "B": "23",
-      "C": "Error",
-      "D": "32",
+{
+  "CompSci": [
+    {
+      "question": "Which of the following is NOT a programming language?",
+      "A": "Python",
+      "B": "Java",
+      "C": "HTML",
+      "D": "Ruby",
       "correct_answer": "C"
-  },
-  {
-      "question": "What is the process of finding errors and fixing them within a program called?",
-      "A": "Debugging",
-      "B": "Compiling",
-      "C": "Interpreting",
-      "D": "Executing",
+    },
+    {
+        "question": "What does RAM stand for?",
+        "A": "Random Access Memory",
+        "B": "Read-Only Memory",
+        "C": "Remote Access Management",
+        "D": "Real-time Automated Monitoring",
+        "correct_answer": "A"
+    },
+    {
+        "question": "What is the purpose of an operating system?",
+        "A": "To provide power to the computer",
+        "B": "To manage hardware and software resources",
+        "C": "To process data for output",
+        "D": "To protect against viruses",
+        "correct_answer": "B"
+    },
+    {
+        "question": "What is the output of the following code snippet in Python: print(2 + '3')?",
+        "A": "5",
+        "B": "23",
+        "C": "Error",
+        "D": "32",
+        "correct_answer": "C"
+    },
+    {
+        "question": "What is the process of finding errors and fixing them within a program called?",
+        "A": "Debugging",
+        "B": "Compiling",
+        "C": "Interpreting",
+        "D": "Executing",
+        "correct_answer": "A"
+    },
+    {
+        "question": "What data structure uses Last In, First Out (LIFO) ordering?",
+        "A": "Queue",
+        "B": "Stack",
+        "C": "Tree",
+        "D": "Heap",
+        "correct_answer": "B"
+    },
+    {
+        "question": "Which sorting algorithm has the worst time complexity in the average case?",
+        "A": "Bubble Sort",
+        "B": "Merge Sort",
+        "C": "Quick Sort",
+        "D": "Insertion Sort",
+        "correct_answer": "A"
+    },
+    {
+        "question": "What does CPU stand for?",
+        "A": "Central Processing Unit",
+        "B": "Computer Processing Unit",
+        "C": "Central Processor Unit",
+        "D": "Computer Processor Unit",
+        "correct_answer": "A"
+    },
+    {
+        "question": "What is the binary representation of the decimal number 10?",
+        "A": "1010",
+        "B": "1001",
+        "C": "1110",
+        "D": "1100",
+        "correct_answer": "A"
+    },
+    {
+        "question": "What does RAM stand for in computing?",
+        "A": "Random Access Memory",
+        "B": "Read Access Memory",
+        "C": "Running Application Memory",
+        "D": "Rapid Access Memory",
+        "correct_answer": "A"
+    }
+  ],
+  "Math" : [
+    {
+      "question": "What is the derivative of f(x) = 3x^2 + 4x - 7?",
+      "A": "f'(x) = 6x + 4",
+      "B": "f'(x) = 3x^2 + 4x",
+      "C": "f'(x) = 6x - 4",
+      "D": "f'(x) = 6x + 1",
       "correct_answer": "A"
-  },
-  {
-      "question": "What data structure uses Last In, First Out (LIFO) ordering?",
-      "A": "Queue",
-      "B": "Stack",
-      "C": "Tree",
-      "D": "Heap",
+    },
+    {
+        "question": "What is the integral of sin(x) with respect to x?",
+        "A": "cos(x) + C",
+        "B": "-cos(x) + C",
+        "C": "sin(x) + C",
+        "D": "-sin(x) + C",
+        "correct_answer": "B"
+    },
+    {
+        "question": "What is the determinant of the matrix [[2, 3], [4, 5]]?",
+        "A": "2",
+        "B": "5",
+        "C": "6",
+        "D": "-2",
+        "correct_answer": "D"
+    },
+    {
+        "question": "What is the value of log₂(8)?",
+        "A": "2",
+        "B": "3",
+        "C": "4",
+        "D": "5",
+        "correct_answer": "B"
+    },
+    {
+        "question": "What is the limit of (x^2 - 1) / (x - 1) as x approaches 1?",
+        "A": "0",
+        "B": "1",
+        "C": "2",
+        "D": "Undefined",
+        "correct_answer": "B"
+    },
+    {
+        "question": "What is the solution to the differential equation dy/dx = 2x?",
+        "A": "y = x^2 + C",
+        "B": "y = 2x + C",
+        "C": "y = x^2",
+        "D": "y = 2",
+        "correct_answer": "A"
+    },
+    {
+        "question": "What is the value of cos(pi/3)?",
+        "A": "1/2",
+        "B": "√3/2",
+        "C": "1",
+        "D": "0",
+        "correct_answer": "B"
+    },
+    {
+        "question": "What is the solution to the equation e^x = 10?",
+        "A": "x = ln(10)",
+        "B": "x = log(10)",
+        "C": "x = 10^e",
+        "D": "x = e^10",
+        "correct_answer": "A"
+    },
+    {
+        "question": "What is the volume of a sphere with radius 5 units?",
+        "A": "100π cubic units",
+        "B": "125π cubic units",
+        "C": "150π cubic units",
+        "D": "175π cubic units",
+        "correct_answer": "B"
+    },
+    {
+      "question": "What is the solution to the equation 2sin(x) = √3?",
+      "A": "x = π/3",
+      "B": "x = π/6",
+      "C": "x = π/4",
+      "D": "x = π/2",
       "correct_answer": "B"
-  },
-  {
-      "question": "Which sorting algorithm has the worst time complexity in the average case?",
-      "A": "Bubble Sort",
-      "B": "Merge Sort",
-      "C": "Quick Sort",
-      "D": "Insertion Sort",
+    },
+    {
+      "question": "What is the derivative of ln(x)?",
+      "A": "1/x",
+      "B": "x",
+      "C": "ln(x)",
+      "D": "e^x",
       "correct_answer": "A"
-  },
-  {
-      "question": "What does CPU stand for?",
-      "A": "Central Processing Unit",
-      "B": "Computer Processing Unit",
-      "C": "Central Processor Unit",
-      "D": "Computer Processor Unit",
+    }
+  ],
+  "Chem": [
+    {
+      "question": "What is the chemical symbol for gold?",
+      "A": "Au",
+      "B": "Ag",
+      "C": "Cu",
+      "D": "Fe",
       "correct_answer": "A"
-  },
-  {
-      "question": "What is the binary representation of the decimal number 10?",
-      "A": "1010",
-      "B": "1001",
-      "C": "1110",
-      "D": "1100",
-      "correct_answer": "A"
-  },
-  {
-      "question": "What does RAM stand for in computing?",
-      "A": "Random Access Memory",
-      "B": "Read Access Memory",
-      "C": "Running Application Memory",
-      "D": "Rapid Access Memory",
-      "correct_answer": "A"
-  }
-]
+    },
+    {
+        "question": "What is the chemical formula for water?",
+        "A": "H₂O",
+        "B": "CO₂",
+        "C": "NaCl",
+        "D": "C₆H₁₂O₆",
+        "correct_answer": "A"
+    },
+    {
+        "question": "What is the lightest element in the periodic table?",
+        "A": "Hydrogen (H)",
+        "B": "Helium (He)",
+        "C": "Oxygen (O)",
+        "D": "Carbon (C)",
+        "correct_answer": "A"
+    },
+    {
+        "question": "Which gas is produced during photosynthesis?",
+        "A": "Oxygen (O₂)",
+        "B": "Carbon dioxide (CO₂)",
+        "C": "Nitrogen (N₂)",
+        "D": "Hydrogen (H₂)",
+        "correct_answer": "A"
+    },
+    {
+        "question": "What is the pH value of a neutral solution?",
+        "A": "7",
+        "B": "0",
+        "C": "14",
+        "D": "1",
+        "correct_answer": "A"
+    },
+    {
+        "question": "What is the chemical formula for sulfuric acid?",
+        "A": "H₂SO₄",
+        "B": "NaCl",
+        "C": "HCl",
+        "D": "NH₃",
+        "correct_answer": "A"
+    },
+    {
+        "question": "Which element has the atomic number 6?",
+        "A": "Carbon (C)",
+        "B": "Nitrogen (N)",
+        "C": "Oxygen (O)",
+        "D": "Hydrogen (H)",
+        "correct_answer": "A"
+    },
+    {
+        "question": "What is the process of converting a solid directly into a gas without passing through the liquid phase called?",
+        "A": "Sublimation",
+        "B": "Condensation",
+        "C": "Evaporation",
+        "D": "Melting",
+        "correct_answer": "A"
+    },
+    {
+        "question": "What is the chemical name for baking soda?",
+        "A": "Sodium bicarbonate",
+        "B": "Calcium carbonate",
+        "C": "Sodium chloride",
+        "D": "Potassium hydroxide",
+        "correct_answer": "A"
+    },
+    {
+        "question": "What is the process of combining two or more elements to form a new substance?",
+        "A": "Chemical reaction",
+        "B": "Physical reaction",
+        "C": "Sublimation",
+        "D": "Condensation",
+        "correct_answer": "A"
+    }
+  ],
+  "History" : [
+    {
+      "question": "Who was the first President of the United States?",
+      "A": "Thomas Jefferson",
+      "B": "George Washington",
+      "C": "Abraham Lincoln",
+      "D": "John Adams",
+      "correct_answer": "B"
+    },
+    {
+        "question": "Which document declared the American colonies' independence from Great Britain?",
+        "A": "The Bill of Rights",
+        "B": "The Articles of Confederation",
+        "C": "The Declaration of Independence",
+        "D": "The Constitution",
+        "correct_answer": "C"
+    },
+    {
+        "question": "Who served as the President of the Confederate States of America during the American Civil War?",
+        "A": "Jefferson Davis",
+        "B": "Ulysses S. Grant",
+        "C": "Robert E. Lee",
+        "D": "Abraham Lincoln",
+        "correct_answer": "A"
+    },
+    {
+        "question": "Which event marked the beginning of the Great Depression in the United States?",
+        "A": "The stock market crash of 1929",
+        "B": "The assassination of President McKinley",
+        "C": "The end of World War I",
+        "D": "The passage of the Social Security Act",
+        "correct_answer": "A"
+    },
+    {
+        "question": "Who was the main author of the Federalist Papers, advocating for the ratification of the U.S. Constitution?",
+        "A": "James Madison",
+        "B": "Alexander Hamilton",
+        "C": "Thomas Jefferson",
+        "D": "John Adams",
+        "correct_answer": "B"
+    },
+    {
+        "question": "What was the name of the treaty that ended World War I?",
+        "A": "Treaty of Versailles",
+        "B": "Treaty of Paris",
+        "C": "Treaty of Brest-Litovsk",
+        "D": "Treaty of Potsdam",
+        "correct_answer": "A"
+    },
+    {
+        "question": "Which U.S. President is known for the New Deal programs aimed at lifting the country out of the Great Depression?",
+        "A": "Franklin D. Roosevelt",
+        "B": "Herbert Hoover",
+        "C": "Woodrow Wilson",
+        "D": "Calvin Coolidge",
+        "correct_answer": "A"
+    },
+    {
+        "question": "Which event led to the United States' entry into World War II?",
+        "A": "Attack on Pearl Harbor",
+        "B": "Battle of Midway",
+        "C": "D-Day Invasion",
+        "D": "Atomic bombings of Hiroshima and Nagasaki",
+        "correct_answer": "A"
+    },
+    {
+        "question": "Who was the leader of the Civil Rights Movement who gave the famous 'I Have a Dream' speech?",
+        "A": "Martin Luther King Jr.",
+        "B": "Malcolm X",
+        "C": "Rosa Parks",
+        "D": "Thurgood Marshall",
+        "correct_answer": "A"
+    },
+    {
+        "question": "Which amendment to the U.S. Constitution granted women the right to vote?",
+        "A": "19th Amendment",
+        "B": "15th Amendment",
+        "C": "18th Amendment",
+        "D": "21st Amendment",
+        "correct_answer": "A"
+    }
+  ]
+}

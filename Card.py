@@ -10,7 +10,7 @@ class Card(QWidget):
         super().__init__()
         self.color = color
         self.number = number
-        self.question = Question().question
+        self.question = Question(self.color).question
         self.setFixedSize(100, 152)
         self.setMouseTracking(True)
         self.is_playable = False
