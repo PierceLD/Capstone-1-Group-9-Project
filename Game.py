@@ -7,11 +7,13 @@ from Card import Card
 import random
 from copy import deepcopy
 from Bot import Bot
+from music import AudioPlayer
 
 class GameScreen(QWidget):
     def __init__(self):
         super().__init__()
         uic.loadUi("ui/game.ui", self)
+        self.audioPlayer = AudioPlayer()
 
         self.mainMenuButton.clicked.connect(self.clearLayout) # this is to clear the Hand layout when leaving the game screen so it can be reset
         self.drawButton.clicked.connect(self.addCardToHand)
@@ -44,6 +46,7 @@ class GameScreen(QWidget):
             self.addBots(num_bots)
     
     def addCardToHand(self):
+        self.audioPlayer.playSoundEffect('sound/card.mp3')
         card = self.genRandomCard()
         card.in_hand = True
         card.clicked.connect(self.playCard)
@@ -87,6 +90,7 @@ class GameScreen(QWidget):
         print(f"Removing {card_to_play.color} {card_to_play.number} from hand")
         self.handLayout.removeWidget(card_to_play)
         self.hand.cards.remove(card_to_play)
+        self.audioPlayer.playSoundEffect('sound/card.mp3')
         self.moveBots()
 
     
