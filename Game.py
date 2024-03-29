@@ -39,6 +39,9 @@ class GameScreen(QWidget):
         num_bots, ok = QInputDialog.getInt(self, "Number of Bots", "Enter the number of bots (maximum 3):", 0, 0, 3)
         if ok:
             self.addBots(num_bots)
+        else:
+            num_bots = 0
+            self.addBots(num_bots)
     
     def addCardToHand(self):
         card = self.genRandomCard()

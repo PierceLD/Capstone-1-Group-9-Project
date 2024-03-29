@@ -23,6 +23,3 @@ class Question():
                     self.question = random.choice(all_questions["History"])
             except:
                 print("Failed to read file.")
-                
-        
-        
