@@ -65,7 +65,10 @@ QPushButton:hover {
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">
+    <string notr="true">QObject {
+	border: 2px solid black;
+}
+
         QLineEdit
         {
           font: 30px;
@@ -133,10 +136,8 @@ QPushButton:hover {
    <property name="styleSheet">
     <string notr="true">QPushButton {
         background-color: white;
-        width: 200px;
-        height: 60px;
-        border: 3px solid black;
-        border-radius: 10px;
+        border: 2px solid black;
+        border-radius: 5px;
       }
 
       QPushButton:hover {
@@ -169,10 +170,8 @@ QPushButton:hover {
    <property name="styleSheet">
     <string notr="true">QPushButton {
         background-color: white;
-        width: 200px;
-        height: 60px;
-        border: 3px solid black;
-        border-radius: 10px;
+        border: 2px solid black;
+        border-radius: 5px;
       }
 
       QPushButton:hover {
@@ -193,7 +192,36 @@ QPushButton:hover {
      <height>300</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QTableWidget {
+	border: 2px solid black;
+	margin-top: 2px;
+}</string>
+   </property>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>900</width>
+     <height>600</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>../img/background.png</pixmap>
+   </property>
+  </widget>
+  <zorder>label</zorder>
+  <zorder>studySetsButton</zorder>
+  <zorder>SetName</zorder>
+  <zorder>createSetButton</zorder>
+  <zorder>addQuestionButton</zorder>
+  <zorder>removeQuestionButton</zorder>
+  <zorder>studyQuestions</zorder>
  </widget>
  <resources/>
  <connections/>

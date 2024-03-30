@@ -86,6 +86,13 @@ QPushButton:hover {
      <bold>true</bold>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+	background-color: white;
+    border: 2px solid black;
+    border-radius: 5px; 
+}</string>
+   </property>
    <property name="text">
     <string>Draw</string>
    </property>
@@ -101,6 +108,30 @@ QPushButton:hover {
    </property>
    <layout class="QHBoxLayout" name="playPile"/>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>900</width>
+     <height>600</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>../img/background.png</pixmap>
+   </property>
+  </widget>
+  <zorder>label</zorder>
+  <zorder>mainMenuButton</zorder>
+  <zorder>horizontalLayoutWidget</zorder>
+  <zorder>drawButton</zorder>
+  <zorder>horizontalLayoutWidget_2</zorder>
  </widget>
  <resources/>
  <connections/>
