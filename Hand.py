@@ -1,5 +1,6 @@
 import random
 from Card import Card
+from Card import WildCard
 
 #Class to generate cards, will default to 7 cards when generating
 class Hand():
@@ -13,8 +14,11 @@ class Hand():
         colors = ['red', 'blue', 'green', 'yellow']
         for _ in range(size):
             random_number = random.randint(0, 9)
-            random_color = random.choice(colors)
-            card = Card(random_color, random_number)
+            if random.randint(0, 9) == 0: 
+                card = WildCard("WILD")
+            else:
+                random_color = random.choice(colors)
+                card = Card(random_color, random_number)
             card.in_hand = True
             self.cards.append(card)
     

@@ -25,7 +25,7 @@ class Bot():
             
     #Adds a random card to the hand
     def drawCard(self):
-        self.hand.cards.append(self.genRandomCard())
+        self.hand.cards.append(self.game.genRandomCard())
 
     #Updates the game_Board with the properly chosen card
     def playCard(self):
@@ -43,13 +43,6 @@ class Bot():
             print(f"Bot playing {card_to_play.color} {card_to_play.number}")
         else:
             print("Bot did not get it right")
-
-    #Copied the gen function over to not have circular import
-    def genRandomCard(self):
-        colors = ['red', 'blue', 'green', 'yellow']
-        random_number = random.randint(0, 9)
-        random_color = random.choice(colors)
-        return Card(random_color, random_number)
     
     #Copied the update function and changed slightly to work with bots
     def updatePlayPile(self, card_to_play):
@@ -61,3 +54,5 @@ class Bot():
         self.game.top_card = Card(card_to_play.color, card_to_play.number)
         self.game.top_card.question = card_to_play.question
         self.game.playPile.addWidget(self.game.top_card)
+
+    

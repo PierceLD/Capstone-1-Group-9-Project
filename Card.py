@@ -55,3 +55,55 @@ class Card(QWidget):
             self.deleteLater()
         else:
             print("incorrect")
+
+class WildCard(Card):
+    def __init__(self, color):
+        super().__init__("WILD", "WILD")
+
+    def paintEvent(self, event): 
+        painter = QPainter(self)
+        font = painter.font()
+        font.setPointSize(15)
+        font.setBold(True)
+        painter.setFont(font)
+        painter.setPen(QColor("black")) if self.color == "yellow" or self.color == "red" else painter.setPen(QColor("white"))
+        #Set 100x150 px to random color and random number in corner
+        if self.color == "WILD":
+            painter.fillRect(self.rect(), QColor("Black"))
+        else:
+            painter.fillRect(self.rect(), QColor(self.color))
+        pixmap = QPixmap("./img/card.png")
+        painter.drawPixmap(0, 0, 100, 152, pixmap)
+
+        if self.color == "WILD":
+            pen = QPen(QColor("black"))
+        else:
+            pen = QPen(QColor(self.color))
+        pen.setWidth(2)
+        painter.setPen(pen)
+        painter.drawRect(self.rect())
+
+        colors = ["red", "blue", "green", "yellow"]
+        letters = ['W', 'I', 'L', 'D']
+        letter_spacing = 18
+        if self.color == "WILD":
+            for i in range(len(colors)):
+                painter.setPen(QColor(colors[i]))
+                painter.drawText(20 + i * letter_spacing, 110 - i * letter_spacing, letters[i])
+        else:
+            for i in range(len(colors)):
+                painter.setPen(QColor("Black"))
+                painter.drawText(20 + i * letter_spacing, 110 - i * letter_spacing, letters[i])
+
+     #Event when mouse is pressed
+    clicked = pyqtSignal(QWidget)
+    def mousePressEvent(self, event):
+        self.clicked.emit(self)
+        if event.button() == Qt.MouseButton.LeftButton:
+            if self.in_hand and self.is_playable:
+                self.answered_correctly.emit(self)
+                print(f"clicked a card {self.color} {self.number}") # this is for debugging purposes
+
+    def setColor(self, color):
+        self.color = color
+        self.update()

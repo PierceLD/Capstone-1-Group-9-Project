@@ -4,6 +4,7 @@ from PyQt6.QtGui import *
 from PyQt6 import uic
 from Hand import Hand
 from Card import Card
+from Card import WildCard
 import random
 from copy import deepcopy
 from Bot import Bot
@@ -31,7 +32,11 @@ class GameScreen(QWidget):
         for i in self.hand.getCards(): #Iterates and places cards in layout
             self.handLayout.addWidget(i) #Look at Cards.py to see drawing code
 
-        self.top_card = self.genRandomCard()
+        #self.top_card = self.genRandomCard()
+        self.top_card = WildCard("WILD")
+        #If the top card is a wild card, give it a random color
+        if self.top_card.color == "WILD":
+            self.top_card.setColor(random.choice(["red", "blue", "green", "yellow"]))
         self.playPile.addWidget(self.top_card)
 
         for card in self.hand.getCards():
@@ -44,7 +49,7 @@ class GameScreen(QWidget):
         else:
             num_bots = 0
             self.addBots(num_bots)
-    
+
     def addCardToHand(self):
         self.audioPlayer.playSoundEffect('sound/card.mp3')
         card = self.genRandomCard()
@@ -60,8 +65,11 @@ class GameScreen(QWidget):
     def genRandomCard(self):
         colors = ['red', 'blue', 'green', 'yellow']
         random_number = random.randint(0, 9)
-        random_color = random.choice(colors)
-        return Card(random_color, random_number)
+        if random_number == 0:  
+            return WildCard(random.choice(colors))
+        else:
+            random_color = random.choice(colors)
+            return Card(random_color, random.randint(0, 9))
     
     def playCard(self, card):
         print(self.hand.cards)
@@ -70,7 +78,14 @@ class GameScreen(QWidget):
         top_card = item.widget()
         print("Top card is", top_card.color, top_card.number)
         print("Card clicked is", card.color, card.number)
-        if (card.color == top_card.color) or (card.number == top_card.number):
+        if card.color == "WILD":
+            choices = ["red", "blue", "green", "yellow"]
+            item, ok = QInputDialog.getItem(self, "Select an option", "Options:", choices, editable=False)
+            if ok:
+                print("Selected option:", item)
+                card.setColor(item)
+                card.is_playable = True
+        elif (card.color == top_card.color) or (card.number == top_card.number):
             print("Card is playable")
             card.is_playable = True
         else:
@@ -82,8 +97,12 @@ class GameScreen(QWidget):
         # remove top card from playPile
         self.playPile.removeWidget(self.top_card)
         # add card to top of playPile
-        self.top_card = Card(card_to_play.color, card_to_play.number)
-        self.top_card.question = card_to_play.question
+        if card_to_play.number == "WILD":
+            self.top_card = WildCard("WILD")
+            self.top_card.setColor(card_to_play.color)
+        else:
+            self.top_card = Card(card_to_play.color, card_to_play.number)
+            self.top_card.question = card_to_play.question
         self.playPile.addWidget(self.top_card)
         print(f"A {card_to_play.color} {card_to_play.number} was played.")
         # remove card from hand
