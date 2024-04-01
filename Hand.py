@@ -13,8 +13,8 @@ class Hand():
     def generateCards(self, size):
         colors = ['red', 'blue', 'green', 'yellow']
         for _ in range(size):
-            random_number = random.randint(0, 9)
-            if random.randint(0, 9) == 0: 
+            random_number = random.randint(-1, 9)
+            if random_number == -1: 
                 card = WildCard("WILD")
             else:
                 random_color = random.choice(colors)
