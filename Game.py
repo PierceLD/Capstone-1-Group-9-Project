@@ -49,6 +49,17 @@ class GameScreen(QWidget):
         else:
             num_bots = 0
             self.addBots(num_bots)
+        
+        for i, bot in enumerate(self.bots):
+            if i == 0:
+                for card in bot.hand.getCards(): #Iterates and places cards in layout
+                    self.bot1Hand.addWidget(card) #Look at Cards.py to see drawing code
+            elif i == 1:
+                for card in bot.hand.getCards(): #Iterates and places cards in layout
+                    self.bot2Hand.addWidget(card) #Look at Cards.py to see drawing code
+            elif i == 2:
+                for card in bot.hand.getCards(): #Iterates and places cards in layout
+                    self.bot3Hand.addWidget(card) #Look at Cards.py to see drawing code
 
     def addCardToHand(self):
         self.audioPlayer.playSoundEffect('sound/card.mp3')
@@ -64,8 +75,8 @@ class GameScreen(QWidget):
 
     def genRandomCard(self):
         colors = ['red', 'blue', 'green', 'yellow']
-        random_number = random.randint(0, 9)
-        if random_number == 0:  
+        random_number = random.randint(-1, 9)
+        if random_number == -1:  
             return WildCard(random.choice(colors))
         else:
             random_color = random.choice(colors)
@@ -110,16 +121,29 @@ class GameScreen(QWidget):
         self.handLayout.removeWidget(card_to_play)
         self.hand.cards.remove(card_to_play)
         self.audioPlayer.playSoundEffect('sound/card.mp3')
-        self.moveBots()
+        card_to_play.dialog_closed.connect(self.checkGameOver)
+        if len(self.hand.cards) > 0:
+            card_to_play.dialog_closed.connect(self.moveBots) # forced user to close correct/incorrect dialog for bots to start playing
 
-    
-    def gameOver(self):
+    def checkGameOver(self):
+        print("Checking if game is over.")
+        if len(self.hand.cards) == 0:
+            msg = "You Win!"
+            self.gameOver(msg)
+        else:
+            for bot in self.bots:
+                if len(bot.hand.cards) == 0:
+                    msg = f"Bot {bot.number} Wins!"
+                    self.gameOver(msg)
+                    break
+
+    def gameOver(self, msg):
         dialog = QDialog()
         dialog.setWindowTitle("Game Over")
 
         layout = QVBoxLayout()
 
-        label = QLabel("Game is over. Return to main menu.")
+        label = QLabel(msg)
         layout.addWidget(label)
 
         button = QPushButton("Return to main menu.")
@@ -148,13 +172,35 @@ class GameScreen(QWidget):
             if widget:
                 widget.deleteLater()
 
+        while self.bot1Hand.count():
+            print("removing widget")
+            item = self.bot1Hand.takeAt(0)
+            widget = item.widget()
+            if widget:
+                widget.deleteLater()
+        
+        while self.bot2Hand.count():
+            print("removing widget")
+            item = self.bot2Hand.takeAt(0)
+            widget = item.widget()
+            if widget:
+                widget.deleteLater()
+
+        while self.bot3Hand.count():
+            print("removing widget")
+            item = self.bot3Hand.takeAt(0)
+            widget = item.widget()
+            if widget:
+                widget.deleteLater()
+
     #Adds in the de4sired amount of bots (max 3)
     def addBots(self, num_bots):
         self.bots = []
         for i in range(num_bots):
-            self.bots.append(Bot(self))
+            self.bots.append(Bot(self, i+1))
 
     #Makes all the bots play a valid card, if not, they draw
     def moveBots(self):
         for bot in self.bots:
             bot.playCard()
+            self.checkGameOver()

@@ -49,9 +49,12 @@ class Card(QWidget):
                 print(f"clicked a card {self.color} {self.number}") # this is for debugging purposes
 
     answered_correctly = pyqtSignal(QWidget)
+    dialog_closed = pyqtSignal()
     def hideCard(self, correct):
         if correct:
             self.answered_correctly.emit(self) # send the signal that answer has been correctly answered
+            self.question_popup.dialog_closed.connect(lambda: self.dialog_closed.emit()) # send signal that "correct/incorrect" dialog has been closed
+            self.hide()
             self.deleteLater()
         else:
             print("incorrect")

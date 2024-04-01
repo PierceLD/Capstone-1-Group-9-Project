@@ -67,20 +67,37 @@ class Question_Popup(QWidget):
             print("No answer selected")
             self.playerAns.emit(False)
             self.close()
-            
+    
+    dialog_closed = pyqtSignal()
     def show_message(self, msg):
-        alert = QMessageBox()
+        alert = QDialog()
+        alert.setWindowTitle("Result")
+        alert.setModal(True)
+
+        layout = QVBoxLayout()
+
+        label = QLabel(msg)
+        font = QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        label.setFont(font)
+        layout.addWidget(label)
+        """alert = QMessageBox()
         alert.setWindowTitle("Result")
         alert.setText(msg)
         font = alert.font()
         font.setPointSize(12)
         font.setBold(True)
-        alert.setFont(font)
+        alert.setFont(font)"""
         
         if msg == "Correct.":
-            alert.setStyleSheet("QLabel { color: rgb(26, 186, 29); }")
+            label.setStyleSheet("QLabel { color: rgb(26, 186, 29); }")
         else:
-            alert.setStyleSheet("QLabel { color: rgb(186, 26, 26); }")
+            label.setStyleSheet("QLabel { color: rgb(186, 26, 26); }")
+        
+        alert.setLayout(layout)
+
+        alert.finished.connect(lambda: self.dialog_closed.emit())
         
         alert.exec()
 
