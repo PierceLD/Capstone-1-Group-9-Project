@@ -101,18 +101,28 @@ class MainWindow(QMainWindow):
             "JSON Files (*.json)"
         )
         if file_path:
-            set_name = os.path.splitext(os.path.basename(file_path))[0]
-            with open(file_path, 'r') as file:
-                questions = json.load(file)
-            print("File uploaded successfully:", file_path)
-            print("Uploaded Set Name:", set_name)
-            print("JSON data:", questions)
+            file_name = os.path.splitext(os.path.basename(file_path))[0]
+            with open(file_path, "r", encoding="utf-8") as file:
+                data = json.load(file)
+                print("File uploaded successfully:", file_path)
+                print("Uploaded File Name:", file_name)
+                print("JSON data:", data)
 
-            if set_name.lower() in [name.lower() for name in getAllSetNames()]:
-                print("A study set of that name already exists, rename your file or add a different file.")
-            else:
-                insertStudySet(set_name, questions)
-                print("Study set was successfully added.")
+            if isinstance(data, dict): # uploaded file is a dictionary with set names as keys, and list of questions as values to those set names
+                sets = data # dictionary
+                for key in sets.keys():
+                    if key.lower() in [name.lower() for name in getAllSetNames()]:
+                        print(f"Study set '{key}' already exists, rename your file or add a different file.")
+                    else:
+                        insertStudySet(key, sets[key])
+                        print(f"Study set '{key}' was successfully added.")
+            elif isinstance(data, list): # uploaded file is a list of questions with name of file as set name
+                questions = data # list of dictionaries
+                if file_name.lower() in [name.lower() for name in getAllSetNames()]:
+                    print(f"Study set '{file_name}' already exists, rename your file or add a different file.")
+                else:
+                    insertStudySet(file_name, questions)
+                    print(f"Study set '{file_name}' was successfully added.")
 
     def toggleMute(self):
         self.audioPlayer.toggleMute()
