@@ -52,6 +52,7 @@ class Card(QWidget):
     dialog_closed = pyqtSignal()
     def hideCard(self, correct):
         if correct:
+            print("correct, hiding card")
             self.answered_correctly.emit(self) # send the signal that answer has been correctly answered
             self.question_popup.dialog_closed.connect(lambda: self.dialog_closed.emit()) # send signal that "correct/incorrect" dialog has been closed
             self.hide()
@@ -98,14 +99,22 @@ class WildCard(Card):
                 painter.setPen(QColor("Black"))
                 painter.drawText(20 + i * letter_spacing, 110 - i * letter_spacing, letters[i])
 
-     #Event when mouse is pressed
+    #Event when mouse is pressed
     clicked = pyqtSignal(QWidget)
+    delete = pyqtSignal()
     def mousePressEvent(self, event):
         self.clicked.emit(self)
         if event.button() == Qt.MouseButton.LeftButton:
             if self.in_hand and self.is_playable:
+                self.delete.connect(self.hideWildCard)
                 self.answered_correctly.emit(self)
+                self.delete.emit()
+                self.dialog_closed.emit()
                 print(f"clicked a card {self.color} {self.number}") # this is for debugging purposes
+    
+    def hideWildCard(self):
+        self.hide()
+        self.deleteLater()
 
     def setColor(self, color):
         self.color = color
