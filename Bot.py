@@ -18,9 +18,9 @@ class Bot():
     #Looks for a playable card. If none are found, draw a card instead and return None
     #If we want, we can add some stradegy by having it do lowest first and basing it's chance on that
     def canPlayCard(self, color, number):
-        for i in self.hand.cards:
-            if i.color == color or i.number == number:
-                return i
+        for card in self.hand.cards:
+            if card.number == "WILD" or card.number == number or card.color == color:
+                return card
         return None
             
     #Adds a random card to the hand
@@ -39,10 +39,24 @@ class Bot():
         #The chance the bot gets it right based off the card num
         top_card = self.game.top_card
         card_to_play = self.canPlayCard(top_card.color, top_card.number)
+        colors = ["red", "blue", "green", "yellow"]
 
         if card_to_play == None:
             print("Bot has no playable cards. Drawing for bot...")
             self.drawCard()
+        elif card_to_play.number == "WILD":
+            card_to_play.setColor(random.choice(colors))
+            self.updatePlayPile(card_to_play)
+            self.hand.cards.remove(card_to_play)
+            self.score += 1
+            if self.number == 1:
+                self.game.bot1Hand.removeWidget(card_to_play)
+            elif self.number == 2:
+                self.game.bot2Hand.removeWidget(card_to_play)
+            elif self.number == 3:
+                self.game.bot3Hand.removeWidget(card_to_play)
+            self.score += 1
+            print(f"Bot playing {card_to_play.color} {card_to_play.number}")
         elif random.random() < (1 - (card_to_play.number/100)):
             self.updatePlayPile(card_to_play)
             self.hand.cards.remove(card_to_play)
