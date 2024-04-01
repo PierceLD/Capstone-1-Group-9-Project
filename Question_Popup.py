@@ -82,13 +82,6 @@ class Question_Popup(QWidget):
         font.setBold(True)
         label.setFont(font)
         layout.addWidget(label)
-        """alert = QMessageBox()
-        alert.setWindowTitle("Result")
-        alert.setText(msg)
-        font = alert.font()
-        font.setPointSize(12)
-        font.setBold(True)
-        alert.setFont(font)"""
         
         if msg == "Correct.":
             label.setStyleSheet("QLabel { color: rgb(26, 186, 29); }")
