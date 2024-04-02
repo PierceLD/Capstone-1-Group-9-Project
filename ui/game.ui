@@ -72,7 +72,7 @@ QPushButton:hover {
   <widget class="QPushButton" name="drawButton">
    <property name="geometry">
     <rect>
-     <x>560</x>
+     <x>540</x>
      <y>250</y>
      <width>101</width>
      <height>131</height>
@@ -160,6 +160,29 @@ QPushButton:hover {
    </property>
    <layout class="QVBoxLayout" name="bot3Hand"/>
   </widget>
+  <widget class="QLabel" name="statusLabel">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>140</y>
+     <width>361</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Placeholder</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
   <zorder>background</zorder>
   <zorder>mainMenuButton</zorder>
   <zorder>horizontalLayoutWidget</zorder>
@@ -168,6 +191,7 @@ QPushButton:hover {
   <zorder>horizontalLayoutWidget_3</zorder>
   <zorder>verticalLayoutWidget_2</zorder>
   <zorder>verticalLayoutWidget_3</zorder>
+  <zorder>statusLabel</zorder>
  </widget>
  <resources/>
  <connections/>

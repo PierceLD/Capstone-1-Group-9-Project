@@ -17,17 +17,25 @@ class GameScreen(QWidget):
         self.audioPlayer = AudioPlayer()
 
         self.mainMenuButton.clicked.connect(self.clearLayout) # this is to clear the Hand layout when leaving the game screen so it can be reset
-        self.drawButton.clicked.connect(self.addCardToHand)
+        self.drawButton.clicked.connect(self.drawCard)
 
-        self.bot_finished.connect(self.enableScreen)
+        self.bots_finished.connect(self.enableScreen)
+
+        self.current_player = "You"
 
     def startGame(self):
         self.hand = Hand() #Generates a hand (Default of 7)
+        self.bots = []
+        self.game_over = False
+
+        self.player_status = "It's your turn."
+        self.statusLabel.setText(self.player_status)
+
         for i in self.hand.getCards(): #Iterates and places cards in layout
             self.handLayout.addWidget(i) #Look at Cards.py to see drawing code
 
-        #self.top_card = self.genRandomCard()
-        self.top_card = WildCard("WILD")
+        self.top_card = self.genRandomCard()
+        #self.top_card = WildCard("WILD")
         #If the top card is a wild card, give it a random color
         if self.top_card.color == "WILD":
             self.top_card.setColor(random.choice(["red", "blue", "green", "yellow"]))
@@ -55,7 +63,7 @@ class GameScreen(QWidget):
                 for card in bot.hand.getCards(): #Iterates and places cards in layout
                     self.bot3Hand.addWidget(card) #Look at Cards.py to see drawing code
 
-    def addCardToHand(self):
+    def drawCard(self):
         self.audioPlayer.playSoundEffect('sound/card.mp3')
         card = self.genRandomCard()
         card.in_hand = True
@@ -65,6 +73,7 @@ class GameScreen(QWidget):
         self.handLayout.addWidget(card)
         print(self.hand.getCards())
         print(f"Adding {card.color} {card.number} to hand...")
+        # end players turn and move on to bots
         self.moveBots()
 
     def genRandomCard(self):
@@ -115,6 +124,7 @@ class GameScreen(QWidget):
         self.handLayout.removeWidget(card_to_play)
         self.hand.cards.remove(card_to_play)
         self.audioPlayer.playSoundEffect('sound/card.mp3')
+        # check if player won, then move bots if not
         card_to_play.dialog_closed.connect(self.checkGameOver)
         if len(self.hand.cards) > 0:
             card_to_play.dialog_closed.connect(self.moveBots) # forced user to close correct/incorrect dialog for bots to start playing
@@ -123,10 +133,14 @@ class GameScreen(QWidget):
         print("Checking if game is over.")
         if len(self.hand.cards) == 0:
             msg = "You Win!"
+            self.game_over = True
+            self.setEnabled(True)
             self.gameOver(msg)
         else:
             for bot in self.bots:
-                if len(bot.hand.cards) == 0:
+                if (len(bot.hand.cards) == 0) and (not self.game_over):
+                    self.game_over = True
+                    self.bots_finished.emit()
                     msg = f"Bot {bot.number} Wins!"
                     self.gameOver(msg)
                     break
@@ -149,6 +163,53 @@ class GameScreen(QWidget):
         dialog.exec()
         
         self.mainMenuButton.click()
+
+    #Adds in the de4sired amount of bots (max 3)
+    def addBots(self, num_bots):
+        for i in range(num_bots):
+            self.bots.append(Bot(self, i+1))
+
+    #Makes all the bots play a valid card, if not, they draw
+    bots_finished = pyqtSignal()
+    def moveBots(self):
+        if len(self.bots) > 0:
+            print("Bots playing...")
+            self.setDisabled(True) # disable everything on screen so user can't click when bots are playing
+            # TODO: fix background greying out
+            self.setStyleSheet("""
+                QPushButton {
+                    color: black;
+                }
+                QLabel {
+                    color: black;
+                }
+            """)
+            
+            for bot in self.bots:
+                self.bot_status = f"It's Bot {bot.number}'s turn."
+                self.statusLabel.setText(self.bot_status)
+                print("Executing delay")
+                self.executeDelay(1000)
+                print("Delay finished")
+                bot.playCard()
+                self.statusLabel.setText(self.bot_status)
+                self.executeDelay(1500)
+                self.checkGameOver()
+                if self.game_over:
+                    print(f"Game over. Bot {bot.number} wins!")
+                    break
+            
+            self.bots_finished.emit() # signal that bots are finished playing this round
+            self.statusLabel.setText("It's your turn.")
+
+    def enableScreen(self):
+        print("screen reenabled")
+        self.setEnabled(True)
+
+    def executeDelay(self, time_in_ms):
+        loop = QEventLoop()
+        QTimer.singleShot(time_in_ms, loop.quit)
+        loop.exec()
 
     # this is to clear the QHBoxLayout and its Card widgets so that when player plays again, the hand and cards are reset
     def clearLayout(self):
@@ -186,44 +247,3 @@ class GameScreen(QWidget):
             widget = item.widget()
             if widget:
                 widget.deleteLater()
-
-    #Adds in the de4sired amount of bots (max 3)
-    def addBots(self, num_bots):
-        self.bots = []
-        for i in range(num_bots):
-            self.bots.append(Bot(self, i+1))
-
-    #Makes all the bots play a valid card, if not, they draw
-    bot_finished = pyqtSignal()
-    def moveBots(self):
-        self.setDisabled(True) # disable everything on screen so user can't click when bots are playing
-        # TODO: fix background greying out
-        self.setStyleSheet("""
-            QPushButton {
-                color: black;
-            }
-            QLabel {
-                color: black;
-            }
-        """)
-        self.num_shots = len(self.bots)
-        if len(self.bots) >= 1:
-            QTimer.singleShot(1500, lambda: self.botToPlay(self.bots[0]))
-            
-        if len(self.bots) >= 2:
-            QTimer.singleShot(2*1500, lambda: self.botToPlay(self.bots[1]))
-            
-        if len(self.bots) == 3:
-            QTimer.singleShot(3*1500, lambda: self.botToPlay(self.bots[2]))
-            
-
-    def botToPlay(self, bot):
-        bot.playCard()
-        self.checkGameOver()
-        self.num_shots -= 1
-        self.bot_finished.emit()
-
-    def enableScreen(self):
-        if self.num_shots == 0:
-            print("screen reenabled")
-            self.setEnabled(True)

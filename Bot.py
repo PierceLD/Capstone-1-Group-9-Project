@@ -42,8 +42,9 @@ class Bot():
         colors = ["red", "blue", "green", "yellow"]
 
         if card_to_play == None:
-            print("Bot has no playable cards. Drawing for bot...")
+            print(f"Bot {self.number} has no playable cards. Drawing for bot...")
             self.drawCard()
+            self.game.bot_status += f"\nBot {self.number} had to draw..."
         elif card_to_play.number == "WILD":
             card_to_play.setColor(random.choice(colors))
             self.updatePlayPile(card_to_play)
@@ -56,7 +57,8 @@ class Bot():
             elif self.number == 3:
                 self.game.bot3Hand.removeWidget(card_to_play)
             self.score += 1
-            print(f"Bot playing {card_to_play.color} {card_to_play.number}")
+            print(f"Bot {self.number} playing {card_to_play.color} {card_to_play.number}")
+            self.game.bot_status += f"\nBot {self.number} played a card..."
         elif random.random() < (1 - (card_to_play.number/100)):
             self.updatePlayPile(card_to_play)
             self.hand.cards.remove(card_to_play)
@@ -68,14 +70,16 @@ class Bot():
             elif self.number == 3:
                 self.game.bot3Hand.removeWidget(card_to_play)
             self.score += 1
-            print(f"Bot playing {card_to_play.color} {card_to_play.number}")
+            print(f"Bot {self.number} playing {card_to_play.color} {card_to_play.number}")
+            self.game.bot_status += f"\nBot {self.number} played a card..."
         else:
-            print("Bot did not get it right")
+            print(f"Bot {self.number} did not get it right")
+            self.game.bot_status += f"\nBot {self.number} got the answer wrong..."
     
     #Copied the update function and changed slightly to work with bots
     def updatePlayPile(self, card_to_play):
-        print("Bot is playing a card...")
-        print(f"Bot Length of hand: {len(self.hand.cards)}")
+        print(f"Bot {self.number} is playing a card...")
+        print(f"Bot {self.number} Length of hand: {len(self.hand.cards)}")
         # remove top card from playPile
         self.game.playPile.removeWidget(self.game.top_card)
         # add card to top of playPile
