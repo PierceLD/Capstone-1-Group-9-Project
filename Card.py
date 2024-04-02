@@ -48,17 +48,20 @@ class Card(QWidget):
                 self.question_popup.show_popup()
                 print(f"clicked a card {self.color} {self.number}") # this is for debugging purposes
 
-    answered_correctly = pyqtSignal(QWidget)
+    answered_correctly = pyqtSignal(QWidget, bool)
+    answered_incorrectly = pyqtSignal()
     dialog_closed = pyqtSignal()
     def hideCard(self, correct):
         if correct:
             print("correct, hiding card")
-            self.answered_correctly.emit(self) # send the signal that answer has been correctly answered
+            self.answered_correctly.emit(self, True) # send the signal that question has been correctly answered
             self.question_popup.dialog_closed.connect(lambda: self.dialog_closed.emit()) # send signal that "correct/incorrect" dialog has been closed
             self.hide()
             self.deleteLater()
         else:
-            print("incorrect")
+            self.answered_correctly.emit(self, False) # send the signal that question has been incorrectly answered
+            self.question_popup.dialog_closed.connect(lambda: self.dialog_closed.emit()) # send signal that "correct/incorrect" dialog has been closed
+            print("incorrect, lose your turn")
 
 class WildCard(Card):
     def __init__(self, color):
@@ -107,7 +110,7 @@ class WildCard(Card):
         if event.button() == Qt.MouseButton.LeftButton:
             if self.in_hand and self.is_playable:
                 self.delete.connect(self.hideWildCard)
-                self.answered_correctly.emit(self)
+                self.answered_correctly.emit(self, True)
                 self.delete.emit()
                 self.dialog_closed.emit()
                 print(f"clicked a card {self.color} {self.number}") # this is for debugging purposes

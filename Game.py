@@ -105,36 +105,39 @@ class GameScreen(QWidget):
         else:
             card.is_playable = False
 
-    def updatePlayPileAndHand(self, card_to_play):
-        print("updating play pile")
-        print(f"Length of hand: {len(self.hand.cards)}")
-        # remove top card from playPile
-        self.playPile.removeWidget(self.top_card)
-        # add card to top of playPile
-        if card_to_play.number == "WILD":
-            self.top_card = WildCard("WILD")
-            self.top_card.setColor(card_to_play.color)
-        else:
-            self.top_card = Card(card_to_play.color, card_to_play.number)
-            self.top_card.question = card_to_play.question
-        self.playPile.addWidget(self.top_card)
-        print(f"A {card_to_play.color} {card_to_play.number} was played.")
-        # remove card from hand
-        print(f"Removing {card_to_play.color} {card_to_play.number} from hand")
-        self.handLayout.removeWidget(card_to_play)
-        self.hand.cards.remove(card_to_play)
-        self.audioPlayer.playSoundEffect('sound/card.mp3')
-        # check if player won, then move bots if not
-        card_to_play.dialog_closed.connect(self.checkGameOver)
-        if len(self.hand.cards) > 0:
-            card_to_play.dialog_closed.connect(self.moveBots) # forced user to close correct/incorrect dialog for bots to start playing
+    def updatePlayPileAndHand(self, card_to_play, correct):
+        if correct:
+            print("updating play pile")
+            print(f"Length of hand: {len(self.hand.cards)}")
+            # remove top card from playPile
+            self.playPile.removeWidget(self.top_card)
+            # add card to top of playPile
+            if card_to_play.number == "WILD":
+                self.top_card = WildCard("WILD")
+                self.top_card.setColor(card_to_play.color)
+            else:
+                self.top_card = Card(card_to_play.color, card_to_play.number)
+                self.top_card.question = card_to_play.question
+            self.playPile.addWidget(self.top_card)
+            print(f"A {card_to_play.color} {card_to_play.number} was played.")
+            # remove card from hand
+            print(f"Removing {card_to_play.color} {card_to_play.number} from hand")
+            self.handLayout.removeWidget(card_to_play)
+            self.hand.cards.remove(card_to_play)
+            self.audioPlayer.playSoundEffect('sound/card.mp3')
+            # check if player won, then move bots if not
+            card_to_play.dialog_closed.connect(self.checkGameOver)
+            if len(self.hand.cards) > 0:
+                card_to_play.dialog_closed.connect(self.moveBots) # forced user to close correct/incorrect dialog for bots to start playing
+        else: # player answered incorrectly, skip to bots turns
+            card_to_play.dialog_closed.connect(self.moveBots) 
 
     def checkGameOver(self):
         print("Checking if game is over.")
         if len(self.hand.cards) == 0:
             msg = "You Win!"
             self.game_over = True
-            self.setEnabled(True)
+            self.enableScreen()
             self.gameOver(msg)
         else:
             for bot in self.bots:
@@ -174,22 +177,13 @@ class GameScreen(QWidget):
     def moveBots(self):
         if len(self.bots) > 0:
             print("Bots playing...")
-            self.setDisabled(True) # disable everything on screen so user can't click when bots are playing
-            # TODO: fix background greying out
-            self.setStyleSheet("""
-                QPushButton {
-                    color: black;
-                }
-                QLabel {
-                    color: black;
-                }
-            """)
-            
+            self.disableScreen() # disable everything user can click on screen so user can't interact while bots are playing
+
             for bot in self.bots:
                 self.bot_status = f"It's Bot {bot.number}'s turn."
                 self.statusLabel.setText(self.bot_status)
                 print("Executing delay")
-                self.executeDelay(1000)
+                self.executeDelay(500)
                 print("Delay finished")
                 bot.playCard()
                 self.statusLabel.setText(self.bot_status)
@@ -199,12 +193,30 @@ class GameScreen(QWidget):
                     print(f"Game over. Bot {bot.number} wins!")
                     break
             
-            self.bots_finished.emit() # signal that bots are finished playing this round
+            self.bots_finished.emit() # signal that bots are finished playing this round to enable screen again
             self.statusLabel.setText("It's your turn.")
+
+    def disableScreen(self):
+        print("screen disabled")
+        # manually disable each widget user can click, except for mute button
+        for i in range(self.handLayout.count()):
+            item = self.handLayout.itemAt(i)
+            widget = item.widget()
+            if widget:
+                widget.setDisabled(True)
+        self.drawButton.setDisabled(True)
+        self.mainMenuButton.setDisabled(True)
 
     def enableScreen(self):
         print("screen reenabled")
-        self.setEnabled(True)
+        # reenable each widget user can click
+        for i in range(self.handLayout.count()):
+            item = self.handLayout.itemAt(i)
+            widget = item.widget()
+            if widget:
+                widget.setEnabled(True)
+        self.drawButton.setEnabled(True)
+        self.mainMenuButton.setEnabled(True)
 
     def executeDelay(self, time_in_ms):
         loop = QEventLoop()
