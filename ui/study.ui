@@ -73,6 +73,21 @@ QPushButton:hover {
     <string>Insert name</string>
    </property>
   </widget>
+  <widget class="QTextBrowser" name="questionAnswer">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>120</y>
+     <width>900</width>
+     <height>481</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

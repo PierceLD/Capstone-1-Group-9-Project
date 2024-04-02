@@ -107,7 +107,7 @@
         "correct_answer": "D"
     },
     {
-        "question": "What is the value of log₂(8)?",
+        "question": "What is the value of log base 2 of (8)?",
         "A": "2",
         "B": "3",
         "C": "4",
