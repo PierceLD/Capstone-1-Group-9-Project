@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
+from random import choice
 from Question_Popup import Question_Popup
 from Question import Question
 
@@ -79,14 +80,6 @@ class WildCard(Card):
         pixmap = QPixmap("./img/card.png")
         painter.drawPixmap(0, 0, 100, 152, pixmap)
 
-        if self.color == "WILD":
-            pen = QPen(QColor("black"))
-        else:
-            pen = QPen(QColor(self.color))
-        pen.setWidth(2)
-        painter.setPen(pen)
-        painter.drawRect(self.rect())
-
         colors = ["red", "blue", "green", "yellow"]
         letters = ['W', 'I', 'L', 'D']
         letter_spacing = 18
@@ -101,14 +94,14 @@ class WildCard(Card):
 
     #Event when mouse is pressed
     clicked = pyqtSignal(QWidget)
-    delete = pyqtSignal()
+    wild_delete = pyqtSignal()
     def mousePressEvent(self, event):
         self.clicked.emit(self)
         if event.button() == Qt.MouseButton.LeftButton:
             if self.in_hand and self.is_playable:
-                self.delete.connect(self.hideWildCard)
+                self.wild_delete.connect(self.hideWildCard)
                 self.answered_correctly.emit(self)
-                self.delete.emit()
+                self.wild_delete.emit()
                 self.dialog_closed.emit()
                 print(f"clicked a card {self.color} {self.number}") # this is for debugging purposes
     
@@ -119,3 +112,38 @@ class WildCard(Card):
     def setColor(self, color):
         self.color = color
         self.update()
+
+class DrawCard(Card):
+    def __init__(self, color):
+        super().__init__(color, "DRAW")
+        self.power = choice([2,4])
+        self.symbol = "+" + str(self.power)
+    
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        font = painter.font()
+        font.setPointSize(12)
+        font.setBold(True)
+        painter.setFont(font)
+        painter.fillRect(self.rect(), QColor(self.color))
+        painter.setPen(QColor("black")) if self.color == "yellow" or self.color == "red" else painter.setPen(QColor("white"))
+        pixmap = QPixmap("./img/card.png")
+        painter.drawPixmap(0, 0, 100, 152, pixmap)
+        painter.drawText(QPoint(15, 30), self.symbol)
+        painter.drawText(QPoint(75, 132), self.symbol)
+        
+    clicked = pyqtSignal(QWidget)
+    draw_delete = pyqtSignal()
+    def mousePressEvent(self, event):
+        self.clicked.emit(self)
+        if event.button() == Qt.MouseButton.LeftButton:
+            if self.in_hand and self.is_playable:
+                self.draw_delete.connect(self.hideDrawCard)
+                self.answered_correctly.emit(self)
+                self.draw_delete.emit()
+                self.dialog_closed.emit()
+                print(f"clicked a card {self.color} {self.number}")
+    
+    def hideDrawCard(self):
+        self.hide()
+        self.deleteLater()

@@ -1,4 +1,3 @@
-from time import sleep
 import random
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
@@ -8,31 +7,24 @@ from Card import Card
 
 class Bot():
     #Starts the bot player with a hand of 7 and no score
-    def __init__(self, game_board, number):
+    def __init__(self, game_board):
         super().__init__()
         self.game = game_board
         self.hand = Hand()
         self.score = 0
-        self.number = number # indicates which bot it is 1, 2, or 3
 
     #Looks for a playable card. If none are found, draw a card instead and return None
     #If we want, we can add some stradegy by having it do lowest first and basing it's chance on that
     def canPlayCard(self, color, number):
-        for card in self.hand.cards:
-            if card.number == "WILD" or card.number == number or card.color == color:
-                return card
+        for i in self.hand.cards:
+            if i.color == color or i.number == number:
+                return i
+        self.drawCard
         return None
             
     #Adds a random card to the hand
     def drawCard(self):
-        new_card = self.game.genRandomCard()
-        self.hand.cards.append(new_card)
-        if self.number == 1:
-            self.game.bot1Hand.addWidget(new_card)
-        elif self.number == 2:
-            self.game.bot2Hand.addWidget(new_card)
-        elif self.number == 3:
-            self.game.bot3Hand.addWidget(new_card)
+        self.hand.cards.append(self.game.genRandomCard())
 
     #Updates the game_Board with the properly chosen card
     def playCard(self):
@@ -49,24 +41,10 @@ class Bot():
             self.updatePlayPile(card_to_play)
             self.hand.cards.remove(card_to_play)
             self.score += 1
-            if self.number == 1:
-                self.game.bot1Hand.removeWidget(card_to_play)
-            elif self.number == 2:
-                self.game.bot2Hand.removeWidget(card_to_play)
-            elif self.number == 3:
-                self.game.bot3Hand.removeWidget(card_to_play)
-            self.score += 1
             print(f"Bot playing {card_to_play.color} {card_to_play.number}")
         elif random.random() < (1 - (card_to_play.number/100)):
             self.updatePlayPile(card_to_play)
             self.hand.cards.remove(card_to_play)
-            # remove card from bots hand
-            if self.number == 1:
-                self.game.bot1Hand.removeWidget(card_to_play)
-            elif self.number == 2:
-                self.game.bot2Hand.removeWidget(card_to_play)
-            elif self.number == 3:
-                self.game.bot3Hand.removeWidget(card_to_play)
             self.score += 1
             print(f"Bot playing {card_to_play.color} {card_to_play.number}")
         else:
