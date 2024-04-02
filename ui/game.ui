@@ -62,7 +62,7 @@ QPushButton:hover {
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>390</y>
+     <y>420</y>
      <width>791</width>
      <height>151</height>
     </rect>
@@ -73,7 +73,7 @@ QPushButton:hover {
    <property name="geometry">
     <rect>
      <x>560</x>
-     <y>180</y>
+     <y>250</y>
      <width>101</width>
      <height>131</height>
     </rect>
@@ -100,15 +100,15 @@ QPushButton:hover {
   <widget class="QWidget" name="horizontalLayoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>160</y>
+     <x>370</x>
+     <y>230</y>
      <width>160</width>
      <height>171</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="playPile"/>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="background">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -130,44 +130,44 @@ QPushButton:hover {
   <widget class="QWidget" name="horizontalLayoutWidget_3">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>50</y>
-     <width>471</width>
-     <height>80</height>
+     <x>260</x>
+     <y>10</y>
+     <width>381</width>
+     <height>111</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="bot1Hand"/>
-  </widget>
-  <widget class="QWidget" name="verticalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>100</y>
-     <width>91</width>
-     <height>251</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="bot2Hand"/>
+   <layout class="QHBoxLayout" name="bot2Hand"/>
   </widget>
   <widget class="QWidget" name="verticalLayoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>730</x>
-     <y>100</y>
-     <width>91</width>
-     <height>251</height>
+     <x>740</x>
+     <y>130</y>
+     <width>141</width>
+     <height>271</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="bot1Hand"/>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>130</y>
+     <width>141</width>
+     <height>271</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="bot3Hand"/>
   </widget>
-  <zorder>label</zorder>
+  <zorder>background</zorder>
   <zorder>mainMenuButton</zorder>
   <zorder>horizontalLayoutWidget</zorder>
   <zorder>drawButton</zorder>
   <zorder>horizontalLayoutWidget_2</zorder>
   <zorder>horizontalLayoutWidget_3</zorder>
-  <zorder>verticalLayoutWidget</zorder>
   <zorder>verticalLayoutWidget_2</zorder>
+  <zorder>verticalLayoutWidget_3</zorder>
  </widget>
  <resources/>
  <connections/>

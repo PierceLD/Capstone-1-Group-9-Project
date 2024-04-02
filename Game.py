@@ -18,14 +18,8 @@ class GameScreen(QWidget):
 
         self.mainMenuButton.clicked.connect(self.clearLayout) # this is to clear the Hand layout when leaving the game screen so it can be reset
         self.drawButton.clicked.connect(self.addCardToHand)
-    
-    """ For future reference:
-        if you want to call a function with parameters on a QPushButton click,
-        use lambda: self.myFunction(param1, param2, ...) when calling
-        .clicked.connect() on a QPushButton
-        i.e. button.clicked.connect(lambda: self.myFunction(p1, p2, p3))
-        (thank you chatgpt...)
-    """
+
+        self.bot_finished.connect(self.enableScreen)
 
     def startGame(self):
         self.hand = Hand() #Generates a hand (Default of 7)
@@ -200,7 +194,36 @@ class GameScreen(QWidget):
             self.bots.append(Bot(self, i+1))
 
     #Makes all the bots play a valid card, if not, they draw
+    bot_finished = pyqtSignal()
     def moveBots(self):
-        for bot in self.bots:
-            bot.playCard()
-            self.checkGameOver()
+        self.setDisabled(True) # disable everything on screen so user can't click when bots are playing
+        # TODO: fix background greying out
+        self.setStyleSheet("""
+            QPushButton {
+                color: black;
+            }
+            QLabel {
+                color: black;
+            }
+        """)
+        self.num_shots = len(self.bots)
+        if len(self.bots) >= 1:
+            QTimer.singleShot(1500, lambda: self.botToPlay(self.bots[0]))
+            
+        if len(self.bots) >= 2:
+            QTimer.singleShot(2*1500, lambda: self.botToPlay(self.bots[1]))
+            
+        if len(self.bots) == 3:
+            QTimer.singleShot(3*1500, lambda: self.botToPlay(self.bots[2]))
+            
+
+    def botToPlay(self, bot):
+        bot.playCard()
+        self.checkGameOver()
+        self.num_shots -= 1
+        self.bot_finished.emit()
+
+    def enableScreen(self):
+        if self.num_shots == 0:
+            print("screen reenabled")
+            self.setEnabled(True)
