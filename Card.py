@@ -26,10 +26,14 @@ class Card(QWidget):
         painter.setPen(QColor("black")) if self.color == "yellow" or self.color == "red" else painter.setPen(QColor("white"))
         #Set 100x150 px to random color and random number in corner
         painter.fillRect(self.rect(), QColor(self.color))
-        painter.drawText(QPoint(15, 30), str(self.number))
-        painter.drawText(QPoint(75, 132), str(self.number))
-
-        pixmap = QPixmap("./img/card.png")
+        if self.number != "WILD":
+            painter.drawText(QPoint(15, 30), str(self.number))
+            painter.drawText(QPoint(75, 132), str(self.number))
+            pixmap = QPixmap("./img/card.png")
+        else:
+            pixmap = QPixmap("./img/wild.png")
+            painter.fillRect(self.rect(), QColor(self.color))
+            
         painter.drawPixmap(0, 0, 100, 152, pixmap)
 
         pen = QPen(QColor("black"))
@@ -76,14 +80,6 @@ class WildCard(Card):
             painter.fillRect(self.rect(), QColor(self.color))
         pixmap = QPixmap("./img/wild.png")
         painter.drawPixmap(0, 0, 100, 152, pixmap)
-
-        if self.color == "WILD":
-            pen = QPen(QColor("white"))
-        else:
-            pen = QPen(QColor(self.color))
-        pen.setWidth(2)
-        painter.setPen(pen)
-        painter.drawRect(self.rect())
 
         colors = ["red", "blue", "green", "yellow"]
         if self.color == "WILD":
