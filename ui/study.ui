@@ -77,9 +77,9 @@ QPushButton:hover {
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>120</y>
+     <y>110</y>
      <width>900</width>
-     <height>481</height>
+     <height>401</height>
     </rect>
    </property>
    <property name="font">
@@ -88,6 +88,52 @@ QPushButton:hover {
     </font>
    </property>
   </widget>
+  <widget class="QPushButton" name="showAnswers">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>520</y>
+     <width>181</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+	border: 2px solid black;
+	border-radius: 10px;
+	background-color: white;
+}</string>
+   </property>
+   <property name="text">
+    <string>Show Answers</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>900</width>
+     <height>600</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>../img/background.png</pixmap>
+   </property>
+  </widget>
+  <zorder>label</zorder>
+  <zorder>studySetsButton</zorder>
+  <zorder>studySetName</zorder>
+  <zorder>questionAnswer</zorder>
+  <zorder>showAnswers</zorder>
  </widget>
  <resources/>
  <connections/>

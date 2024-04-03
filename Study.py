@@ -10,6 +10,7 @@ class StudyScreen(QWidget):
       uic.loadUi("ui/study.ui", self)
 
       self.studySetName.setAlignment(Qt.AlignmentFlag.AlignCenter)
+      self.showAnswers.clicked.connect(self.show_answers)
     
     def load(self, study_set_name):
       self.studySetName.setText(study_set_name)
@@ -22,7 +23,14 @@ class StudyScreen(QWidget):
 
       self.all_question_answer = ""
       for item in self.selected_set:
-        self.all_question_answer += "Question: " + item['Question'] + "\n"
+        self.all_question_answer += item['Question'] + "\n\n"
+        
+      self.questionAnswer.setText(self.all_question_answer)
+      
+    def show_answers(self):
+      self.all_question_answer = ""
+      for item in self.selected_set:
+        self.all_question_answer += item['Question'] + "\n"
         self.all_question_answer += "Answer: " + item['Answer'] + "\n\n"
         
       self.questionAnswer.setText(self.all_question_answer)
