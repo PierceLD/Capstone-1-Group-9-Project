@@ -15,7 +15,7 @@ class GameScreen(QWidget):
         uic.loadUi("ui/game.ui", self)
         self.audioPlayer = AudioPlayer()
 
-        self.mainMenuButton.clicked.connect(self.clearLayout) # this is to clear the Hand layout when leaving the game screen so it can be reset
+        self.mainMenuButton.clicked.connect(self.resetLayout) # this is to clear the Hand layout when leaving the game screen so it can be reset
         self.drawButton.clicked.connect(self.drawCard)
 
         self.bots_finished.connect(self.enableScreen)
@@ -227,7 +227,7 @@ class GameScreen(QWidget):
         loop.exec()
 
     # this is to clear the QHBoxLayout and its Card widgets so that when player plays again, the hand and cards are reset
-    def clearLayout(self):
+    def resetLayout(self):
         while self.handLayout.count():
             print("removing widget")
             item = self.handLayout.takeAt(0)

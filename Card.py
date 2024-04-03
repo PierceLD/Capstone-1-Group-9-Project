@@ -122,7 +122,6 @@ class FaceDownCard(QWidget):
             self.setFixedSize(114, 75)
         else:
             self.setFixedSize(75, 114)
-        #self.setMouseTracking(True)
 
     def paintEvent(self, event):
         painter = QPainter(self)

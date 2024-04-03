@@ -72,10 +72,10 @@ QPushButton:hover {
   <widget class="QPushButton" name="drawButton">
    <property name="geometry">
     <rect>
-     <x>550</x>
-     <y>240</y>
-     <width>100</width>
-     <height>152</height>
+     <x>540</x>
+     <y>260</y>
+     <width>77</width>
+     <height>113</height>
     </rect>
    </property>
    <property name="font">
@@ -90,7 +90,7 @@ QPushButton:hover {
     <string notr="true">QPushButton {
 	background-color: transparent;
     border: 3px solid black;
-    border-radius: 5px;
+    border-radius: 6px;
 }</string>
    </property>
    <property name="icon">
@@ -99,17 +99,17 @@ QPushButton:hover {
    </property>
    <property name="iconSize">
     <size>
-     <width>96</width>
-     <height>150</height>
+     <width>71</width>
+     <height>114</height>
     </size>
    </property>
   </widget>
   <widget class="QWidget" name="horizontalLayoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>390</x>
      <y>230</y>
-     <width>160</width>
+     <width>121</width>
      <height>171</height>
     </rect>
    </property>
