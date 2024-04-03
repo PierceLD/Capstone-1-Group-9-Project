@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from Hand import Hand
-from Card import Card
+from Card import *
 
 class Bot():
     #Starts the bot player with a hand of 7 and no score
@@ -27,12 +27,13 @@ class Bot():
     def drawCard(self):
         new_card = self.game.genRandomCard()
         self.hand.cards.append(new_card)
+        fd_card = FaceDownCard(self.number)
         if self.number == 1:
-            self.game.bot1Hand.addWidget(new_card)
+            self.game.bot1Hand.addWidget(fd_card)
         elif self.number == 2:
-            self.game.bot2Hand.addWidget(new_card)
+            self.game.bot2Hand.addWidget(fd_card)
         elif self.number == 3:
-            self.game.bot3Hand.addWidget(new_card)
+            self.game.bot3Hand.addWidget(fd_card)
 
     #Updates the game_Board with the properly chosen card
     def playCard(self):
@@ -51,11 +52,18 @@ class Bot():
             self.hand.cards.remove(card_to_play)
             self.score += 1
             if self.number == 1:
-                self.game.bot1Hand.removeWidget(card_to_play)
+                curr_bot_hand = self.game.bot1Hand
             elif self.number == 2:
-                self.game.bot2Hand.removeWidget(card_to_play)
+                curr_bot_hand = self.game.bot2Hand
             elif self.number == 3:
-                self.game.bot3Hand.removeWidget(card_to_play)
+                curr_bot_hand = self.game.bot3Hand
+
+            # remove card from correct bot hand
+            item = curr_bot_hand.takeAt(0)
+            if item:
+                widget = item.widget()
+                if widget:
+                    curr_bot_hand.removeWidget(widget)
             self.score += 1
             print(f"Bot {self.number} playing {card_to_play.color} {card_to_play.number}")
             self.game.bot_status += f"\nBot {self.number} played a card..."
@@ -64,11 +72,26 @@ class Bot():
             self.hand.cards.remove(card_to_play)
             # remove card from bots hand
             if self.number == 1:
-                self.game.bot1Hand.removeWidget(card_to_play)
+                item = self.game.bot1Hand.takeAt(0)
+                if item:
+                    widget = item.widget()
+                    if widget:
+                        self.game.bot1Hand.removeWidget(widget)
+                #self.game.bot1Hand.removeWidget(card_to_play)
             elif self.number == 2:
-                self.game.bot2Hand.removeWidget(card_to_play)
+                item = self.game.bot2Hand.takeAt(0)
+                if item:
+                    widget = item.widget()
+                    if widget:
+                        self.game.bot2Hand.removeWidget(widget)
+                #self.game.bot2Hand.removeWidget(card_to_play)
             elif self.number == 3:
-                self.game.bot3Hand.removeWidget(card_to_play)
+                item = self.game.bot3Hand.takeAt(0)
+                if item:
+                    widget = item.widget()
+                    if widget:
+                        self.game.bot3Hand.removeWidget(widget)
+                #self.game.bot3Hand.removeWidget(card_to_play)
             self.score += 1
             print(f"Bot {self.number} playing {card_to_play.color} {card_to_play.number}")
             self.game.bot_status += f"\nBot {self.number} played a card..."

@@ -3,8 +3,7 @@ from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6 import uic
 from Hand import Hand
-from Card import Card
-from Card import WildCard
+from Card import *
 import random
 from copy import deepcopy
 from Bot import Bot
@@ -35,7 +34,6 @@ class GameScreen(QWidget):
             self.handLayout.addWidget(i) #Look at Cards.py to see drawing code
 
         self.top_card = self.genRandomCard()
-        #self.top_card = WildCard("WILD")
         #If the top card is a wild card, give it a random color
         if self.top_card.color == "WILD":
             self.top_card.setColor(random.choice(["red", "blue", "green", "yellow"]))
@@ -55,26 +53,30 @@ class GameScreen(QWidget):
         for i, bot in enumerate(self.bots):
             if i == 0:
                 for card in bot.hand.getCards(): #Iterates and places cards in layout
-                    self.bot1Hand.addWidget(card) #Look at Cards.py to see drawing code
+                    fd_card = FaceDownCard(bot.number)
+                    self.bot1Hand.addWidget(fd_card) #Look at Cards.py to see drawing code
             elif i == 1:
                 for card in bot.hand.getCards(): #Iterates and places cards in layout
-                    self.bot2Hand.addWidget(card) #Look at Cards.py to see drawing code
+                    fd_card = FaceDownCard(bot.number)
+                    self.bot2Hand.addWidget(fd_card) #Look at Cards.py to see drawing code
             elif i == 2:
                 for card in bot.hand.getCards(): #Iterates and places cards in layout
-                    self.bot3Hand.addWidget(card) #Look at Cards.py to see drawing code
+                    fd_card = FaceDownCard(bot.number)
+                    self.bot3Hand.addWidget(fd_card) #Look at Cards.py to see drawing code
 
     def drawCard(self):
-        self.audioPlayer.playSoundEffect('sound/card.mp3')
-        card = self.genRandomCard()
-        card.in_hand = True
-        card.clicked.connect(self.playCard)
-        card.answered_correctly.connect(self.updatePlayPileAndHand) # retrieve signal to indicate question was answered correctly
-        self.hand.cards.append(card)
-        self.handLayout.addWidget(card)
-        print(self.hand.getCards())
-        print(f"Adding {card.color} {card.number} to hand...")
-        # end players turn and move on to bots
-        self.moveBots()
+        if self.current_player == "You":
+            self.audioPlayer.playSoundEffect('sound/card.mp3')
+            card = self.genRandomCard()
+            card.in_hand = True
+            card.clicked.connect(self.playCard)
+            card.answered_correctly.connect(self.updatePlayPileAndHand) # retrieve signal to indicate question was answered correctly
+            self.hand.cards.append(card)
+            self.handLayout.addWidget(card)
+            print(self.hand.getCards())
+            print(f"Adding {card.color} {card.number} to hand...")
+            # end players turn and move on to bots
+            self.moveBots()
 
     def genRandomCard(self):
         colors = ['red', 'blue', 'green', 'yellow']
@@ -180,6 +182,7 @@ class GameScreen(QWidget):
             self.disableScreen() # disable everything user can click on screen so user can't interact while bots are playing
 
             for bot in self.bots:
+                self.current_player = f"Bot {bot.number}"
                 self.bot_status = f"It's Bot {bot.number}'s turn."
                 self.statusLabel.setText(self.bot_status)
                 print("Executing delay")
@@ -187,35 +190,35 @@ class GameScreen(QWidget):
                 print("Delay finished")
                 bot.playCard()
                 self.statusLabel.setText(self.bot_status)
-                self.executeDelay(1500)
                 self.checkGameOver()
+                self.executeDelay(1500)
                 if self.game_over:
                     print(f"Game over. Bot {bot.number} wins!")
                     break
             
             self.bots_finished.emit() # signal that bots are finished playing this round to enable screen again
+            self.current_player = "You"
             self.statusLabel.setText("It's your turn.")
 
     def disableScreen(self):
         print("screen disabled")
-        # manually disable each widget user can click, except for mute button
+        # manually disable each clickable widget, except for mute button
         for i in range(self.handLayout.count()):
             item = self.handLayout.itemAt(i)
             widget = item.widget()
             if widget:
                 widget.setDisabled(True)
-        self.drawButton.setDisabled(True)
         self.mainMenuButton.setDisabled(True)
+        self.setStyleSheet("""QPushButton { color: black; }""") # prevent button text from greying out
 
     def enableScreen(self):
         print("screen reenabled")
-        # reenable each widget user can click
+        # reenable each clickable widget
         for i in range(self.handLayout.count()):
             item = self.handLayout.itemAt(i)
             widget = item.widget()
             if widget:
                 widget.setEnabled(True)
-        self.drawButton.setEnabled(True)
         self.mainMenuButton.setEnabled(True)
 
     def executeDelay(self, time_in_ms):

@@ -113,3 +113,41 @@ class WildCard(Card):
     def setColor(self, color):
         self.color = color
         self.update()
+
+class FaceDownCard(QWidget):
+    def __init__(self, bot_num):
+        super().__init__()
+        self.bot_num = bot_num
+        if bot_num == 1 or bot_num == 3:
+            self.setFixedSize(114, 75)
+        else:
+            self.setFixedSize(75, 114)
+        #self.setMouseTracking(True)
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+
+        font = painter.font()
+        font.setPointSize(12)
+        font.setBold(True)
+        painter.setFont(font)
+        painter.setPen(QColor("black"))
+        #Set 100x150 px to random color and random number in corner
+        painter.fillRect(self.rect(), QColor("transparent"))
+        painter.drawText(QPoint(15, 30), "")
+        painter.drawText(QPoint(75, 132), "")
+
+        if self.bot_num == 1:
+            pixmap = QPixmap("img/card_back_bot1.png")
+            painter.drawPixmap(0, 0, 114, 75, pixmap)
+        elif self.bot_num == 2:
+            pixmap = QPixmap("img/card_back_bot2.png")
+            painter.drawPixmap(0, 0, 75, 114, pixmap)
+        else:
+            pixmap = QPixmap("img/card_back_bot3.png")
+            painter.drawPixmap(0, 0, 114, 75, pixmap)
+
+        pen = QPen(QColor("black"))
+        pen.setWidth(2)
+        painter.setPen(pen)
+        painter.drawRect(self.rect())

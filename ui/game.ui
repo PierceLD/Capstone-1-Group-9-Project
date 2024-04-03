@@ -72,10 +72,10 @@ QPushButton:hover {
   <widget class="QPushButton" name="drawButton">
    <property name="geometry">
     <rect>
-     <x>540</x>
-     <y>250</y>
-     <width>101</width>
-     <height>131</height>
+     <x>550</x>
+     <y>240</y>
+     <width>100</width>
+     <height>152</height>
     </rect>
    </property>
    <property name="font">
@@ -88,13 +88,20 @@ QPushButton:hover {
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
-	background-color: white;
-    border: 2px solid black;
-    border-radius: 5px; 
+	background-color: transparent;
+    border: 3px solid black;
+    border-radius: 5px;
 }</string>
    </property>
-   <property name="text">
-    <string>Draw</string>
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/card_back.png</normaloff>../img/card_back.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>96</width>
+     <height>150</height>
+    </size>
    </property>
   </widget>
   <widget class="QWidget" name="horizontalLayoutWidget_2">
@@ -130,10 +137,10 @@ QPushButton:hover {
   <widget class="QWidget" name="horizontalLayoutWidget_3">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>10</y>
-     <width>381</width>
-     <height>111</height>
+     <x>210</x>
+     <y>20</y>
+     <width>471</width>
+     <height>121</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="bot2Hand"/>
@@ -141,9 +148,9 @@ QPushButton:hover {
   <widget class="QWidget" name="verticalLayoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>740</x>
+     <x>730</x>
      <y>130</y>
-     <width>141</width>
+     <width>121</width>
      <height>271</height>
     </rect>
    </property>
@@ -152,9 +159,9 @@ QPushButton:hover {
   <widget class="QWidget" name="verticalLayoutWidget_3">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>40</x>
      <y>130</y>
-     <width>141</width>
+     <width>121</width>
      <height>271</height>
     </rect>
    </property>
@@ -177,7 +184,7 @@ QPushButton:hover {
     </font>
    </property>
    <property name="text">
-    <string>Placeholder</string>
+    <string>This displays current turn status.</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
