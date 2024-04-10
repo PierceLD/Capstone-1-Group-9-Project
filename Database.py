@@ -47,7 +47,7 @@ def getSetQuestions(name):
                         "B": row[2],
                         "C": row[3],
                         "D": row[4],
-                        "correct_answer": row[5]
+                        "answer": row[5]
                     }
                 )
 
@@ -81,7 +81,7 @@ def insertQuestion(set_name: str, question: dict):
             INSERT INTO Sets(Name, Question, A, B, C, D, Correct_Answer) VALUES (?, ?, ?, ?, ?, ?, ?)
         """
         q = question
-        cursor.execute(query, (set_name, q["question"], q["A"], q["B"], q["C"], q["D"], q["correct_answer"],))
+        cursor.execute(query, (set_name, q["question"], q["A"], q["B"], q["C"], q["D"], q["answer"],))
 
         conn.commit()
     except sqlite3.Error as e:
@@ -110,7 +110,7 @@ def removeQuestion(set_name: str, question: str):
         cursor.close()
         conn.close()
 
-def insertStudySet(set_name: str, questions: list[dict[str, str]]):
+def insertStudySet(set_name: str, questions: '''list[dict[str, str]]'''):
     """ Inserts a new study set and all its questions.\
         Can be used when inserting study sets from JSON files.
     """
@@ -124,7 +124,7 @@ def insertStudySet(set_name: str, questions: list[dict[str, str]]):
                 query = """
                     INSERT INTO Sets(Name, Question, A, B, C, D, "Correct_Answer") VALUES (?, ?, ?, ?, ?, ?, ?)
                 """
-                cursor.execute(query, (set_name, q["question"], q["A"], q["B"], q["C"], q["D"], q["correct_answer"],))
+                cursor.execute(query, (set_name, q["question"], q["A"], q["B"], q["C"], q["D"], q["answer"],))
 
             conn.commit()
         except sqlite3.Error as e:

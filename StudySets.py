@@ -3,6 +3,8 @@ from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6 import uic
 import json
+from Database import *
+import os
 
 class StudySetsScreen(QWidget):
     def __init__(self, *args, **kwargs):
@@ -34,31 +36,28 @@ class StudySetsScreen(QWidget):
         self.study_set_count = 0
         self.studySets.clear()
         self.studySets.removeRow(0)
-        with open("sets.json", "r") as json_file:
-            try:
-                study_set_list = json.load(json_file)
-            except:
-                print("Empty json file")
+
+
+        study_set_list = [x for x in os.listdir() if ".json" in x]
+
+        # with open("sets.json", "r") as json_file:
+        #     try:
+        #         study_set_list = json.load(json_file)
+        #     except:
+        #         print("Empty json file")
         
         for study_set in study_set_list:
             self.studySets.setRowCount(self.study_set_count + 1)
             self.studySets.setItem(self.study_set_count, 0, QTableWidgetItem())
-            self.studySets.item(self.study_set_count, 0).setText(study_set)
+            self.studySets.item(self.study_set_count, 0).setText(study_set[:-5])
             self.study_set_count += 1
     
     # Deletes a set from the JSON file
     def deleteSet(self):
         if len(self.studySets.selectedItems()) > 0:
             set_to_remove = self.studySets.selectedItems()[0].text()
-            with open("sets.json", "r") as json_file:
-                try:
-                    study_set_list = json.load(json_file)
-                except:
-                    print("Empty json file")
-            del study_set_list[set_to_remove]
-            with open("sets.json", "w") as json_file:
-              json_file.write(json.dumps(study_set_list, indent=2))
-
+            os.remove(set_to_remove + ".json")
+            removeStudySet(set_to_remove)
             self.update()
 
     # Checks if a set was selected to study
