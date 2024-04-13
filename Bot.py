@@ -5,6 +5,7 @@ from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from Hand import Hand
 from Card import *
+from music import AudioPlayer
 
 class Bot():
     #Starts the bot player with a hand of 7 and no score
@@ -14,6 +15,7 @@ class Bot():
         self.hand = Hand()
         self.score = 0
         self.number = number # indicates which bot it is 1, 2, or 3
+        self.audioPlayer = AudioPlayer()
 
     #Looks for a playable card. If none are found, draw a card instead and return None
     #If we want, we can add some stradegy by having it do lowest first and basing it's chance on that
@@ -27,6 +29,7 @@ class Bot():
     def drawCard(self):
         new_card = self.game.genRandomCard()
         self.hand.cards.append(new_card)
+        self.audioPlayer.playSoundEffect('sound/card.mp3')
         fd_card = FaceDownCard(self.number)
         if self.number == 1:
             self.game.bot1Hand.addWidget(fd_card)
@@ -50,6 +53,7 @@ class Bot():
             card_to_play.setColor(random.choice(colors))
             self.updatePlayPile(card_to_play)
             self.hand.cards.remove(card_to_play)
+            self.audioPlayer.playSoundEffect('sound/card.mp3')
             self.score += 1
             if self.number == 1:
                 curr_bot_hand = self.game.bot1Hand
@@ -70,6 +74,7 @@ class Bot():
         elif random.random() < (1 - (card_to_play.number/100)):
             self.updatePlayPile(card_to_play)
             self.hand.cards.remove(card_to_play)
+            self.audioPlayer.playSoundEffect('sound/card.mp3')
             # remove card from bots hand
             if self.number == 1:
                 item = self.game.bot1Hand.takeAt(0)

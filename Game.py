@@ -138,6 +138,7 @@ class GameScreen(QWidget):
         print("Checking if game is over.")
         if len(self.hand.cards) == 0:
             msg = "You Win!"
+            self.audioPlayer.playSoundEffect('sound/win.mp3')
             self.game_over = True
             self.enableScreen()
             self.gameOver(msg)
@@ -147,6 +148,7 @@ class GameScreen(QWidget):
                     self.game_over = True
                     self.bots_finished.emit()
                     msg = f"Bot {bot.number} Wins!"
+                    self.audioPlayer.playSoundEffect('sound/lose.mp3')
                     self.gameOver(msg)
                     break
 

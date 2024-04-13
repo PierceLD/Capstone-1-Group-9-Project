@@ -2,11 +2,13 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6.QtCore import pyqtSignal, QObject
+from music import AudioPlayer
 
 class Question_Popup(QWidget): 
     def __init__(self, question):
         super().__init__()
         self.question = question
+        self.audioPlayer = AudioPlayer()
         
         layout = QVBoxLayout()
         self.setLayout(layout)
@@ -85,8 +87,13 @@ class Question_Popup(QWidget):
         
         if msg == "Correct.":
             label.setStyleSheet("QLabel { color: rgb(26, 186, 29); }")
+           
+            self.audioPlayer.playSoundEffect('sound/correct.mp3')
         else:
             label.setStyleSheet("QLabel { color: rgb(186, 26, 26); }")
+            
+            self.audioPlayer.playSoundEffect('sound/wrong.mp3', .05)
+            
         
         alert.setLayout(layout)
 

@@ -8,9 +8,11 @@ class AudioPlayer:
         self.player = QMediaPlayer()
         self.audioOutput = QAudioOutput()
         self.player.setAudioOutput(self.audioOutput)
+
         self.effectPlayer = QMediaPlayer()
         self.effectAudioOutput = QAudioOutput()
         self.effectPlayer.setAudioOutput(self.effectAudioOutput)
+        
         self.isMuted = False
 
     def playMusic(self, filePath):
@@ -35,12 +37,14 @@ class AudioPlayer:
             self.audioOutput.setMuted(self.isMuted)
         except Exception as e:
             print(f"Error toggling mute: {e}")
-    def playSoundEffect(self, filePath):
+    def playSoundEffect(self, filePath, volume=1):
+        self.effectAudioOutput.setVolume(volume)
         time.sleep(.05)
         self.effectPlayer.setSource(QUrl.fromLocalFile(filePath))
         self.effectPlayer.play()
         time.sleep(.05)
-    
+
+
 
     def checkEffectStatus(self, status):
         if status == QMediaPlayer.MediaStatus.EndOfMedia:
