@@ -1,5 +1,6 @@
 import random
 import json
+from Database import *
 
 class Question(): 
     def __init__(self, color):
@@ -9,7 +10,7 @@ class Question():
         self.set_questions()
         
     def set_questions(self):
-        with open("questions.json", "r", encoding="utf-8") as file:
+        """with open("questions.json", "r", encoding="utf-8") as file:
             try:
                 all_questions = json.load(file)
                 
@@ -22,4 +23,14 @@ class Question():
                 elif self.color == "yellow":
                     self.question = random.choice(all_questions["History"])
             except:
-                print("Failed to read file.")
+                print("Failed to read file.")"""
+        
+        all_questions = getAllSets()
+        if self.color == "red":
+            self.question = random.choice(all_questions["Chem"])
+        elif self.color == "blue":
+            self.question = random.choice(all_questions["Math"])
+        elif self.color == "green":
+            self.question = random.choice(all_questions["CompSci"])
+        elif self.color == "yellow":
+            self.question = random.choice(all_questions["History"])

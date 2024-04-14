@@ -56,7 +56,7 @@ class Question_Popup(QWidget):
                 answer = button.text()[0]
                 print("Submitted answer:", answer)
                 
-                if (answer == self.question["correct_answer"]):
+                if (answer == self.question["answer"]):
                     self.playerAns.emit(True)
                     correct = True
                 else:

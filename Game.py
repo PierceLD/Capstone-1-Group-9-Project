@@ -22,6 +22,8 @@ class GameScreen(QWidget):
 
         self.current_player = "You"
 
+        self.game_over = False
+
     def startGame(self):
         self.hand = Hand() #Generates a hand (Default of 7)
         self.bots = []
@@ -109,6 +111,8 @@ class GameScreen(QWidget):
 
     def updatePlayPileAndHand(self, card_to_play, correct):
         if correct:
+            player_correct_msg = self.player_status + "\nYou got to play!"
+            self.statusLabel.setText(player_correct_msg)
             print("updating play pile")
             print(f"Length of hand: {len(self.hand.cards)}")
             # remove top card from playPile
@@ -132,6 +136,8 @@ class GameScreen(QWidget):
             if len(self.hand.cards) > 0:
                 card_to_play.dialog_closed.connect(self.moveBots) # forced user to close correct/incorrect dialog for bots to start playing
         else: # player answered incorrectly, skip to bots turns
+            player_incorrect_msg = self.player_status + "\nLose your turn..."
+            self.statusLabel.setText(player_incorrect_msg)
             card_to_play.dialog_closed.connect(self.moveBots) 
 
     def checkGameOver(self):
@@ -179,22 +185,25 @@ class GameScreen(QWidget):
     #Makes all the bots play a valid card, if not, they draw
     bots_finished = pyqtSignal()
     def moveBots(self):
-        if len(self.bots) > 0:
+        if len(self.bots) > 0 and not self.game_over:
             print("Bots playing...")
             self.disableScreen() # disable everything user can click on screen so user can't interact while bots are playing
+            print("Executing delay")
+            self.executeDelay(500)
+            print("Delay finished")
 
             for bot in self.bots:
                 self.current_player = f"Bot {bot.number}"
                 self.bot_status = f"It's Bot {bot.number}'s turn."
                 self.statusLabel.setText(self.bot_status)
-                print("Executing delay")
-                self.executeDelay(500)
-                print("Delay finished")
                 bot.playCard()
                 self.statusLabel.setText(self.bot_status)
                 self.checkGameOver()
-                self.executeDelay(1500)
-                if self.game_over:
+                if not self.game_over:
+                    print("Executing delay")
+                    self.executeDelay(1250)
+                    print("Delay finished")
+                else:
                     print(f"Game over. Bot {bot.number} wins!")
                     break
             
