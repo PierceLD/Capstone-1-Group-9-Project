@@ -10,8 +10,7 @@ from CreateSet import CreateSetScreen
 from Study import StudyScreen
 from music import AudioPlayer
 from Database import *
-import json
-import os
+from Settings import SettingsScreen
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -29,7 +28,6 @@ class MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.main_menu) # add each screen to the QStackedWidget
         self.main_menu.playButton.clicked.connect(self.goToGame) # clicking Play button takes you to game screen
         self.main_menu.studySetsButton.clicked.connect(self.goToStudySets) # clicking Study Sets button takes you to study sets screen
-        self.main_menu.uploadFileButton.clicked.connect(self.uploadJSON)
 
         self.game = GameScreen()
         self.stackedWidget.addWidget(self.game)
@@ -91,45 +89,6 @@ class MainWindow(QMainWindow):
             self.stackedWidget.setCurrentIndex(4)
         self.study_sets.study_set_selected = False
         self.study_sets.selected_set_name = ""
-    
-    def uploadJSON(self):
-        self.audioPlayer.playSoundEffect('sound/button.mp3')
-        file_path, _ = QFileDialog.getOpenFileName(
-            self, 
-            "Upload JSON File", 
-            "", 
-            "JSON Files (*.json)"
-        )
-        if file_path:
-            file_name = os.path.splitext(os.path.basename(file_path))[0]
-            with open(file_path, "r", encoding="utf-8") as file:
-                data = json.load(file)
-                print("File uploaded successfully:", file_path)
-                print("Uploaded File Name:", file_name)
-                #print("JSON data:", data)
-
-            """if isinstance(data, dict): # uploaded file is a dictionary with set names as keys, and list of questions as values to those set names
-                sets = data # dictionary
-                for key in sets.keys():
-                    if key.lower() in [name.lower() for name in getAllSetNames()]:
-                        print(f"Study set '{key}' already exists, rename your file or add a different file.")
-                    else:
-                        insertStudySet(key, sets[key])
-                        print(f"Study set '{key}' was successfully added.")
-            elif isinstance(data, list): # uploaded file is a list of questions with name of file as set name
-                questions = data # list of dictionaries
-                if file_name.lower() in [name.lower() for name in getAllSetNames()]:
-                    print(f"Study set '{file_name}' already exists, rename your file or add a different file.")
-                else:
-                    insertStudySet(file_name, questions)
-                    print(f"Study set '{file_name}' was successfully added.")"""
-            
-            questions = [q for q in data["questions"] if q["type"] == "multiple_choice"]
-            if file_name in getAllSetNames():
-                print(f"Study set '{file_name}' already exists, rename your file or add a different file.")
-            else:
-                insertStudySet(file_name, questions)
-                print(f"Study set '{file_name}' was successfully added.")
 
     def toggleMute(self):
         self.audioPlayer.toggleMute()

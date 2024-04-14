@@ -49,7 +49,7 @@
       <property name="font">
        <font>
         <family>MS PGothic</family>
-        <pointsize>22</pointsize>
+        <pointsize>20</pointsize>
         <weight>75</weight>
         <italic>false</italic>
         <bold>true</bold>
@@ -105,11 +105,11 @@ QPushButton:hover {
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="uploadFileButton">
+     <widget class="QPushButton" name="settingsScreenButton">
       <property name="font">
        <font>
         <family>MS PGothic</family>
-        <pointsize>18</pointsize>
+        <pointsize>20</pointsize>
         <weight>75</weight>
         <italic>false</italic>
         <bold>true</bold>
@@ -130,7 +130,7 @@ QPushButton:hover {
 }</string>
       </property>
       <property name="text">
-       <string>Upload JSON</string>
+       <string>Settings</string>
       </property>
      </widget>
     </item>

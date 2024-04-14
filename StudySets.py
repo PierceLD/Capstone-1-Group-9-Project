@@ -15,7 +15,7 @@ class StudySetsScreen(QWidget):
         self.study_set_selected = False
         self.selected_set_name = ""
 
-
+        self.uploadJSONButton.clicked.connect(self.uploadJSON)
         self.deleteSetButton.clicked.connect(self.deleteSet)
         self.studyButton.clicked.connect(self.study)
 
@@ -37,15 +37,7 @@ class StudySetsScreen(QWidget):
         self.studySets.clear()
         self.studySets.removeRow(0)
 
-
-        #study_set_list = [x for x in os.listdir() if ".json" in x]
         study_set_list = getAllSetNames()
-
-        # with open("sets.json", "r") as json_file:
-        #     try:
-        #         study_set_list = json.load(json_file)
-        #     except:
-        #         print("Empty json file")
         
         for study_set in study_set_list:
             self.studySets.setRowCount(self.study_set_count + 1)
@@ -66,3 +58,28 @@ class StudySetsScreen(QWidget):
         if len(self.studySets.selectedItems()) > 0:
             self.selected_set_name = self.studySets.selectedItems()[0].text()
             self.study_set_selected = True
+
+    # uploads json file representing a study set to the database
+    def uploadJSON(self):
+        #self.audioPlayer.playSoundEffect('sound/button.mp3')
+        file_path, _ = QFileDialog.getOpenFileName(
+            self, 
+            "Upload JSON File", 
+            "", 
+            "JSON Files (*.json)"
+        )
+        if file_path:
+            file_name = os.path.splitext(os.path.basename(file_path))[0]
+            with open(file_path, "r", encoding="utf-8") as file:
+                data = json.load(file)
+                print("File uploaded successfully:", file_path)
+                print("Uploaded File Name:", file_name)
+                print("JSON data:", data)
+            
+            questions = [q for q in data["questions"] if q["type"] == "multiple_choice"]
+            if file_name in getAllSetNames():
+                print(f"Study set '{file_name}' already exists, rename your file or add a different file.")
+            else:
+                insertStudySet(file_name, questions)
+                print(f"Study set '{file_name}' was successfully added.")
+        self.update()
