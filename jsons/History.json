@@ -1,0 +1,134 @@
+{
+  "questions": [
+    {
+      "type": "multiple_choice",
+      "text": "Who was the first President of the United States?",
+      "options": [
+        "Thomas Jefferson",
+        "George Washington",
+        "Abraham Lincoln",
+        "John Adams"
+      ],
+      "correct_option": [
+        1
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "Which document declared the American colonies' independence from Great Britain?",
+      "options": [
+        "The Bill of Rights",
+        "The Articles of Confederation",
+        "The Declaration of Independence",
+        "The Constitution"
+      ],
+      "correct_option": [
+        2
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "Who served as the President of the Confederate States of America during the American Civil War?",
+      "options": [
+        "Jefferson Davis",
+        "Ulysses S. Grant",
+        "Robert E. Lee",
+        "Abraham Lincoln"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "Which event marked the beginning of the Great Depression in the United States?",
+      "options": [
+        "The stock market crash of 1929",
+        "The assassination of President McKinley",
+        "The end of World War I",
+        "The passage of the Social Security Act"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "Who was the main author of the Federalist Papers, advocating for the ratification of the U.S. Constitution?",
+      "options": [
+        "James Madison",
+        "Alexander Hamilton",
+        "Thomas Jefferson",
+        "John Adams"
+      ],
+      "correct_option": [
+        1
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What was the name of the treaty that ended World War I?",
+      "options": [
+        "Treaty of Versailles",
+        "Treaty of Paris",
+        "Treaty of Brest-Litovsk",
+        "Treaty of Potsdam"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "Which U.S. President is known for the New Deal programs aimed at lifting the country out of the Great Depression?",
+      "options": [
+        "Franklin D. Roosevelt",
+        "Herbert Hoover",
+        "Woodrow Wilson",
+        "Calvin Coolidge"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "Which event led to the United States' entry into World War II?",
+      "options": [
+        "Attack on Pearl Harbor",
+        "Battle of Midway",
+        "D-Day Invasion",
+        "Atomic bombings of Hiroshima and Nagasaki"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "Who was the leader of the Civil Rights Movement who gave the famous 'I Have a Dream' speech?",
+      "options": [
+        "Martin Luther King Jr.",
+        "Malcolm X",
+        "Rosa Parks",
+        "Thurgood Marshall"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "Which amendment to the U.S. Constitution granted women the right to vote?",
+      "options": [
+        "19th Amendment",
+        "15th Amendment",
+        "18th Amendment",
+        "21st Amendment"
+      ],
+      "correct_option": [
+        0
+      ]
+    }
+  ]
+}

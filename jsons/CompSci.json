@@ -1,0 +1,134 @@
+{
+  "questions": [
+    {
+      "type": "multiple_choice",
+      "text": "Which of the following is NOT a programming language?",
+      "options": [
+        "Python",
+        "Java",
+        "HTML",
+        "Ruby"
+      ],
+      "correct_option": [
+        2
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What does RAM stand for?",
+      "options": [
+        "Random Access Memory",
+        "Read-Only Memory",
+        "Remote Access Management",
+        "Real-time Automated Monitoring"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the purpose of an operating system?",
+      "options": [
+        "To provide power to the computer",
+        "To manage hardware and software resources",
+        "To process data for output",
+        "To protect against viruses"
+      ],
+      "correct_option": [
+        1
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the output of the following code snippet in Python: print(2 + '3')?",
+      "options": [
+        "5",
+        "23",
+        "Error",
+        "32"
+      ],
+      "correct_option": [
+        2
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the process of finding errors and fixing them within a program called?",
+      "options": [
+        "Debugging",
+        "Compiling",
+        "Interpreting",
+        "Executing"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What data structure uses Last In, First Out (LIFO) ordering?",
+      "options": [
+        "Queue",
+        "Stack",
+        "Tree",
+        "Heap"
+      ],
+      "correct_option": [
+        1
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "Which sorting algorithm has the worst time complexity in the average case?",
+      "options": [
+        "Bubble Sort",
+        "Merge Sort",
+        "Quick Sort",
+        "Insertion Sort"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What does CPU stand for?",
+      "options": [
+        "Central Processing Unit",
+        "Computer Processing Unit",
+        "Central Processor Unit",
+        "Computer Processor Unit"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the binary representation of the decimal number 10?",
+      "options": [
+        "1010",
+        "1001",
+        "1110",
+        "1100"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What does RAM stand for in computing?",
+      "options": [
+        "Random Access Memory",
+        "Read Access Memory",
+        "Running Application Memory",
+        "Rapid Access Memory"
+      ],
+      "correct_option": [
+        0
+      ]
+    }
+  ]
+}

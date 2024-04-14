@@ -1,0 +1,134 @@
+{
+  "questions": [
+    {
+      "type": "multiple_choice",
+      "text": "What is the chemical symbol for gold?",
+      "options": [
+        "Au",
+        "Ag",
+        "Cu",
+        "Fe"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the chemical formula for water?",
+      "options": [
+        "H₂O",
+        "CO₂",
+        "NaCl",
+        "C₆H₁₂O₆"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the lightest element in the periodic table?",
+      "options": [
+        "Hydrogen (H)",
+        "Helium (He)",
+        "Oxygen (O)",
+        "Carbon (C)"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "Which gas is produced during photosynthesis?",
+      "options": [
+        "Oxygen (O₂)",
+        "Carbon dioxide (CO₂)",
+        "Nitrogen (N₂)",
+        "Hydrogen (H₂)"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the pH value of a neutral solution?",
+      "options": [
+        "7",
+        "0",
+        "14",
+        "1"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the chemical formula for sulfuric acid?",
+      "options": [
+        "H₂SO₄",
+        "NaCl",
+        "HCl",
+        "NH₃"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "Which element has the atomic number 6?",
+      "options": [
+        "Carbon (C)",
+        "Nitrogen (N)",
+        "Oxygen (O)",
+        "Hydrogen (H)"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the process of converting a solid directly into a gas without passing through the liquid phase called?",
+      "options": [
+        "Sublimation",
+        "Condensation",
+        "Evaporation",
+        "Melting"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the chemical name for baking soda?",
+      "options": [
+        "Sodium bicarbonate",
+        "Calcium carbonate",
+        "Sodium chloride",
+        "Potassium hydroxide"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the process of combining two or more elements to form a new substance?",
+      "options": [
+        "Chemical reaction",
+        "Physical reaction",
+        "Sublimation",
+        "Condensation"
+      ],
+      "correct_option": [
+        0
+      ]
+    }
+  ]
+}

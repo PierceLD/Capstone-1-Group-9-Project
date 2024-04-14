@@ -80,8 +80,17 @@ def insertQuestion(set_name: str, question: dict):
         query = """
             INSERT INTO Sets(Name, Question, A, B, C, D, Correct_Answer) VALUES (?, ?, ?, ?, ?, ?, ?)
         """
-        q = question
-        cursor.execute(query, (set_name, q["question"], q["A"], q["B"], q["C"], q["D"], q["answer"],))
+        options = question["options"] # list of options
+        correct_option = question["correct_option"][0]
+        if correct_option == 0:
+            correct_option = "A"
+        elif correct_option == 1:
+            correct_option = "B"
+        elif correct_option == 2:
+            correct_option = "C"
+        elif correct_option == 3:
+            correct_option = "D"
+        cursor.execute(query, (set_name, question["text"], options[0], options[1], options[2], options[3], correct_option,))
 
         conn.commit()
     except sqlite3.Error as e:
@@ -110,7 +119,7 @@ def removeQuestion(set_name: str, question: str):
         cursor.close()
         conn.close()
 
-def insertStudySet(set_name: str, questions: '''list[dict[str, str]]'''):
+def insertStudySet(set_name: str, questions: list[dict]):
     """ Inserts a new study set and all its questions.\
         Can be used when inserting study sets from JSON files.
     """
@@ -124,7 +133,18 @@ def insertStudySet(set_name: str, questions: '''list[dict[str, str]]'''):
                 query = """
                     INSERT INTO Sets(Name, Question, A, B, C, D, "Correct_Answer") VALUES (?, ?, ?, ?, ?, ?, ?)
                 """
-                cursor.execute(query, (set_name, q["question"], q["A"], q["B"], q["C"], q["D"], q["answer"],))
+                options = q["options"] # list of options
+                correct_option = q["correct_option"][0]
+                if correct_option == 0:
+                    correct_option = "A"
+                elif correct_option == 1:
+                    correct_option = "B"
+                elif correct_option == 2:
+                    correct_option = "C"
+                elif correct_option == 3:
+                    correct_option = "D"
+                cursor.execute(query, (set_name, q["text"], options[0], options[1], options[2], options[3], correct_option,))
+                #cursor.execute(query, (set_name, q["question"], q["A"], q["B"], q["C"], q["D"], q["answer"],))
 
             conn.commit()
         except sqlite3.Error as e:

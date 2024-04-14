@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6 import uic
-import json
+from Database import *
 
 class StudyScreen(QWidget):
     def __init__(self, *args, **kwargs):
@@ -14,23 +14,19 @@ class StudyScreen(QWidget):
     
     def load(self, study_set_name):
       self.studySetName.setText(study_set_name)
-    
-      with open("sets.json", "r") as json_file:
-        try:
-            self.selected_set = json.load(json_file)[study_set_name]
-        except:
-            print("Empty json file")
+
+      self.selected_set = getSetQuestions(study_set_name)
 
       self.all_question_answer = ""
       for item in self.selected_set:
-        self.all_question_answer += item['Question'] + "\n\n"
+        self.all_question_answer += item['question'] + "\n\n"
         
       self.questionAnswer.setText(self.all_question_answer)
       
     def show_answers(self):
       self.all_question_answer = ""
       for item in self.selected_set:
-        self.all_question_answer += item['Question'] + "\n"
-        self.all_question_answer += "Answer: " + item['Answer'] + "\n\n"
+        self.all_question_answer += item['question'] + "\n"
+        self.all_question_answer += "Answer: " + item[item['answer']] + "\n\n"
         
       self.questionAnswer.setText(self.all_question_answer)

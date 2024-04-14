@@ -1,0 +1,147 @@
+{
+  "questions": [
+    {
+      "type": "multiple_choice",
+      "text": "What is the derivative of f(x) = 3x^2 + 4x - 7?",
+      "options": [
+        "f'(x) = 6x + 4",
+        "f'(x) = 3x^2 + 4x",
+        "f'(x) = 6x - 4",
+        "f'(x) = 6x + 1"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the integral of sin(x) with respect to x?",
+      "options": [
+        "cos(x) + C",
+        "-cos(x) + C",
+        "sin(x) + C",
+        "-sin(x) + C"
+      ],
+      "correct_option": [
+        1
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the determinant of the matrix [[2, 3], [4, 5]]?",
+      "options": [
+        "2",
+        "5",
+        "6",
+        "-2"
+      ],
+      "correct_option": [
+        3
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the value of log base 2 of (8)?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correct_option": [
+        1
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the limit of (x^2 - 1) / (x - 1) as x approaches 1?",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "Undefined"
+      ],
+      "correct_option": [
+        1
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the solution to the differential equation dy/dx = 2x?",
+      "options": [
+        "y = x^2 + C",
+        "y = 2x + C",
+        "y = x^2",
+        "y = 2"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the value of cos(pi/3)?",
+      "options": [
+        "1/2",
+        "√3/2",
+        "1",
+        "0"
+      ],
+      "correct_option": [
+        1
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the solution to the equation e^x = 10?",
+      "options": [
+        "x = ln(10)",
+        "x = log(10)",
+        "x = 10^e",
+        "x = e^10"
+      ],
+      "correct_option": [
+        0
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the volume of a sphere with radius 5 units?",
+      "options": [
+        "100π cubic units",
+        "125π cubic units",
+        "150π cubic units",
+        "175π cubic units"
+      ],
+      "correct_option": [
+        1
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the solution to the equation 2sin(x) = √3?",
+      "options": [
+        "x = π/3",
+        "x = π/6",
+        "x = π/4",
+        "x = π/2"
+      ],
+      "correct_option": [
+        1
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "text": "What is the derivative of ln(x)?",
+      "options": [
+        "1/x",
+        "x",
+        "ln(x)",
+        "e^x"
+      ],
+      "correct_option": [
+        0
+      ]
+    }
+  ]
+}

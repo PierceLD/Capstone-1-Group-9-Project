@@ -106,9 +106,9 @@ class MainWindow(QMainWindow):
                 data = json.load(file)
                 print("File uploaded successfully:", file_path)
                 print("Uploaded File Name:", file_name)
-                print("JSON data:", data)
+                #print("JSON data:", data)
 
-            if isinstance(data, dict): # uploaded file is a dictionary with set names as keys, and list of questions as values to those set names
+            """if isinstance(data, dict): # uploaded file is a dictionary with set names as keys, and list of questions as values to those set names
                 sets = data # dictionary
                 for key in sets.keys():
                     if key.lower() in [name.lower() for name in getAllSetNames()]:
@@ -122,7 +122,14 @@ class MainWindow(QMainWindow):
                     print(f"Study set '{file_name}' already exists, rename your file or add a different file.")
                 else:
                     insertStudySet(file_name, questions)
-                    print(f"Study set '{file_name}' was successfully added.")
+                    print(f"Study set '{file_name}' was successfully added.")"""
+            
+            questions = [q for q in data["questions"] if q["type"] == "multiple_choice"]
+            if file_name in getAllSetNames():
+                print(f"Study set '{file_name}' already exists, rename your file or add a different file.")
+            else:
+                insertStudySet(file_name, questions)
+                print(f"Study set '{file_name}' was successfully added.")
 
     def toggleMute(self):
         self.audioPlayer.toggleMute()

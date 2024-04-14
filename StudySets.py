@@ -38,7 +38,8 @@ class StudySetsScreen(QWidget):
         self.studySets.removeRow(0)
 
 
-        study_set_list = [x for x in os.listdir() if ".json" in x]
+        #study_set_list = [x for x in os.listdir() if ".json" in x]
+        study_set_list = getAllSetNames()
 
         # with open("sets.json", "r") as json_file:
         #     try:
@@ -49,14 +50,14 @@ class StudySetsScreen(QWidget):
         for study_set in study_set_list:
             self.studySets.setRowCount(self.study_set_count + 1)
             self.studySets.setItem(self.study_set_count, 0, QTableWidgetItem())
-            self.studySets.item(self.study_set_count, 0).setText(study_set[:-5])
+            self.studySets.item(self.study_set_count, 0).setText(study_set)
             self.study_set_count += 1
     
-    # Deletes a set from the JSON file
+    # Deletes a set from the database
     def deleteSet(self):
         if len(self.studySets.selectedItems()) > 0:
             set_to_remove = self.studySets.selectedItems()[0].text()
-            os.remove(set_to_remove + ".json")
+            #os.remove(set_to_remove + ".json")
             removeStudySet(set_to_remove)
             self.update()
 
