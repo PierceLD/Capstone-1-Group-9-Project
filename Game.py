@@ -16,8 +16,9 @@ class GameScreen(QWidget):
         uic.loadUi("ui/game.ui", self)
         self.audioPlayer = AudioPlayer()
 
-        # default random sets
-        self.all_set_names = getAllSetNames()
+        # default random set-color mappings
+        self.set_names = getAllSetNames()
+        self.all_set_names = self.set_names[:]
         self.red_set = random.choice(self.all_set_names)
         self.all_set_names.remove(self.red_set)
         self.blue_set = random.choice(self.all_set_names)
@@ -25,11 +26,6 @@ class GameScreen(QWidget):
         self.green_set = random.choice(self.all_set_names)
         self.all_set_names.remove(self.green_set)
         self.yellow_set = random.choice(self.all_set_names)
-
-        print(f"Red is set {self.red_set}")
-        print(f"Blue is set {self.blue_set}")
-        print(f"Green is set {self.green_set}")
-        print(f"Yellow is set {self.yellow_set}")
 
         self.mainMenuButton.clicked.connect(self.resetLayout) # this is to clear the Hand layout when leaving the game screen so it can be reset
         self.drawButton.clicked.connect(self.drawCard)
@@ -41,16 +37,6 @@ class GameScreen(QWidget):
         self.game_over = False
 
     def startGame(self):
-        # default random sets
-        self.all_set_names = getAllSetNames()
-        self.red_set = random.choice(self.all_set_names)
-        self.all_set_names.remove(self.red_set)
-        self.blue_set = random.choice(self.all_set_names)
-        self.all_set_names.remove(self.blue_set)
-        self.green_set = random.choice(self.all_set_names)
-        self.all_set_names.remove(self.green_set)
-        self.yellow_set = random.choice(self.all_set_names)
-
         print(f"Red is set {self.red_set}")
         print(f"Blue is set {self.blue_set}")
         print(f"Green is set {self.green_set}")
@@ -220,7 +206,7 @@ class GameScreen(QWidget):
             print("Bots playing...")
             self.disableScreen() # disable everything user can click on screen so user can't interact while bots are playing
             print("Executing delay")
-            self.executeDelay(500)
+            self.executeDelay(750)
             print("Delay finished")
 
             for bot in self.bots:

@@ -28,6 +28,7 @@ class MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.main_menu) # add each screen to the QStackedWidget
         self.main_menu.playButton.clicked.connect(self.goToGame) # clicking Play button takes you to game screen
         self.main_menu.studySetsButton.clicked.connect(self.goToStudySets) # clicking Study Sets button takes you to study sets screen
+        self.main_menu.settingsButton.clicked.connect(self.goToSettings) # clicking Settings button takes you to settings screen
 
         self.game = GameScreen()
         self.stackedWidget.addWidget(self.game)
@@ -47,6 +48,10 @@ class MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.study)
         self.study.studySetsButton.clicked.connect(self.goToStudySets)
 
+        self.settings = SettingsScreen(self.game)
+        self.stackedWidget.addWidget(self.settings)
+        self.settings.mainMenuButton.clicked.connect(self.goToMainMenu) # button to return you to main menu
+
         # mute
         self.muteButton = QPushButton("", self) 
         self.muteButton.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaVolume))  
@@ -61,6 +66,7 @@ class MainWindow(QMainWindow):
         self.stackedWidget.setCurrentIndex(0)
 
         self.audioPlayer.changeAndPlayMusic('sound/main.mp3')
+        self.audioPlayer.setVolume(0.5)
 
     def goToGame(self):
         self.audioPlayer.playSoundEffect('sound/button.mp3')
@@ -80,6 +86,7 @@ class MainWindow(QMainWindow):
     def goToCreateSet(self):
         self.audioPlayer.playSoundEffect('sound/button.mp3')
         self.stackedWidget.setCurrentIndex(3)
+        self.audioPlayer.setVolume(0.5)
 
     # Goes the the study screen while loading in relevant information
     def goToStudy(self):
@@ -89,6 +96,13 @@ class MainWindow(QMainWindow):
             self.stackedWidget.setCurrentIndex(4)
         self.study_sets.study_set_selected = False
         self.study_sets.selected_set_name = ""
+
+    def goToSettings(self):
+        self.audioPlayer.playSoundEffect('sound/button.mp3')
+        self.settings.load()
+        self.stackedWidget.setCurrentIndex(5)
+        self.audioPlayer.changeAndPlayMusic('sound/main.mp3')
+        self.audioPlayer.setVolume(0.5)
 
     def toggleMute(self):
         self.audioPlayer.toggleMute()

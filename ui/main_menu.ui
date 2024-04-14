@@ -105,7 +105,7 @@ QPushButton:hover {
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="settingsScreenButton">
+     <widget class="QPushButton" name="settingsButton">
       <property name="font">
        <font>
         <family>MS PGothic</family>
