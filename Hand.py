@@ -4,7 +4,8 @@ from Card import WildCard
 
 #Class to generate cards, will default to 7 cards when generating
 class Hand():
-    def __init__(self, size = 7):
+    def __init__(self, game_screen, size = 7):
+        self.game = game_screen
         self.size = size
         self.cards = []
         self.generateCards(size)
@@ -15,10 +16,10 @@ class Hand():
         for _ in range(size):
             random_number = random.randint(-1, 9)
             if random_number == -1: 
-                card = WildCard("WILD")
+                card = WildCard(self.game)
             else:
                 random_color = random.choice(colors)
-                card = Card(random_color, random_number)
+                card = Card(random_color, random_number, self.game)
             card.in_hand = True
             self.cards.append(card)
     

@@ -6,11 +6,14 @@ from Question import Question
 
 #Class for the movable You-Know Cards
 class Card(QWidget): 
-    def __init__(self, color, number):
+    def __init__(self, color, number, game_screen):
         super().__init__()
         self.color = color
         self.number = number
-        self.question = Question(self.color).question
+        self.game = game_screen
+        if self.game:
+            self.sets = [self.game.red_set, self.game.blue_set, self.game.green_set, self.game.yellow_set]
+            self.question = Question(self.color, self.sets).question
         self.setFixedSize(100, 152)
         self.setMouseTracking(True)
         self.is_playable = False
@@ -53,7 +56,6 @@ class Card(QWidget):
                 print(f"clicked a card {self.color} {self.number}") # this is for debugging purposes
 
     answered_correctly = pyqtSignal(QWidget, bool)
-    answered_incorrectly = pyqtSignal()
     dialog_closed = pyqtSignal()
     def hideCard(self, correct):
         if correct:
@@ -63,13 +65,13 @@ class Card(QWidget):
             self.hide()
             self.deleteLater()
         else:
+            print("incorrect, lose your turn")
             self.answered_correctly.emit(self, False) # send the signal that question has been incorrectly answered
             self.question_popup.dialog_closed.connect(lambda: self.dialog_closed.emit()) # send signal that "correct/incorrect" dialog has been closed
-            print("incorrect, lose your turn")
 
 class WildCard(Card):
-    def __init__(self, color):
-        super().__init__("WILD", "WILD")
+    def __init__(self, game_screen):
+        super().__init__("WILD", "WILD", game_screen)
 
     def paintEvent(self, event): 
         painter = QPainter(self)

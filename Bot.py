@@ -12,7 +12,7 @@ class Bot():
     def __init__(self, game_board, number):
         super().__init__()
         self.game = game_board
-        self.hand = Hand()
+        self.hand = Hand(self.game)
         self.score = 0
         self.number = number # indicates which bot it is 1, 2, or 3
         self.audioPlayer = AudioPlayer()
@@ -111,7 +111,7 @@ class Bot():
         # remove top card from playPile
         self.game.playPile.removeWidget(self.game.top_card)
         # add card to top of playPile
-        self.game.top_card = Card(card_to_play.color, card_to_play.number)
+        self.game.top_card = Card(card_to_play.color, card_to_play.number, self.game)
         self.game.top_card.question = card_to_play.question
         self.game.playPile.addWidget(self.game.top_card)
 

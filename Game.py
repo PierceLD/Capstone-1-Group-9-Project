@@ -8,12 +8,28 @@ import random
 from copy import deepcopy
 from Bot import Bot
 from music import AudioPlayer
+from Database import *
 
 class GameScreen(QWidget):
     def __init__(self):
         super().__init__()
         uic.loadUi("ui/game.ui", self)
         self.audioPlayer = AudioPlayer()
+
+        # default random sets
+        self.all_set_names = getAllSetNames()
+        self.red_set = random.choice(self.all_set_names)
+        self.all_set_names.remove(self.red_set)
+        self.blue_set = random.choice(self.all_set_names)
+        self.all_set_names.remove(self.blue_set)
+        self.green_set = random.choice(self.all_set_names)
+        self.all_set_names.remove(self.green_set)
+        self.yellow_set = random.choice(self.all_set_names)
+
+        print(f"Red is set {self.red_set}")
+        print(f"Blue is set {self.blue_set}")
+        print(f"Green is set {self.green_set}")
+        print(f"Yellow is set {self.yellow_set}")
 
         self.mainMenuButton.clicked.connect(self.resetLayout) # this is to clear the Hand layout when leaving the game screen so it can be reset
         self.drawButton.clicked.connect(self.drawCard)
@@ -25,7 +41,22 @@ class GameScreen(QWidget):
         self.game_over = False
 
     def startGame(self):
-        self.hand = Hand() #Generates a hand (Default of 7)
+        # default random sets
+        self.all_set_names = getAllSetNames()
+        self.red_set = random.choice(self.all_set_names)
+        self.all_set_names.remove(self.red_set)
+        self.blue_set = random.choice(self.all_set_names)
+        self.all_set_names.remove(self.blue_set)
+        self.green_set = random.choice(self.all_set_names)
+        self.all_set_names.remove(self.green_set)
+        self.yellow_set = random.choice(self.all_set_names)
+
+        print(f"Red is set {self.red_set}")
+        print(f"Blue is set {self.blue_set}")
+        print(f"Green is set {self.green_set}")
+        print(f"Yellow is set {self.yellow_set}")
+
+        self.hand = Hand(self) #Generates a hand (Default of 7)
         self.bots = []
         self.game_over = False
 
@@ -44,6 +75,8 @@ class GameScreen(QWidget):
         for card in self.hand.getCards():
             card.clicked.connect(self.playCard)
             card.answered_correctly.connect(self.updatePlayPileAndHand) # retrieve signal to indicate question was answered correctly
+            card.dialog_closed.connect(self.checkGameOver) # check if player won, then move bots if not
+            card.dialog_closed.connect(self.moveBots) # forced user to close correct/incorrect dialog for bots to start playing
         
         num_bots, ok = QInputDialog.getInt(self, "Number of Bots", "Enter the number of bots (maximum 3):", 0, 0, 3)
         if ok:
@@ -73,6 +106,8 @@ class GameScreen(QWidget):
             card.in_hand = True
             card.clicked.connect(self.playCard)
             card.answered_correctly.connect(self.updatePlayPileAndHand) # retrieve signal to indicate question was answered correctly
+            card.dialog_closed.connect(self.checkGameOver) # check if player won, then move bots if not
+            card.dialog_closed.connect(self.moveBots) # forced user to close correct/incorrect dialog for bots to start playing
             self.hand.cards.append(card)
             self.handLayout.addWidget(card)
             print(self.hand.getCards())
@@ -84,10 +119,10 @@ class GameScreen(QWidget):
         colors = ['red', 'blue', 'green', 'yellow']
         random_number = random.randint(-1, 9)
         if random_number == -1:  
-            return WildCard(random.choice(colors))
+            return WildCard(self)
         else:
             random_color = random.choice(colors)
-            return Card(random_color, random.randint(0, 9))
+            return Card(random_color, random.randint(0, 9), self)
     
     def playCard(self, card):
         print(self.hand.cards)
@@ -109,6 +144,7 @@ class GameScreen(QWidget):
         else:
             card.is_playable = False
 
+
     def updatePlayPileAndHand(self, card_to_play, correct):
         if correct:
             player_correct_msg = self.player_status + "\nYou got to play!"
@@ -119,10 +155,10 @@ class GameScreen(QWidget):
             self.playPile.removeWidget(self.top_card)
             # add card to top of playPile
             if card_to_play.number == "WILD":
-                self.top_card = WildCard("WILD")
+                self.top_card = WildCard(self)
                 self.top_card.setColor(card_to_play.color)
             else:
-                self.top_card = Card(card_to_play.color, card_to_play.number)
+                self.top_card = Card(card_to_play.color, card_to_play.number, self)
                 self.top_card.question = card_to_play.question
             self.playPile.addWidget(self.top_card)
             print(f"A {card_to_play.color} {card_to_play.number} was played.")
@@ -131,14 +167,9 @@ class GameScreen(QWidget):
             self.handLayout.removeWidget(card_to_play)
             self.hand.cards.remove(card_to_play)
             self.audioPlayer.playSoundEffect('sound/card.mp3')
-            # check if player won, then move bots if not
-            card_to_play.dialog_closed.connect(self.checkGameOver)
-            if len(self.hand.cards) > 0:
-                card_to_play.dialog_closed.connect(self.moveBots) # forced user to close correct/incorrect dialog for bots to start playing
         else: # player answered incorrectly, skip to bots turns
             player_incorrect_msg = self.player_status + "\nLose your turn..."
             self.statusLabel.setText(player_incorrect_msg)
-            card_to_play.dialog_closed.connect(self.moveBots) 
 
     def checkGameOver(self):
         print("Checking if game is over.")
