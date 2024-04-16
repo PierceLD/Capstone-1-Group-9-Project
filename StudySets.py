@@ -18,6 +18,7 @@ class StudySetsScreen(QWidget):
         self.uploadJSONButton.clicked.connect(self.uploadJSON)
         self.deleteSetButton.clicked.connect(self.deleteSet)
         self.studyButton.clicked.connect(self.study)
+        self.editSetButton.clicked.connect(self.editSet)
 
         # Create table to hold study sets
         self.studySets.setColumnCount(1)
@@ -49,9 +50,13 @@ class StudySetsScreen(QWidget):
     def deleteSet(self):
         if len(self.studySets.selectedItems()) > 0:
             set_to_remove = self.studySets.selectedItems()[0].text()
-            #os.remove(set_to_remove + ".json")
             removeStudySet(set_to_remove)
             self.update()
+
+    def editSet(self):
+        if len(self.studySets.selectedItems()) > 0:
+            self.selected_set_name = self.studySets.selectedItems()[0].text()
+            self.study_set_selected = True     
 
     # Checks if a set was selected to study
     def study(self):

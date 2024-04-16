@@ -23,19 +23,20 @@ class StudyScreen(QWidget):
         self.all_question_answer += item['question'] + "\n\n"
         
       self.questionAnswer.setText(self.all_question_answer)
+      self.showAnswers.setText("Show Answers")
+      self.answers_shown = False
       
     def show_answers(self):
       self.all_question_answer = ""
 
       if self.answers_shown:
         self.load(self.studySetName.text())
-        self.showAnswers.setText("Show Answers")
       else:
         for item in self.selected_set:
           self.all_question_answer += item['question'] + "\n"
           self.all_question_answer += "Answer: " + item[item['answer']] + "\n\n"
           self.showAnswers.setText("Hide Answers")
       
-      self.answers_shown = not self.answers_shown
+        self.answers_shown = True
         
       self.questionAnswer.setText(self.all_question_answer)

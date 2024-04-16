@@ -10,7 +10,9 @@ class CreateSetScreen(QWidget):
       super().__init__(*args, **kwargs)
       uic.loadUi("ui/create_set.ui", self)
 
-      self.questionCount = 1
+      self.mode = 0
+      self.questionCount = 0
+      self.set_name_buffer = ""
 
       self.studySetsButton.clicked.connect(self.clearSet)
       self.createSetButton.clicked.connect(self.createSet)
@@ -19,15 +21,38 @@ class CreateSetScreen(QWidget):
 
       # Create table to be used for creation of the study set
       self.studyQuestions.setColumnCount(2)
-      self.studyQuestions.setRowCount(1)
       self.studyQuestions.verticalHeader().setVisible(False)
       self.studyQuestions.horizontalHeader().setVisible(False)
       self.studyQuestions.horizontalHeader().resizeSection(0,300)
       self.studyQuestions.horizontalHeader().resizeSection(1, 498)
+
+
+    def loadCreateMode(self):
+      self.mode = 0
+      self.createSetButton.setText("Create Set")
+
+      self.studyQuestions.setRowCount(1)
       self.studyQuestions.setCellWidget(0,0,QLineEdit(placeholderText="Question"))
-      self.studyQuestions.setCellWidget(0,1,QLineEdit(placeholderText="Answer"))
-      print("Sets:",getAllSets())
+      self.studyQuestions.setCellWidget(0,1,QLineEdit(placeholderText="Answer")) 
+
+    def loadEditMode(self, study_set_name):
+      self.studyQuestions.clear()
+      self.questionCount = 0
+
+      self.mode = 1
+      self.set_name_buffer = study_set_name
+      self.createSetButton.setText("Save")
+      self.SetName.setText(study_set_name)
+      selected_set = getSetQuestions(study_set_name)
       
+      for i in range(len(selected_set)):
+        self.questionCount += 1
+        self.studyQuestions.setRowCount(self.questionCount)
+        self.studyQuestions.setCellWidget(self.questionCount - 1,0,QLineEdit(placeholderText="Question", text=selected_set[i]["question"]))
+        self.studyQuestions.setCellWidget(self.questionCount - 1,1,QLineEdit(placeholderText="Answer", text=selected_set[i][selected_set[i]["answer"]])) 
+        
+
+
     def addQuestion(self):
       self.questionCount += 1
       self.studyQuestions.setRowCount(self.questionCount)
@@ -58,6 +83,10 @@ class CreateSetScreen(QWidget):
           questions[i]["options"] = random.sample([x for x in answer_list if x != answer_list[i]], 3)
           questions[i]["options"].insert(questions[i]["correct_option"][0], answer_list[i])
           
+        if self.mode == 1:
+          removeStudySet(self.set_name_buffer)
+          self.set_name_buffer = self.SetName.text()
+
         # Insert set into database
         insertStudySet(self.SetName.text(), questions)
 

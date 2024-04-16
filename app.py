@@ -39,6 +39,7 @@ class MainWindow(QMainWindow):
         self.study_sets.mainMenuButton.clicked.connect(self.goToMainMenu) # button to return you to main menu
         self.study_sets.createSetButton.clicked.connect(self.goToCreateSet) # button to go to the create set screen
         self.study_sets.studyButton.clicked.connect(self.goToStudy)
+        self.study_sets.editSetButton.clicked.connect(self.goToEditSet)
 
         self.create_set = CreateSetScreen()
         self.stackedWidget.addWidget(self.create_set)
@@ -85,7 +86,17 @@ class MainWindow(QMainWindow):
 
     def goToCreateSet(self):
         self.audioPlayer.playSoundEffect('sound/button.mp3')
+        self.create_set.loadCreateMode()
         self.stackedWidget.setCurrentIndex(3)
+        self.audioPlayer.setVolume(0.5)
+    
+    def goToEditSet(self):
+        self.audioPlayer.playSoundEffect('sound/button.mp3')
+        if self.study_sets.study_set_selected:
+            self.create_set.loadEditMode(self.study_sets.selected_set_name)
+            self.stackedWidget.setCurrentIndex(3)
+        self.study_sets.study_set_selected = False
+        self.study_sets.selected_set_name = ""
         self.audioPlayer.setVolume(0.5)
 
     # Goes the the study screen while loading in relevant information
