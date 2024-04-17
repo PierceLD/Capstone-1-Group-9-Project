@@ -37,6 +37,16 @@ class GameScreen(QWidget):
         self.game_over = False
 
     def startGame(self):
+        # handles if a set is deleted, needs to be at least 1 set present at all times.
+        self.set_names = getAllSetNames()
+        if self.red_set not in self.set_names:
+            self.red_set = random.choice(self.set_names)
+        if self.blue_set not in self.set_names:
+            self.blue_set = random.choice(self.set_names)
+        if self.green_set not in self.set_names:
+            self.green_set = random.choice(self.set_names)
+        if self.yellow_set not in self.set_names:
+            self.yellow_set = random.choice(self.set_names)
         print(f"Red is set {self.red_set}")
         print(f"Blue is set {self.blue_set}")
         print(f"Green is set {self.green_set}")
