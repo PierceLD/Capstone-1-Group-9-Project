@@ -13,7 +13,6 @@ class Bot():
         super().__init__()
         self.game = game_board
         self.hand = Hand(self.game)
-        self.score = 0
         self.number = number # indicates which bot it is 1, 2, or 3
         self.audioPlayer = AudioPlayer()
 
@@ -21,7 +20,7 @@ class Bot():
     #If we want, we can add some stradegy by having it do lowest first and basing it's chance on that
     def canPlayCard(self, color, number):
         for card in self.hand.cards:
-            if card.number == "WILD" or card.number == number or card.color == color:
+            if card.number == "WILD" or str(card.number) == str(number) or card.color == color:
                 return card
         return None
             
@@ -45,16 +44,25 @@ class Bot():
         card_to_play = self.canPlayCard(top_card.color, top_card.number)
         colors = ["red", "blue", "green", "yellow"]
 
+        # handles skips, reverses, and draw 2's chance for bot to not play, since these cards have questions
+        if card_to_play != None:
+            card_num = card_to_play.number
+            if str(card_num) == "Skip":
+                card_num = 10
+            elif str(card_num) == "Reverse":
+                card_num = 11
+            else:
+                card_num = card_to_play.number
+
         if card_to_play == None:
             print(f"Bot {self.number} has no playable cards. Drawing for bot...")
             self.drawCard()
-            self.game.bot_status += f"\nBot {self.number} had to draw..."
+            self.game.bot_status = f"Bot {self.number} had to draw..."
         elif card_to_play.number == "WILD":
             card_to_play.setColor(random.choice(colors))
             self.updatePlayPile(card_to_play)
             self.hand.cards.remove(card_to_play)
             self.audioPlayer.playSoundEffect('sound/card.mp3')
-            self.score += 1
             if self.number == 1:
                 curr_bot_hand = self.game.bot1Hand
             elif self.number == 2:
@@ -68,41 +76,43 @@ class Bot():
                 widget = item.widget()
                 if widget:
                     curr_bot_hand.removeWidget(widget)
-            self.score += 1
             print(f"Bot {self.number} playing {card_to_play.color} {card_to_play.number}")
-            self.game.bot_status += f"\nBot {self.number} played a card..."
-        elif random.random() < (1 - (card_to_play.number/100)):
+            self.game.bot_status = f"Bot {self.number} played a card..."
+        elif random.random() < (1 - (card_num/100)): # also handles skips, reverses
             self.updatePlayPile(card_to_play)
             self.hand.cards.remove(card_to_play)
             self.audioPlayer.playSoundEffect('sound/card.mp3')
-            # remove card from bots hand
-            if self.number == 1:
-                item = self.game.bot1Hand.takeAt(0)
-                if item:
-                    widget = item.widget()
-                    if widget:
-                        self.game.bot1Hand.removeWidget(widget)
-                #self.game.bot1Hand.removeWidget(card_to_play)
-            elif self.number == 2:
-                item = self.game.bot2Hand.takeAt(0)
-                if item:
-                    widget = item.widget()
-                    if widget:
-                        self.game.bot2Hand.removeWidget(widget)
-                #self.game.bot2Hand.removeWidget(card_to_play)
-            elif self.number == 3:
-                item = self.game.bot3Hand.takeAt(0)
-                if item:
-                    widget = item.widget()
-                    if widget:
-                        self.game.bot3Hand.removeWidget(widget)
-                #self.game.bot3Hand.removeWidget(card_to_play)
-            self.score += 1
+            self.removeCardFromHand()
             print(f"Bot {self.number} playing {card_to_play.color} {card_to_play.number}")
-            self.game.bot_status += f"\nBot {self.number} played a card..."
+            self.game.bot_status = f"Bot {self.number} played a card..."
+            if str(card_to_play.number) == "Skip": # used to skip next players turn
+                self.game.skip_played = True
+            elif str(card_to_play.number) == "Reverse":
+                self.game.reverse_played = True
         else:
             print(f"Bot {self.number} did not get it right")
-            self.game.bot_status += f"\nBot {self.number} got the answer wrong..."
+            self.game.bot_status = f"Bot {self.number} got the answer wrong..."
+
+    def removeCardFromHand(self):
+        # remove card from bots hand
+        if self.number == 1:
+            item = self.game.bot1Hand.takeAt(0)
+            if item:
+                widget = item.widget()
+                if widget:
+                    self.game.bot1Hand.removeWidget(widget)
+        elif self.number == 2:
+            item = self.game.bot2Hand.takeAt(0)
+            if item:
+                widget = item.widget()
+                if widget:
+                    self.game.bot2Hand.removeWidget(widget)
+        elif self.number == 3:
+            item = self.game.bot3Hand.takeAt(0)
+            if item:
+                widget = item.widget()
+                if widget:
+                    self.game.bot3Hand.removeWidget(widget)
     
     #Copied the update function and changed slightly to work with bots
     def updatePlayPile(self, card_to_play):
@@ -111,8 +121,12 @@ class Bot():
         # remove top card from playPile
         self.game.playPile.removeWidget(self.game.top_card)
         # add card to top of playPile
-        self.game.top_card = Card(card_to_play.color, card_to_play.number, self.game)
-        self.game.top_card.question = card_to_play.question
-        self.game.playPile.addWidget(self.game.top_card)
+        if card_to_play.number == "WILD":
+            self.game.top_card = WildCard(self.game)
+            self.game.top_card.setColor(card_to_play.color)
+        elif card_to_play.number == "Skip":
+            self.game.top_card = SkipCard(card_to_play.color, "Skip", self.game)
+        else:
+            self.game.top_card = Card(card_to_play.color, card_to_play.number, self.game)
 
-    
+        self.game.playPile.addWidget(self.game.top_card)

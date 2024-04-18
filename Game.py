@@ -33,6 +33,8 @@ class GameScreen(QWidget):
         self.bots_finished.connect(self.enableScreen)
 
         self.current_player = "You"
+        self.skip_played = False
+        self.reverse_played = False
 
         self.game_over = False
 
@@ -113,9 +115,12 @@ class GameScreen(QWidget):
 
     def genRandomCard(self):
         colors = ['red', 'blue', 'green', 'yellow']
-        random_number = random.randint(-1, 9)
+        random_number = random.randint(-2, 9)
         if random_number == -1:  
             return WildCard(self)
+        elif random_number == -2:
+            random_color = random.choice(colors)
+            return SkipCard(random_color, "Skip", self)
         else:
             random_color = random.choice(colors)
             return Card(random_color, random.randint(0, 9), self)
@@ -134,7 +139,7 @@ class GameScreen(QWidget):
                 print("Selected option:", item)
                 card.setColor(item)
                 card.is_playable = True
-        elif (card.color == top_card.color) or (card.number == top_card.number):
+        elif (card.color == top_card.color) or (str(card.number) == str(top_card.number)): # handles skips and reverses too
             print("Card is playable")
             card.is_playable = True
         else:
@@ -143,16 +148,21 @@ class GameScreen(QWidget):
 
     def updatePlayPileAndHand(self, card_to_play, correct):
         if correct:
-            player_correct_msg = self.player_status + "\nYou got to play!"
-            self.statusLabel.setText(player_correct_msg)
+            self.statusLabel.setText("You got to play!")
             print("updating play pile")
             print(f"Length of hand: {len(self.hand.cards)}")
             # remove top card from playPile
             self.playPile.removeWidget(self.top_card)
             # add card to top of playPile
-            if card_to_play.number == "WILD":
+            if str(card_to_play.number) == "WILD":
                 self.top_card = WildCard(self)
                 self.top_card.setColor(card_to_play.color)
+            elif str(card_to_play.number) == "Skip":
+                self.top_card = SkipCard(card_to_play.color, "Skip", self)
+                self.top_card.question = card_to_play.question
+                self.skip_played = True
+            elif str(card_to_play.number) == "Reverse":
+                self.reverse_played = True
             else:
                 self.top_card = Card(card_to_play.color, card_to_play.number, self)
                 self.top_card.question = card_to_play.question
@@ -164,8 +174,7 @@ class GameScreen(QWidget):
             self.hand.cards.remove(card_to_play)
             self.audioPlayer.playSoundEffect('sound/card.mp3')
         else: # player answered incorrectly, skip to bots turns
-            player_incorrect_msg = self.player_status + "\nLose your turn..."
-            self.statusLabel.setText(player_incorrect_msg)
+            self.statusLabel.setText("Lose your turn...")
 
     def checkGameOver(self):
         print("Checking if game is over.")
@@ -220,6 +229,12 @@ class GameScreen(QWidget):
             print("Delay finished")
 
             for bot in self.bots:
+                if self.skip_played == True: # skip over this bot if a skip was played
+                    print(f"Skipping Bot {bot.number}")
+                    self.statusLabel.setText(f"Bot {bot.number} got skipped!")
+                    self.executeDelay(1250)
+                    self.skip_played = False
+                    continue
                 self.current_player = f"Bot {bot.number}"
                 self.bot_status = f"It's Bot {bot.number}'s turn."
                 self.statusLabel.setText(self.bot_status)
@@ -233,10 +248,16 @@ class GameScreen(QWidget):
                 else:
                     print(f"Game over. Bot {bot.number} wins!")
                     break
-            
-            self.bots_finished.emit() # signal that bots are finished playing this round to enable screen again
-            self.current_player = "You"
-            self.statusLabel.setText("It's your turn.")
+
+            # if last bot in sequence played a skip, skip player's turn and run bots again
+            if self.skip_played == True:
+                self.skip_played = False
+                self.statusLabel.setText("You got skipped!")
+                self.moveBots()
+            else:
+                self.bots_finished.emit() # signal that bots are finished playing this round to enable screen again
+                self.current_player = "You"
+                self.statusLabel.setText("It's your turn.")
 
     def disableScreen(self):
         print("screen disabled")
