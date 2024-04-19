@@ -13,12 +13,15 @@ class Hand():
     def generateCards(self, size):
         colors = ['red', 'blue', 'green', 'yellow']
         for _ in range(size):
-            random_number = random.randint(-2, 9)
+            random_number = random.randint(-3, 9)
             if random_number == -1: 
                 card = WildCard(self.game)
             elif random_number == -2:
                 random_color = random.choice(colors)
                 card = SkipCard(random_color, "Skip", self.game)
+            elif random_number == -3:
+                random_color = random.choice(colors)
+                card = ReverseCard(random_color, "Reverse", self.game)
             else:
                 random_color = random.choice(colors)
                 card = Card(random_color, random_number, self.game)

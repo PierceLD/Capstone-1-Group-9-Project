@@ -77,21 +77,21 @@ class Bot():
                 if widget:
                     curr_bot_hand.removeWidget(widget)
             print(f"Bot {self.number} playing {card_to_play.color} {card_to_play.number}")
-            self.game.bot_status = f"Bot {self.number} played a card..."
+            self.game.bot_status = f"Bot {self.number} played..."
         elif random.random() < (1 - (card_num/100)): # also handles skips, reverses
             self.updatePlayPile(card_to_play)
             self.hand.cards.remove(card_to_play)
             self.audioPlayer.playSoundEffect('sound/card.mp3')
             self.removeCardFromHand()
             print(f"Bot {self.number} playing {card_to_play.color} {card_to_play.number}")
-            self.game.bot_status = f"Bot {self.number} played a card..."
+            self.game.bot_status = f"Bot {self.number} played..."
             if str(card_to_play.number) == "Skip": # used to skip next players turn
                 self.game.skip_played = True
             elif str(card_to_play.number) == "Reverse":
                 self.game.reverse_played = True
         else:
             print(f"Bot {self.number} did not get it right")
-            self.game.bot_status = f"Bot {self.number} got the answer wrong..."
+            self.game.bot_status = f"Bot {self.number} answered wrong..."
 
     def removeCardFromHand(self):
         # remove card from bots hand
@@ -126,6 +126,8 @@ class Bot():
             self.game.top_card.setColor(card_to_play.color)
         elif card_to_play.number == "Skip":
             self.game.top_card = SkipCard(card_to_play.color, "Skip", self.game)
+        elif card_to_play.number == "Reverse":
+            self.game.top_card = ReverseCard(card_to_play.color, "Reverse", self.game)
         else:
             self.game.top_card = Card(card_to_play.color, card_to_play.number, self.game)
 
