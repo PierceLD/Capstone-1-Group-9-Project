@@ -78,6 +78,27 @@ class Bot():
                     curr_bot_hand.removeWidget(widget)
             print(f"Bot {self.number} playing {card_to_play.color} {card_to_play.number}")
             self.game.bot_status = f"Bot {self.number} played..."
+
+        elif card_to_play.number == "DRAW":
+            self.updatePlayPile(card_to_play)
+            self.hand.cards.remove(card_to_play)
+            self.audioPlayer.playSoundEffect('sound/card.mp3')
+            if self.number == 1:
+                curr_bot_hand = self.game.bot1Hand
+            elif self.number == 2:
+                curr_bot_hand = self.game.bot2Hand
+            elif self.number == 3:
+                curr_bot_hand = self.game.bot3Hand
+
+            # remove card from correct bot hand
+            item = curr_bot_hand.takeAt(0)
+            if item:
+                widget = item.widget()
+                if widget:
+                    curr_bot_hand.removeWidget(widget)
+            print(f"Bot {self.number} playing {card_to_play.color} {card_to_play.number}")
+            self.game.bot_status = f"Bot {self.number} played..."
+
         elif random.random() < (1 - (card_num/100)): # also handles skips, reverses
             self.updatePlayPile(card_to_play)
             self.hand.cards.remove(card_to_play)

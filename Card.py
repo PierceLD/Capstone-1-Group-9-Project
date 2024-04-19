@@ -3,6 +3,7 @@ from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from Question_Popup import Question_Popup
 from Question import Question
+import random
 
 #Class for the movable You-Know Cards
 class Card(QWidget): 
@@ -194,3 +195,39 @@ class FaceDownCard(QWidget):
         pen.setWidth(2)
         painter.setPen(pen)
         painter.drawRect(self.rect())
+
+class DrawCard(Card):
+    def __init__(self, game_screen, color):
+        super().__init__(color, "DRAW", game_screen)
+        self.power = random.choice([2,4])
+        self.symbol = "+" + str(self.power)
+    
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        font = painter.font()
+        font.setPointSize(12)
+        font.setBold(True)
+        painter.setFont(font)
+        painter.fillRect(self.rect(), QColor(self.color))
+        painter.setPen(QColor("black")) if self.color == "yellow" or self.color == "red" else painter.setPen(QColor("white"))
+        if self.power == 2:
+            pixmap = QPixmap("./img/plus2.png")
+        else:
+            pixmap = QPixmap("./img/plus4.png")
+        painter.drawPixmap(0, 0, 100, 152, pixmap)
+        
+    clicked = pyqtSignal(QWidget)
+    draw_delete = pyqtSignal()
+    def mousePressEvent(self, event):
+        self.clicked.emit(self)
+        if event.button() == Qt.MouseButton.LeftButton:
+            if self.in_hand and self.is_playable:
+                self.draw_delete.connect(self.hideDrawCard)
+                self.answered_correctly.emit(self, True)
+                self.draw_delete.emit()
+                self.dialog_closed.emit()
+                print(f"clicked a card {self.color} {self.number}")
+    
+    def hideDrawCard(self):
+        self.hide()
+        self.deleteLater()
