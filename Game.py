@@ -118,7 +118,7 @@ class GameScreen(QWidget):
 
     def genRandomCard(self):
         colors = ['red', 'blue', 'green', 'yellow']
-        random_number = random.randint(-4, 9)
+        random_number = random.randint(-5, 9)
         if random_number == -1:  
             return WildCard(self)
         elif random_number == -2:
@@ -130,6 +130,8 @@ class GameScreen(QWidget):
         elif random_number == -4:
             random_color = random.choice(colors)
             return DrawTwoCard(random_color, "Draw 2", self)
+        elif random_number == -5:
+            return DrawFourCard(self)
         else:
             random_color = random.choice(colors)
             return Card(random_color, random.randint(0, 9), self)
@@ -141,7 +143,7 @@ class GameScreen(QWidget):
         top_card = item.widget()
         print("Top card is", top_card.color, top_card.number)
         print("Card clicked is", card.color, card.number)
-        if card.color == "WILD":
+        if card.color == "WILD" or card.color == "Draw 4":
             choices = ["red", "blue", "green", "yellow"]
             item, ok = QInputDialog.getItem(self, "Select an option", "Options:", choices, editable=False)
             if ok:
@@ -182,6 +184,10 @@ class GameScreen(QWidget):
             elif str(card_to_play.number) == "Draw 2":
                 self.top_card = DrawTwoCard(card_to_play.color, "Draw 2", self)
                 self.top_card.question = card_to_play.question
+                self.draw_card_played = True
+            elif str(card_to_play.number) == "Draw 4":
+                self.top_card = DrawFourCard(self)
+                self.top_card.setColor(card_to_play.color)
                 self.draw_card_played = True
             else:
                 self.top_card = Card(card_to_play.color, card_to_play.number, self)

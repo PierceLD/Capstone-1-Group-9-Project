@@ -13,7 +13,7 @@ class Hand():
     def generateCards(self, size):
         colors = ['red', 'blue', 'green', 'yellow']
         for _ in range(size):
-            random_number = random.randint(-4, 9)
+            random_number = random.randint(-5, 9)
             if random_number == -1: 
                 card = WildCard(self.game)
             elif random_number == -2:
@@ -25,6 +25,8 @@ class Hand():
             elif random_number == -4:
                 random_color = random.choice(colors)
                 card = DrawTwoCard(random_color, "Draw 2", self.game)
+            elif random_number == -5:
+                card = DrawFourCard(self.game)
             else:
                 random_color = random.choice(colors)
                 card = Card(random_color, random_number, self.game)

@@ -53,6 +53,8 @@ class Bot():
                 card_num = 11
             elif str(card_num) == "Draw 2":
                 card_num = 12
+            elif str(card_num) == "Draw 4":
+                card_num = 13
             else:
                 card_num = card_to_play.number
 
@@ -60,9 +62,11 @@ class Bot():
             print(f"Bot {self.number} has no playable cards. Drawing for bot...")
             self.drawCard()
             self.game.bot_status = f"Bot {self.number} had to draw..."
-        elif card_to_play.number == "WILD":
+        elif card_to_play.number == "WILD" or card_to_play.number == "Draw 4":
             card_to_play.setColor(random.choice(colors))
             self.updatePlayPile(card_to_play)
+            if card_to_play.number == "Draw 4":
+                self.game.draw_card_played = True
             self.hand.cards.remove(card_to_play)
             self.audioPlayer.playSoundEffect('sound/card.mp3')
             if self.number == 1:
@@ -72,25 +76,6 @@ class Bot():
             elif self.number == 3:
                 curr_bot_hand = self.game.bot3Hand
 
-            # remove card from correct bot hand
-            item = curr_bot_hand.takeAt(0)
-            if item:
-                widget = item.widget()
-                if widget:
-                    curr_bot_hand.removeWidget(widget)
-            print(f"Bot {self.number} playing {card_to_play.color} {card_to_play.number}")
-            self.game.bot_status = f"Bot {self.number} played..."
-
-        elif card_to_play.number == "DRAW": # TODO: remove or modify
-            self.updatePlayPile(card_to_play)
-            self.hand.cards.remove(card_to_play)
-            self.audioPlayer.playSoundEffect('sound/card.mp3')
-            if self.number == 1:
-                curr_bot_hand = self.game.bot1Hand
-            elif self.number == 2:
-                curr_bot_hand = self.game.bot2Hand
-            elif self.number == 3:
-                curr_bot_hand = self.game.bot3Hand
 
             # remove card from correct bot hand
             item = curr_bot_hand.takeAt(0)
@@ -155,6 +140,9 @@ class Bot():
             self.game.top_card = ReverseCard(card_to_play.color, "Reverse", self.game)
         elif card_to_play.number == "Draw 2":
             self.game.top_card = DrawTwoCard(card_to_play.color, "Draw 2", self.game)
+        elif card_to_play.number == "Draw 4":
+            self.game.top_card = DrawFourCard(self.game)
+            self.game.top_card.setColor(card_to_play.color)
         else:
             self.game.top_card = Card(card_to_play.color, card_to_play.number, self.game)
 
