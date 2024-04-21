@@ -58,6 +58,12 @@ class GameScreen(QWidget):
 
         self.hand = Hand(self) #Generates a hand (Default of 7)
         self.bots = []
+        # reset the values
+        self.current_player = "You"
+        self.skip_played = False
+        self.reverse_played = False
+        self.draw_card_played = False
+        self.direction_of_play = "counter-clockwise"
         self.game_over = False
 
         self.player_status = "Your turn."
@@ -200,6 +206,7 @@ class GameScreen(QWidget):
             self.hand.cards.remove(card_to_play)
             self.audioPlayer.playSoundEffect('sound/card.mp3')
         else: # player answered incorrectly, skip to bots turns
+            print("incorrect")
             self.statusLabel.setText("Lose your turn...")
 
     def checkGameOver(self):
@@ -296,12 +303,12 @@ class GameScreen(QWidget):
                     break
 
             # if last bot in sequence played a skip, skip player's turn and run bots again
-            if self.skip_played == True:
+            if self.skip_played == True and not self.game_over:
                 self.skip_played = False
                 self.statusLabel.setText("You got skipped!")
                 self.executeDelay(250)
                 self.moveBots()
-            elif self.reverse_played == True: # if last bot who played, played a reverse, then reverse bot list and run thru again at specified position
+            elif self.reverse_played == True and not self.game_over: # if last bot who played, played a reverse, then reverse bot list and run thru again at specified position
                 self.bots.reverse()
                 self.reverse_played = False
                 if bot_who_played_reverse_index == 0: # if first bot played reverse
@@ -329,7 +336,7 @@ class GameScreen(QWidget):
                     self.direction_of_play = "clockwise"
                 else:
                     self.direction_of_play = "counter-clockwise"
-            elif self.draw_card_played == True: # if last bot played a draw card
+            elif self.draw_card_played == True and not self.game_over: # if last bot played a draw card
                 self.draw_card_played = False
                 if self.top_card.number == "Draw 2":
                     draw_count = 2
@@ -353,6 +360,7 @@ class GameScreen(QWidget):
             self.bots_finished.emit() # signal that bots are finished playing this round to enable screen again
             self.current_player = "You"
             self.statusLabel.setText("Your turn.")
+            print("Leaving move bots function.")
 
     def disableScreen(self):
         print("screen disabled")
@@ -416,11 +424,3 @@ class GameScreen(QWidget):
             widget = item.widget()
             if widget:
                 widget.deleteLater()
-        
-        # reset the values
-        self.current_player = "You"
-        self.skip_played = False
-        self.reverse_played = False
-        self.draw_card_played = False
-        self.direction_of_play = "counter-clockwise"
-        self.game_over = False
