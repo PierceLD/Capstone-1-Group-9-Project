@@ -416,3 +416,11 @@ class GameScreen(QWidget):
             widget = item.widget()
             if widget:
                 widget.deleteLater()
+        
+        # reset the values
+        self.current_player = "You"
+        self.skip_played = False
+        self.reverse_played = False
+        self.draw_card_played = False
+        self.direction_of_play = "counter-clockwise"
+        self.game_over = False

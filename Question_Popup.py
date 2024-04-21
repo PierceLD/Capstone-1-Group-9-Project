@@ -8,6 +8,7 @@ class Question_Popup(QWidget):
     def __init__(self, question):
         super().__init__()
         self.question = question
+        self.setWindowModality(Qt.WindowModality.ApplicationModal)
         self.audioPlayer = AudioPlayer()
         
         layout = QVBoxLayout()
@@ -67,8 +68,8 @@ class Question_Popup(QWidget):
                 break
         else:
             print("No answer selected")
-            self.playerAns.emit(False)
             self.close()
+            self.show_message("No answer selected.\nChoose an option.")
     
     dialog_closed = pyqtSignal()
     def show_message(self, msg):
