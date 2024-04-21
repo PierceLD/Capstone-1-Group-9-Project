@@ -24,7 +24,7 @@ class Hand():
                 card = ReverseCard(random_color, "Reverse", self.game)
             elif random_number == -4:
                 random_color = random.choice(colors)
-                card = DrawCard(self.game, random_color)
+                card = DrawTwoCard(random_color, "Draw 2", self.game)
             else:
                 random_color = random.choice(colors)
                 card = Card(random_color, random_number, self.game)

@@ -51,6 +51,8 @@ class Bot():
                 card_num = 10
             elif str(card_num) == "Reverse":
                 card_num = 11
+            elif str(card_num) == "Draw 2":
+                card_num = 12
             else:
                 card_num = card_to_play.number
 
@@ -79,7 +81,7 @@ class Bot():
             print(f"Bot {self.number} playing {card_to_play.color} {card_to_play.number}")
             self.game.bot_status = f"Bot {self.number} played..."
 
-        elif card_to_play.number == "DRAW":
+        elif card_to_play.number == "DRAW": # TODO: remove or modify
             self.updatePlayPile(card_to_play)
             self.hand.cards.remove(card_to_play)
             self.audioPlayer.playSoundEffect('sound/card.mp3')
@@ -99,7 +101,7 @@ class Bot():
             print(f"Bot {self.number} playing {card_to_play.color} {card_to_play.number}")
             self.game.bot_status = f"Bot {self.number} played..."
 
-        elif random.random() < (1 - (card_num/100)): # also handles skips, reverses
+        elif random.random() < (1 - (card_num/100)): # also handles skips, reverses, draw 2's
             self.updatePlayPile(card_to_play)
             self.hand.cards.remove(card_to_play)
             self.audioPlayer.playSoundEffect('sound/card.mp3')
@@ -110,6 +112,8 @@ class Bot():
                 self.game.skip_played = True
             elif str(card_to_play.number) == "Reverse":
                 self.game.reverse_played = True
+            elif str(card_to_play.number) == "Draw 2":
+                self.game.draw_card_played = True
         else:
             print(f"Bot {self.number} did not get it right")
             self.game.bot_status = f"Bot {self.number} answered wrong..."
@@ -149,6 +153,8 @@ class Bot():
             self.game.top_card = SkipCard(card_to_play.color, "Skip", self.game)
         elif card_to_play.number == "Reverse":
             self.game.top_card = ReverseCard(card_to_play.color, "Reverse", self.game)
+        elif card_to_play.number == "Draw 2":
+            self.game.top_card = DrawTwoCard(card_to_play.color, "Draw 2", self.game)
         else:
             self.game.top_card = Card(card_to_play.color, card_to_play.number, self.game)
 

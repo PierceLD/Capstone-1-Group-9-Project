@@ -35,6 +35,7 @@ class GameScreen(QWidget):
         self.current_player = "You"
         self.skip_played = False
         self.reverse_played = False
+        self.draw_card_played = False
         self.direction_of_play = "counter-clockwise"
 
         self.game_over = False
@@ -56,9 +57,6 @@ class GameScreen(QWidget):
         print(f"Yellow is set {self.yellow_set}")
 
         self.hand = Hand(self) #Generates a hand (Default of 7)
-        drawcards = DrawCard(self, "green")
-        drawcards.in_hand = True
-        self.hand.cards.append(drawcards)
         self.bots = []
         self.game_over = False
 
@@ -113,7 +111,6 @@ class GameScreen(QWidget):
             card.dialog_closed.connect(self.moveBots) # forced user to close correct/incorrect dialog for bots to start playing
             self.hand.cards.append(card)
             self.handLayout.addWidget(card)
-            print(self.hand.getCards())
             print(f"Adding {card.color} {card.number} to hand...")
             # end players turn and move on to bots
             self.moveBots()
@@ -132,7 +129,7 @@ class GameScreen(QWidget):
             return ReverseCard(random_color, "Reverse", self)
         elif random_number == -4:
             random_color = random.choice(colors)
-            return DrawCard(self, random_color)
+            return DrawTwoCard(random_color, "Draw 2", self)
         else:
             random_color = random.choice(colors)
             return Card(random_color, random.randint(0, 9), self)
@@ -151,10 +148,7 @@ class GameScreen(QWidget):
                 print("Selected option:", item)
                 card.setColor(item)
                 card.is_playable = True
-        elif card.number == "DRAW" and card.color  == top_card.color:
-            print("Card is playable")
-            card.is_playable = True
-        elif (card.color == top_card.color) or (str(card.number) == str(top_card.number)): # handles skips and reverses too
+        elif (card.color == top_card.color) or (str(card.number) == str(top_card.number)): # handles skips, reverses, draw 2's
             print("Card is playable")
             card.is_playable = True
         else:
@@ -185,9 +179,10 @@ class GameScreen(QWidget):
                     self.direction_of_play = "clockwise"
                 else:
                     self.direction_of_play = "counter-clockwise"
-            elif str(card_to_play.number) == "DRAW":
-                self.top_card = DrawCard(self, card_to_play.color)
-                self.top_card.power = card_to_play.power
+            elif str(card_to_play.number) == "Draw 2":
+                self.top_card = DrawTwoCard(card_to_play.color, "Draw 2", self)
+                self.top_card.question = card_to_play.question
+                self.draw_card_played = True
             else:
                 self.top_card = Card(card_to_play.color, card_to_play.number, self)
                 self.top_card.question = card_to_play.question
@@ -262,13 +257,18 @@ class GameScreen(QWidget):
                     self.statusLabel.setText(f"Bot {bot.number} got skipped!")
                     self.executeDelay(1250)
                     continue
-                
-                #Draw cards if the last played card was a draw
-                if self.top_card.number == "DRAW":
-                    print(f"Bot {bot.number} is drawing {self.top_card.power} cards")
-                    for _ in range(self.top_card.power):
+                elif self.draw_card_played == True: # skip over bot if draw card was played and make them draw
+                    self.draw_card_played = False
+                    if self.top_card.number == "Draw 2":
+                        draw_count = 2
+                    else: # draw 4 was played
+                        draw_count = 4
+                    for _ in range(draw_count):
                         bot.drawCard()
-                    self.executeDelay(750)
+                    print(f"Bot {bot.number} is drawing {draw_count} cards")
+                    self.statusLabel.setText(f"Bot {bot.number} had to draw {draw_count} cards!")
+                    self.executeDelay(1250)
+                    continue
 
                 self.current_player = f"Bot {bot.number}"
                 self.bot_status = f"Bot {bot.number}'s turn."
@@ -293,6 +293,7 @@ class GameScreen(QWidget):
             if self.skip_played == True:
                 self.skip_played = False
                 self.statusLabel.setText("You got skipped!")
+                self.executeDelay(250)
                 self.moveBots()
             elif self.reverse_played == True: # if last bot who played, played a reverse, then reverse bot list and run thru again at specified position
                 self.bots.reverse()
@@ -322,15 +323,30 @@ class GameScreen(QWidget):
                     self.direction_of_play = "clockwise"
                 else:
                     self.direction_of_play = "counter-clockwise"
+            elif self.draw_card_played == True: # if last bot played a draw card
+                self.draw_card_played = False
+                if self.top_card.number == "Draw 2":
+                    draw_count = 2
+                else: # draw 4 was played
+                    draw_count = 4
+                for _ in range(draw_count):
+                    card = self.genRandomCard()
+                    card.in_hand = True
+                    card.clicked.connect(self.playCard)
+                    card.answered_correctly.connect(self.updatePlayPileAndHand) # retrieve signal to indicate question was answered correctly
+                    card.dialog_closed.connect(self.checkGameOver) # check if player won, then move bots if not
+                    card.dialog_closed.connect(self.moveBots) # forced user to close correct/incorrect dialog for bots to start playing
+                    self.hand.cards.append(card)
+                    self.handLayout.addWidget(card)
+                    print(f"Adding {card.color} {card.number} to hand...")
+                self.statusLabel.setText(f"You had to draw {draw_count} cards!")
+                self.executeDelay(250)
+                self.moveBots() # move bots again and skip turn
+
+
             self.bots_finished.emit() # signal that bots are finished playing this round to enable screen again
             self.current_player = "You"
             self.statusLabel.setText("Your turn.")
-
-            #If a draw card was played before your turn, draw a card
-            if self.top_card.number == "DRAW":
-                    print(f"You are forced to draw {self.top_card.power} cards")
-                    for _ in range(self.top_card.power):
-                        self.drawCard()
 
     def disableScreen(self):
         print("screen disabled")

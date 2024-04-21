@@ -231,3 +231,26 @@ class DrawCard(Card):
     def hideDrawCard(self):
         self.hide()
         self.deleteLater()
+
+class DrawTwoCard(Card):
+    def __init__(self, color, type, game_screen):
+        super().__init__(color, type, game_screen)
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        font = painter.font()
+        font.setPointSize(12)
+        font.setBold(True)
+        painter.setFont(font)
+        painter.setPen(QColor("black")) if self.color == "yellow" or self.color == "red" else painter.setPen(QColor("white"))
+        #Set 100x150 px to random color and random number in corner
+        painter.fillRect(self.rect(), QColor(self.color))
+        pixmap = QPixmap("./img/plus2.png")
+        painter.fillRect(self.rect(), QColor(self.color))
+            
+        painter.drawPixmap(0, 0, 100, 152, pixmap)
+
+        pen = QPen(QColor("black"))
+        pen.setWidth(2)
+        painter.setPen(pen)
+        painter.drawRect(self.rect())
