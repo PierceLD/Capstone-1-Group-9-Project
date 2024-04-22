@@ -10,33 +10,80 @@ class StudyScreen(QWidget):
       uic.loadUi("ui/study.ui", self)
 
       self.studySetName.setAlignment(Qt.AlignmentFlag.AlignCenter)
-      self.showAnswers.clicked.connect(self.show_answers)
-      self.answers_shown = False
+      self.showanswer.clicked.connect(self.show_answer)
+      self.nextQuestion.clicked.connect(self.next_question)
+      self.previousQuestion.clicked.connect(self.previous_question)
+
+      self.nextQuestion.setText(">")
+      self.previousQuestion.setText("<")
+
+      self.answer_shown = False
+    
     
     def load(self, study_set_name):
       self.studySetName.setText(study_set_name)
-
+      self.question_index = 0
       self.selected_set = getSetQuestions(study_set_name)
-
-      self.all_question_answer = ""
-      for item in self.selected_set:
-        self.all_question_answer += item['question'] + "\n\n"
-        
-      self.questionAnswer.setText(self.all_question_answer)
-      self.showAnswers.setText("Show Answers")
-      self.answers_shown = False
       
-    def show_answers(self):
-      self.all_question_answer = ""
+      self.answer_shown = False
+      self.showanswer.setText("Show Answer")
 
-      if self.answers_shown:
-        self.load(self.studySetName.text())
+      self.question_answer = self.selected_set[self.question_index]["question"]
+        
+      # Set the text to be the value of question_answer and align to center
+      self.questionAnswer.setText(self.question_answer)
+      self.questionAnswer.selectAll()
+      self.questionAnswer.setAlignment(Qt.AlignmentFlag.AlignCenter)
+      cursor = self.questionAnswer.textCursor()
+      cursor.clearSelection()
+      self.questionAnswer.setTextCursor(cursor)
+      
+
+    def show_answer(self):
+      if self.answer_shown:
+        self.question_answer = self.selected_set[self.question_index]["question"]
+        self.questionAnswer.setText(self.question_answer)
+        self.showanswer.setText("Show Answer")
+        self.answer_shown = False
       else:
-        for item in self.selected_set:
-          self.all_question_answer += item['question'] + "\n"
-          self.all_question_answer += "Answer: " + item[item['answer']] + "\n\n"
-          self.showAnswers.setText("Hide Answers")
-      
-        self.answers_shown = True
+        self.question_answer = self.selected_set[self.question_index][self.selected_set[self.question_index]['answer']]
+        self.showanswer.setText("Hide Answer")
+        self.answer_shown = True
         
-      self.questionAnswer.setText(self.all_question_answer)
+      # Set the text to be the value of question_answer and align to center
+      self.questionAnswer.setText(self.question_answer)
+      self.questionAnswer.selectAll()
+      self.questionAnswer.setAlignment(Qt.AlignmentFlag.AlignCenter)
+      cursor = self.questionAnswer.textCursor()
+      cursor.clearSelection()
+      self.questionAnswer.setTextCursor(cursor)
+
+
+    def next_question(self):
+      self.question_index = (self.question_index + 1) % len(self.selected_set)
+      self.question_answer = self.selected_set[self.question_index]["question"]
+      self.showanswer.setText("Show Answer")
+      self.answer_shown = False
+
+      # Set the text to be the value of question_answer and align to center
+      self.questionAnswer.setText(self.question_answer)
+      self.questionAnswer.selectAll()
+      self.questionAnswer.setAlignment(Qt.AlignmentFlag.AlignCenter)
+      cursor = self.questionAnswer.textCursor()
+      cursor.clearSelection()
+      self.questionAnswer.setTextCursor(cursor)
+
+
+    def previous_question(self):
+      self.question_index = (self.question_index - 1) % len(self.selected_set)
+      self.question_answer = self.selected_set[self.question_index]["question"]
+      self.showanswer.setText("Show Answer")
+      self.answer_shown = False
+
+      # Set the text to be the value of question_answer and align to center
+      self.questionAnswer.setText(self.question_answer)
+      self.questionAnswer.selectAll()
+      self.questionAnswer.setAlignment(Qt.AlignmentFlag.AlignCenter)
+      cursor = self.questionAnswer.textCursor()
+      cursor.clearSelection()
+      self.questionAnswer.setTextCursor(cursor)

@@ -88,7 +88,7 @@ QPushButton:hover {
     </font>
    </property>
   </widget>
-  <widget class="QPushButton" name="showAnswers">
+  <widget class="QPushButton" name="showanswer">
    <property name="geometry">
     <rect>
      <x>360</x>
@@ -99,18 +99,29 @@ QPushButton:hover {
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <family>MS PGothic</family>
+     <pointsize>20</pointsize>
+     <weight>75</weight>
+     <italic>false</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
-	border: 2px solid black;
-	border-radius: 10px;
-	background-color: white;
-}</string>
+        background-color: white;
+        width: 200px;
+        height: 60px;
+        border: 3px solid black;
+        border-radius: 10px;
+      }
+
+      QPushButton:hover {
+          background-color:black;
+          color: white;
+      }</string>
    </property>
    <property name="text">
-    <string>Show Answers</string>
+    <string>Show answer</string>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -129,12 +140,87 @@ QPushButton:hover {
     <pixmap>../img/background.png</pixmap>
    </property>
   </widget>
+
+  <widget class="QPushButton" name="previousQuestion">
+   <property name="geometry">
+    <rect>
+     <x>750</x>
+     <y>520</y>
+     <width>51</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>MS PGothic</family>
+     <pointsize>20</pointsize>
+     <weight>75</weight>
+     <italic>false</italic>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+        background-color: white;
+        width: 200px;
+        height: 60px;
+        border: 3px solid black;
+        border-radius: 10px;
+      }
+
+      QPushButton:hover {
+          background-color:black;
+          color: white;
+      }</string>
+   </property>
+  </widget>
+
+  <widget class="QPushButton" name="nextQuestion">
+   <property name="geometry">
+    <rect>
+     <x>810</x>
+     <y>520</y>
+     <width>51</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>MS PGothic</family>
+     <pointsize>20</pointsize>
+     <weight>75</weight>
+     <italic>false</italic>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+        background-color: white;
+        width: 200px;
+        height: 60px;
+        border: 3px solid black;
+        border-radius: 10px;
+      }
+
+      QPushButton:hover {
+          background-color:black;
+          color: white;
+      }</string>
+   </property>
+  </widget>
+
+
   <zorder>label</zorder>
   <zorder>studySetsButton</zorder>
   <zorder>studySetName</zorder>
   <zorder>questionAnswer</zorder>
-  <zorder>showAnswers</zorder>
+  <zorder>showanswer</zorder>
+  <zorder>previousQuestion</zorder>
+  <zorder>nextQuestion</zorder>
  </widget>
+
+
+
  <resources/>
  <connections/>
 </ui>
