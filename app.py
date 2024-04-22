@@ -49,7 +49,7 @@ class MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.study)
         self.study.studySetsButton.clicked.connect(self.goToStudySets)
 
-        self.settings = SettingsScreen(self.game)
+        self.settings = SettingsScreen(self.game, self.audioPlayer)
         self.stackedWidget.addWidget(self.settings)
         self.settings.mainMenuButton.clicked.connect(self.goToMainMenu) # button to return you to main menu
 
@@ -63,45 +63,45 @@ class MainWindow(QMainWindow):
 
     # screen switching is handled here because the QStackedWidget is a part of MainWindow
     def goToMainMenu(self):
-        self.audioPlayer.playSoundEffect('sound/button.mp3')
+        self.audioPlayer.playSoundEffect('sound/button.mp3', 0.5)
         self.stackedWidget.setCurrentIndex(0)
 
         self.audioPlayer.changeAndPlayMusic('sound/main.mp3')
-        self.audioPlayer.setVolume(0.5)
+        self.audioPlayer.setVolumeM(0.5)
 
     def goToGame(self):
-        self.audioPlayer.playSoundEffect('sound/button.mp3')
+        self.audioPlayer.playSoundEffect('sound/button.mp3', 0.5)
         self.stackedWidget.setCurrentIndex(1)
         self.game.startGame()
 
         self.audioPlayer.changeAndPlayMusic('sound/doom.mp3')
-        self.audioPlayer.setVolume(0.5)
+        self.audioPlayer.setVolumeM(0.5)
 
     def goToStudySets(self):
-        self.audioPlayer.playSoundEffect('sound/button.mp3')
+        self.audioPlayer.playSoundEffect('sound/button.mp3', 0.5)
         self.study_sets.update()
         self.stackedWidget.setCurrentIndex(2)
         self.audioPlayer.changeAndPlayMusic('sound/rain.mp3')
-        self.audioPlayer.setVolume(0.5)
+        self.audioPlayer.setVolumeM(0.5)
 
     def goToCreateSet(self):
-        self.audioPlayer.playSoundEffect('sound/button.mp3')
+        self.audioPlayer.playSoundEffect('sound/button.mp3', 0.5)
         self.create_set.loadCreateMode()
         self.stackedWidget.setCurrentIndex(3)
-        self.audioPlayer.setVolume(0.5)
+        self.audioPlayer.setVolumeM(0.5)
     
     def goToEditSet(self):
-        self.audioPlayer.playSoundEffect('sound/button.mp3')
+        self.audioPlayer.playSoundEffect('sound/button.mp3', 0.5)
         if self.study_sets.study_set_selected:
             self.create_set.loadEditMode(self.study_sets.selected_set_name)
             self.stackedWidget.setCurrentIndex(3)
         self.study_sets.study_set_selected = False
         self.study_sets.selected_set_name = ""
-        self.audioPlayer.setVolume(0.5)
+        self.audioPlayer.setVolumeM(0.5)
 
     # Goes the the study screen while loading in relevant information
     def goToStudy(self):
-        self.audioPlayer.playSoundEffect('sound/button.mp3')
+        self.audioPlayer.playSoundEffect('sound/button.mp3', 0.5)
         if self.study_sets.study_set_selected:
             self.study.load(self.study_sets.selected_set_name)
             self.stackedWidget.setCurrentIndex(4)
@@ -109,11 +109,11 @@ class MainWindow(QMainWindow):
         self.study_sets.selected_set_name = ""
 
     def goToSettings(self):
-        self.audioPlayer.playSoundEffect('sound/button.mp3')
+        self.audioPlayer.playSoundEffect('sound/button.mp3', 0.5)
         self.settings.load()
         self.stackedWidget.setCurrentIndex(5)
         self.audioPlayer.changeAndPlayMusic('sound/main.mp3')
-        self.audioPlayer.setVolume(0.5)
+        self.audioPlayer.setVolumeM(0.5)
 
     def toggleMute(self):
         self.audioPlayer.toggleMute()
