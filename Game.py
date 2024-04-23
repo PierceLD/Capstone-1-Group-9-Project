@@ -180,7 +180,6 @@ class GameScreen(QWidget):
                 self.top_card.question = card_to_play.question
                 self.skip_played = True
             elif str(card_to_play.number) == "Reverse":
-                print("____________________________________________________________________")
                 self.top_card = ReverseCard(card_to_play.color, "Reverse", self)
                 self.top_card.question = card_to_play.question
                 self.bots.reverse() # reverse the bot list and change play direction for moving bots correctly
