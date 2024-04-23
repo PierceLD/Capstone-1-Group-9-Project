@@ -75,7 +75,7 @@ class GameScreen(QWidget):
             self.handLayout.addWidget(i) #Look at Cards.py to see drawing code
 
         self.top_card = self.genRandomCard()
-        self.top_card = DrawFourCard(self)
+
         #If the top card is a wild card, give it a random color
         if self.top_card.color == "WILD" or self.top_card.color == "Draw 4":
             self.top_card.setColor(random.choice(["red", "blue", "green", "yellow"]))
