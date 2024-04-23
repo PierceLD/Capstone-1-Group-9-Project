@@ -179,6 +179,7 @@ class GameScreen(QWidget):
                 self.top_card = SkipCard(card_to_play.color, "Skip", self)
                 self.top_card.question = card_to_play.question
                 self.skip_played = True
+                self.audioPlayer2.playSoundEffect('sound/skip.mp3',.1)
             elif str(card_to_play.number) == "Reverse":
                 self.top_card = ReverseCard(card_to_play.color, "Reverse", self)
                 self.top_card.question = card_to_play.question
@@ -190,7 +191,7 @@ class GameScreen(QWidget):
                 else:
                     self.direction_of_play = "counter-clockwise"
                 
-                self.audioPlayer2.playSoundEffect('sound/reverse.mp3',.25)
+                self.audioPlayer2.playSoundEffect('sound/reverse.mp3',.15)
                 
             elif str(card_to_play.number) == "Draw 2":
                 self.top_card = DrawTwoCard(card_to_play.color, "Draw 2", self)
@@ -311,11 +312,12 @@ class GameScreen(QWidget):
             # if last bot in sequence played a skip, skip player's turn and run bots again
             if self.skip_played == True and not self.game_over:
                 self.skip_played = False
+                self.audioPlayer2.playSoundEffect('sound/skip.mp3',.1)
                 self.statusLabel.setText("You got skipped!")
                 self.executeDelay(250)
                 self.moveBots()
             elif self.reverse_played == True and not self.game_over: # if last bot who played, played a reverse, then reverse bot list and run thru again at specified position
-                self.audioPlayer2.playSoundEffect('sound/reverse.mp3',.25)
+                self.audioPlayer2.playSoundEffect('sound/reverse.mp3',.15)
                 self.bots.reverse()
                 self.reverse_played = False
                 if bot_who_played_reverse_index == 0: # if first bot played reverse
@@ -359,6 +361,7 @@ class GameScreen(QWidget):
                     self.hand.cards.append(card)
                     self.handLayout.addWidget(card)
                     print(f"Adding {card.color} {card.number} to hand...")
+                    self.audioPlayer2.playSoundEffect('sound/slap.mp3',.15)
                 self.statusLabel.setText(f"You had to draw {draw_count} cards!")
                 self.executeDelay(250)
                 self.moveBots() # move bots again and skip turn
