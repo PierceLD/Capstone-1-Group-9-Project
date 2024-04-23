@@ -9,12 +9,14 @@ from copy import deepcopy
 from Bot import Bot
 from music import AudioPlayer
 from Database import *
+import time
 
 class GameScreen(QWidget):
     def __init__(self):
         super().__init__()
         uic.loadUi("ui/game.ui", self)
         self.audioPlayer = AudioPlayer()
+        self.audioPlayer2 = AudioPlayer()
 
         # default random set-color mappings
         self.set_names = getAllSetNames()
@@ -108,7 +110,7 @@ class GameScreen(QWidget):
     def drawCard(self):
         if self.current_player == "You":
             self.drawButton.clicked.disconnect(self.drawCard)
-            self.audioPlayer.playSoundEffect('sound/card.mp3')
+            self.audioPlayer.playSoundEffect('sound/card.mp3') 
             card = self.genRandomCard()
             card.in_hand = True
             card.clicked.connect(self.playCard)
@@ -178,6 +180,7 @@ class GameScreen(QWidget):
                 self.top_card.question = card_to_play.question
                 self.skip_played = True
             elif str(card_to_play.number) == "Reverse":
+                print("____________________________________________________________________")
                 self.top_card = ReverseCard(card_to_play.color, "Reverse", self)
                 self.top_card.question = card_to_play.question
                 self.bots.reverse() # reverse the bot list and change play direction for moving bots correctly
@@ -187,6 +190,9 @@ class GameScreen(QWidget):
                     self.direction_of_play = "clockwise"
                 else:
                     self.direction_of_play = "counter-clockwise"
+                
+                self.audioPlayer2.playSoundEffect('sound/reverse.mp3',.25)
+                
             elif str(card_to_play.number) == "Draw 2":
                 self.top_card = DrawTwoCard(card_to_play.color, "Draw 2", self)
                 self.top_card.question = card_to_play.question
@@ -276,6 +282,7 @@ class GameScreen(QWidget):
                         draw_count = 2
                     else: # draw 4 was played
                         draw_count = 4
+
                     for _ in range(draw_count):
                         bot.drawCard()
                     print(f"Bot {bot.number} is drawing {draw_count} cards")
@@ -309,6 +316,7 @@ class GameScreen(QWidget):
                 self.executeDelay(250)
                 self.moveBots()
             elif self.reverse_played == True and not self.game_over: # if last bot who played, played a reverse, then reverse bot list and run thru again at specified position
+                self.audioPlayer2.playSoundEffect('sound/reverse.mp3',.25)
                 self.bots.reverse()
                 self.reverse_played = False
                 if bot_who_played_reverse_index == 0: # if first bot played reverse

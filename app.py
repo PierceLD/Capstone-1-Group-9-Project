@@ -12,6 +12,7 @@ from music import AudioPlayer
 from Database import *
 from Settings import SettingsScreen
 
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
