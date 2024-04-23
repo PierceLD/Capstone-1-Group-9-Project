@@ -4,7 +4,7 @@ from PyQt6.QtCore import QUrl
 import time
 eff = 1.0
 master=1.0
-mul=1.0
+mul=0.5
 curr=1.0
 
 class AudioPlayer:
@@ -47,7 +47,7 @@ class AudioPlayer:
         self.audioOutput.setVolume((volume*mul)*master)
         curr=self.audioOutput.volume()
 
-    def setVolumeM(self, volume):
+    def setVolumeM(self, volume=0.5):
         global mul
         mul=volume
 
